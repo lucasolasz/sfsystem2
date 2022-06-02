@@ -57,6 +57,7 @@ class Rota
             /*
             Faz uma limpeza de espaços e barras 
             impedindo que se crie um array com informações erradas
+            TRIM - Remove espaços do inicio e do final da string
             RTRIM - Limpa os caracteres do final da string
             */
             $url = trim(rtrim($url, '/'));

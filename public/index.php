@@ -1,5 +1,5 @@
 <?php
-include './../app/configuracao.php';
+include './../app/config/configuracao.php';
 include './../app/Libraries/Rota.php';
 include './../app/Libraries/Controller.php';
 ?>
