@@ -2,7 +2,7 @@
 
 class Paginas extends Controller 
 {
-    public function index(){
+    public function home(){
 
         //Parâmetros enviados para o método do controller VIEW
         $dados = [
@@ -19,7 +19,7 @@ class Paginas extends Controller
 
         //Parâmetros enviados para o método do controller VIEW
         $dados = [
-            'tituloPagina' => 'Página Sobre nós'            
+            'tituloPagina' => 'Sobre nós'            
         ];
 
         //Chamada do novo objeto PAGINAS 
