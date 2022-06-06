@@ -16,10 +16,16 @@
                             <a class="nav-link" href="<?php echo URL.'/paginas/sobre'?>">Sobre nós</a>
                         </li>
                     </ul>
-                    <form class="d-flex">
-                        <button class="btn btn-success me-2" type="button">Cadastre-se</button>
+
+                    <span class="navbar-text">
+                        <a href="<?php echo URL.'/usuarios/cadastrar'?>" class="btn btn-secondary">Cadastre-se</a>
+                        <a href="" class="btn btn-secondary">Entrar</a>
+
+                    </span>
+                    <!-- <form class="d-flex">
+                        <button class="btn btn-success me-2" type="button" href >Cadastre-se</button>
                         <button class="btn btn-success me-2" type="button">Entrar</button>
-                    </form>
+                    </form> -->
                 </div>
             </div>
         </nav>
