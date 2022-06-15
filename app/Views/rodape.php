@@ -1,4 +1,4 @@
-<footer class="bg-dark p-5 text-light">
+<footer class="artcor p-5 text-light">
     <div class="container">
         <small>
             <?php echo APP_NOME ?> - Versão <?php echo APP_VERSAO ?>

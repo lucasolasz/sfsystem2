@@ -20,7 +20,7 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <input type="submit" value="Login" class="btn btn-primary">
+                        <input type="submit" value="Login" class="btn btn-artcor">
                     </div>
                     <div class="col-md-6">
                         <a href="<?php echo URL.'/usuariosController/cadastrar'?>">Não tem uma conta? Cadastre-se</a>

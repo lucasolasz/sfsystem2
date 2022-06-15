@@ -1,4 +1,4 @@
-<header class="bg-dark">
+<header class="artcor">
 
     <div class="container">
         <nav class="navbar navbar-expand-sm navbar-dark">
@@ -10,10 +10,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="<?php echo URL ?>">Home</a>
+                            <a class="li-a-artcor nav-link" aria-current="page" href="<?php echo URL ?>">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo URL . '/paginas/sobre' ?>">Sobre nós</a>
+                            <a class="nav-link li-a-artcor" href="<?php echo URL . '/paginas/sobre' ?>">Sobre nós</a>
                         </li>
                     </ul>
 
@@ -21,13 +21,13 @@
 
                     <?php if (isset($_SESSION['id_usuario'])) { ?>
                         <span class="navbar-text">
-                            <p>Olá, <?php echo $_SESSION['ds_nome']; ?>, Seja bem vindo(a)</p>
+                            <p style="color: white;">Olá, <?php echo $_SESSION['ds_nome']; ?>, Seja bem vindo(a)</p>
                             <a class="btn btn-sm btn-danger" href="<?php echo URL . '/usuariosController/sair' ?>">Sair</a>
                         </span>
                     <?php } else { ?>
                         <span class="navbar-text">
-                            <a href="<?php echo URL . '/usuariosController/cadastrar' ?>" class="btn btn-secondary">Cadastre-se</a>
-                            <a href="<?php echo URL . '/usuariosController/login' ?>" class="btn btn-secondary">Entrar</a>
+                            <a href="<?php echo URL . '/usuariosController/cadastrar' ?>" class="btn btn-artcor">Cadastre-se</a>
+                            <a href="<?php echo URL . '/usuariosController/login' ?>" class="btn btn-artcor">Entrar</a>
                         </span>
                     <?php } ?>
 

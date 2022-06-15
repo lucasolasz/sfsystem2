@@ -1,3 +1,23 @@
 body {
     font-family: 'Roboto', sans-serif !important;
-  }
+}
+
+.artcor{
+ background-color: rgb(221, 153, 51);
+}
+
+.btn-artcor{
+  background-color: rgb(198, 124, 12);
+  font-weight: bold;
+  color: white;
+}
+
+.li-a-artcor{
+  font-weight: bold;
+}
+
+.li-a-artcor:hover{
+  background-color: rgb(102, 102, 102);
+  color: white !important;
+  font-weight: bold;
+}

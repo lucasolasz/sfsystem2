@@ -29,7 +29,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <input type="submit" value="Cadastrar" class="btn btn-primary">
+                        <input type="submit" value="Cadastrar" class="btn btn-artcor">
                     </div>
                     <div class="col-md-6">
                         <a href="<?php echo URL.'/usuariosController/login'?>">Você tem uma conta? Faça Login</a>
