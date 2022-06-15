@@ -135,4 +135,12 @@ class UsuariosController extends Controller
         $_SESSION['ds_nome']= $usuario->ds_nome;
         $_SESSION['email'] = $usuario->email;
     }
+
+    public function sair(){
+        unset($_SESSION['id_usuario']);
+        unset($_SESSION['ds_nome']);
+        unset($_SESSION['email']);
+
+        session_destroy();
+    } 
 }

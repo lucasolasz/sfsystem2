@@ -13,19 +13,24 @@
                             <a class="nav-link" aria-current="page" href="<?php echo URL ?>">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo URL.'/paginas/sobre'?>">Sobre nós</a>
+                            <a class="nav-link" href="<?php echo URL . '/paginas/sobre' ?>">Sobre nós</a>
                         </li>
                     </ul>
 
-                    <span class="navbar-text">
-                        <a href="<?php echo URL.'/usuariosController/cadastrar'?>" class="btn btn-secondary">Cadastre-se</a>
-                        <a href="<?php echo URL.'/usuariosController/login'?>" class="btn btn-secondary">Entrar</a>
 
-                    </span>
-                    <!-- <form class="d-flex">
-                        <button class="btn btn-success me-2" type="button" href >Cadastre-se</button>
-                        <button class="btn btn-success me-2" type="button">Entrar</button>
-                    </form> -->
+
+                    <?php if (isset($_SESSION['id_usuario'])) { ?>
+                        <span class="navbar-text">
+                            <p>Olá, <?php echo $_SESSION['ds_nome']; ?>, Seja bem vindo(a)</p>
+                            <a class="btn btn-sm btn-danger" href="<?php echo URL . '/usuariosController/sair' ?>">Sair</a>
+                        </span>
+                    <?php } else { ?>
+                        <span class="navbar-text">
+                            <a href="<?php echo URL . '/usuariosController/cadastrar' ?>" class="btn btn-secondary">Cadastre-se</a>
+                            <a href="<?php echo URL . '/usuariosController/login' ?>" class="btn btn-secondary">Entrar</a>
+                        </span>
+                    <?php } ?>
+
                 </div>
             </div>
         </nav>
