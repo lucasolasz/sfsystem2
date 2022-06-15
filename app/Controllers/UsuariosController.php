@@ -60,6 +60,7 @@ class UsuariosController extends Controller
 
                         //Para exibir mensagem success , não precisa informar o tipo de classe
                         Alertas::mensagem('usuario', 'Usuário cadastrado com sucesso');
+                        Redirecionamento::redirecionar('usuariosController/login');
                     } else {
                         die("Erro ao armazenar usuário no banco de dados");
                     }
@@ -136,6 +137,8 @@ class UsuariosController extends Controller
         $_SESSION['id_usuario'] = $usuario->id_usuario;
         $_SESSION['ds_nome']= $usuario->ds_nome;
         $_SESSION['email'] = $usuario->email;
+
+        Redirecionamento::redirecionar('paginas/home');
     }
 
     public function sair(){
@@ -144,5 +147,7 @@ class UsuariosController extends Controller
         unset($_SESSION['email']);
 
         session_destroy();
+
+        Redirecionamento::redirecionar('usuariosController/login');
     } 
 }
