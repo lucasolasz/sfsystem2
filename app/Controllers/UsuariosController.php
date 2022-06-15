@@ -57,7 +57,9 @@ class UsuariosController extends Controller
                     $dados['txtSenha'] = password_hash($formulario['txtSenha'], PASSWORD_DEFAULT);
 
                     if ($this->usuarioModel->armazenarUsuario($dados)) {
-                        echo "Cadastrado com sucesso";
+
+                        //Para exibir mensagem success , não precisa informar o tipo de classe
+                        Alertas::mensagem('usuario', 'Usuário cadastrado com sucesso');
                     } else {
                         die("Erro ao armazenar usuário no banco de dados");
                     }
@@ -113,7 +115,7 @@ class UsuariosController extends Controller
                     if ($usuario) {
                         $this->criarSessaoUsuario($usuario);
                     } else {
-                        echo "Usuário ou senha inválidos";
+                        Alertas::mensagem('usuario', 'Usuário ou senha inválidos','alert alert-danger');
                     }
                 }
             }

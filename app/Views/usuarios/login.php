@@ -1,6 +1,9 @@
 <div class="col-xl-4 col-md-6 mx-auto p-5">
     <div class="card">
         <div class="card-body">
+            
+            <?php echo Alertas::mensagem('usuario'); ?>
+            
             <h2>Login de Usuário</h2>
             <small>Preencha o formulário abaixo para realizar o login</small>
 
