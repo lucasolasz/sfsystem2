@@ -18,8 +18,8 @@
                     </ul>
 
                     <span class="navbar-text">
-                        <a href="<?php echo URL.'/usuarios/cadastrar'?>" class="btn btn-secondary">Cadastre-se</a>
-                        <a href="" class="btn btn-secondary">Entrar</a>
+                        <a href="<?php echo URL.'/usuariosController/cadastrar'?>" class="btn btn-secondary">Cadastre-se</a>
+                        <a href="<?php echo URL.'/usuariosController/login'?>" class="btn btn-secondary">Entrar</a>
 
                     </span>
                     <!-- <form class="d-flex">
