@@ -12,6 +12,8 @@ class Checa {
         }
     }
 
+
+    //Filtro para garantir que é um email válido
     public static function checarEmail($email){
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
             return true;
