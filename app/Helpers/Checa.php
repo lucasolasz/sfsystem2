@@ -22,6 +22,22 @@ class Checa {
         }
     }
 
+
+    //Função para checar se é uma data válida. O html 5 já faz esse tratamento no front. Veio como uma camada a mais
+    public static function checarData($data){
+
+        $mes = date('m', strtotime($data));
+        $dia = date('d', strtotime($data));
+        $ano = date('Y', strtotime($data));
+        
+        
+        if(!checkdate($mes, $dia, $ano)){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
 }
 
 
