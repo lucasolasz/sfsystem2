@@ -11,11 +11,12 @@ class Usuario
         $this->db = new Database();
     }
 
+    //Realiza o login do usuário baseado no email e senha hash
     public function checarLogin($email, $senha)
     {
-        $this->db->query("SELECT * FROM usuarios WHERE email = :email");
+        $this->db->query("SELECT * FROM tb_usuario WHERE ds_email_usuario = :ds_email_usuario");
 
-        $this->db->bind("email", $email);
+        $this->db->bind("ds_email_usuario", $email);
 
         if ($this->db->resultado()) {
 
@@ -33,12 +34,12 @@ class Usuario
         }
     }
 
-
+    //Verifica se email existe
     public function checarEmailUsuario($dados)
     {
-        $this->db->query("SELECT email FROM usuarios WHERE email = :email");
+        $this->db->query("SELECT ds_email_usuario FROM tb_usuario WHERE ds_email_usuario = :ds_email_usuario");
 
-        $this->db->bind("email", $dados['txtEmail']);
+        $this->db->bind("ds_email_usuario", $dados['txtEmail']);
 
         if ($this->db->resultado()) {
             return true;
@@ -47,13 +48,15 @@ class Usuario
         }
     }
 
+
+    //Armazena usuário no banco
     public function armazenarUsuario($dados)
     {
 
-        $this->db->query("INSERT INTO usuarios (ds_nome, email, ds_senha) VALUES (:ds_nome, :email, :ds_senha)");
+        $this->db->query("INSERT INTO tb_usuario (ds_nome_usuario, ds_email_usuario, ds_senha) VALUES (:ds_nome_usuario, :ds_email_usuario, :ds_senha)");
 
-        $this->db->bind("ds_nome", $dados['txtNome']);
-        $this->db->bind("email", $dados['txtEmail']);
+        $this->db->bind("ds_nome_usuario", $dados['txtNome']);
+        $this->db->bind("ds_email_usuario", $dados['txtEmail']);
         $this->db->bind("ds_senha", $dados['txtSenha']);
 
 
@@ -64,26 +67,13 @@ class Usuario
         }
     }
 
-    public function loginUsuario($dados)
-    {
+    //A principio, criada para retornar a linha com os dados do usuário específico
+    public function lerUsuarioPorId($id){
+        $this->db->query("SELECT * FROM tb_usuario WHERE id_usuario = :id_usuario");
+        
+        $this->db->bind("id_usuario", $id);
 
-        $this->db->query("SELECT email FROM usuarios WHERE email = :email");
-
-        $this->db->bind("email", $dados['txtEmail']);
-
-        if ($this->db->resultado()) {
-
-            $this->db->query("SELECT ds_senha FROM usuarios WHERE ds_senha = :ds_senha");
-
-            $this->db->bind("ds_senha", $dados['txtSenha']);
-
-            if ($this->db->resultado()) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
+        return $this->db->resultado();
     }
+
 }
