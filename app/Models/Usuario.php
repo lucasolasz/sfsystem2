@@ -53,11 +53,13 @@ class Usuario
     public function armazenarUsuario($dados)
     {
 
-        $this->db->query("INSERT INTO tb_usuario (ds_nome_usuario, ds_email_usuario, ds_senha) VALUES (:ds_nome_usuario, :ds_email_usuario, :ds_senha)");
+        $this->db->query("INSERT INTO tb_usuario (ds_nome_usuario, ds_email_usuario, ds_senha, fk_cargo, fk_tipo_usuario) VALUES (:ds_nome_usuario, :ds_email_usuario, :ds_senha, :fk_cargo, :fk_tipo_usuario)");
 
         $this->db->bind("ds_nome_usuario", $dados['txtNome']);
         $this->db->bind("ds_email_usuario", $dados['txtEmail']);
         $this->db->bind("ds_senha", $dados['txtSenha']);
+        $this->db->bind("fk_cargo", $dados['cboCargoUsuario']);
+        $this->db->bind("fk_tipo_usuario", $dados['cboTipoUsuario']);
 
 
         if ($this->db->executa()) {
@@ -74,6 +76,18 @@ class Usuario
         $this->db->bind("id_usuario", $id);
 
         return $this->db->resultado();
+    }
+
+    public function listarTipoUsuario(){
+        $this->db->query("SELECT * FROM tb_tipo_usuario ORDER BY ds_tipo_usuario");
+        
+        return $this->db->resultados();
+    }
+
+    public function listarCargoUsuario(){
+        $this->db->query("SELECT * FROM tb_cargo ORDER BY ds_cargo");
+        
+        return $this->db->resultados();
     }
 
 }

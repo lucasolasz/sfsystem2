@@ -10,6 +10,9 @@ class UsuariosController extends Controller
 
     public function cadastrar()
     {
+        
+        $tiposUsuario = $this->usuarioModel->listarTipoUsuario();
+        $cargoUsuario = $this->usuarioModel->listarCargoUsuario();
 
         //Evita que codigos maliciosos sejam enviados pelos campos
         $formulario = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -19,10 +22,12 @@ class UsuariosController extends Controller
                 'txtNome' => trim($formulario['txtNome']),
                 'txtEmail' => trim($formulario['txtEmail']),
                 'txtSenha' => trim($formulario['txtSenha']),
-                'txtConfirmaSenha' => trim($formulario['txtConfirmaSenha'])
+                'txtConfirmaSenha' => trim($formulario['txtConfirmaSenha']),
+                'cboTipoUsuario' => $formulario['cboTipoUsuario'],
+                'cboCargoUsuario' => $formulario['cboCargoUsuario'],
+                'tiposUsuario' => $tiposUsuario,
+                'cargoUsuario' => $cargoUsuario
             ];
-            // var_dump($formulario);
-
 
             if (in_array("", $formulario)) {
 
@@ -32,6 +37,12 @@ class UsuariosController extends Controller
                 }
                 if (empty($formulario['txtEmail'])) {
                     $dados['email_erro'] = "Preencha o email";
+                }
+                if ($formulario['cboTipoUsuario'] == 'NULL') {
+                    $dados['tipoUsuario_erro'] = "Escolha um tipo de usuário";
+                }
+                if ($formulario['cboCargoUsuario'] == 'NULL') {
+                    $dados['tipoCargo_erro'] = "Escolha um cargo de usuário";
                 }
                 if (empty($formulario['txtSenha'])) {
                     $dados['senha_erro'] = "Preencha a senha";
@@ -75,7 +86,11 @@ class UsuariosController extends Controller
                 'nome_erro' => '',
                 'email_erro' => '',
                 'senha_erro' => '',
-                'confirma_senha_erro' => ''
+                'confirma_senha_erro' => '',
+                'tipoUsuario_erro' => '',
+                'tipoCargo_erro' => '',
+                'tiposUsuario' => $tiposUsuario,
+                'cargoUsuario' => $cargoUsuario
             ];
         }
 
