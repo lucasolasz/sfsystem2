@@ -5,6 +5,6 @@ define('APP', dirname(dirname(__FILE__)));
 
 define('URL', 'http://localhost/projetoBaseMVC');
 
-define('APP_NOME', 'AC Gerenciamento');
+define('APP_NOME', 'AC Painel Administrativo');
 
 define('APP_VERSAO', '1.0.0');
