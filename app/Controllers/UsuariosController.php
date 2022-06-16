@@ -133,18 +133,25 @@ class UsuariosController extends Controller
         $this->view('usuarios/login', $dados);
     }
 
+    //Cria as variaveis de sessao ao fazer login, resgatando informações do usuário
     private function criarSessaoUsuario($usuario){
         $_SESSION['id_usuario'] = $usuario->id_usuario;
-        $_SESSION['ds_nome']= $usuario->ds_nome;
-        $_SESSION['email'] = $usuario->email;
+        $_SESSION['ds_nome_usuario']= $usuario->ds_nome_usuario;
+        $_SESSION['ds_email_usuario'] = $usuario->ds_email_usuario;
+        $_SESSION['fk_cargo'] = $usuario->fk_cargo;
+        $_SESSION['fk_tipo_usuario'] = $usuario->fk_tipo_usuario;
 
         Redirecionamento::redirecionar('paginas/home');
     }
 
+
+    //Destroi todas as variáveis de sessão para efetuar logof
     public function sair(){
         unset($_SESSION['id_usuario']);
-        unset($_SESSION['ds_nome']);
-        unset($_SESSION['email']);
+        unset($_SESSION['ds_nome_usuario']);
+        unset($_SESSION['ds_email_usuario']);
+        unset($_SESSION['fk_cargo']);
+        unset($_SESSION['fk_tipo_usuario']);
 
         session_destroy();
 
