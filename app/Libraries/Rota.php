@@ -4,7 +4,7 @@ class Rota
 {
     private $controlador = 'Paginas';
     //Define o método padrão, caso nao seja solicitado nenhum outro
-    private $metodo = 'home';
+    private $metodo = 'index';
     private $parametros = [];
 
 
