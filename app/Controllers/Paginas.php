@@ -2,7 +2,7 @@
 
 class Paginas extends Controller 
 {
-    public function home(){
+    public function index(){
 
         //Parâmetros enviados para o método do controller VIEW
         $dados = [
