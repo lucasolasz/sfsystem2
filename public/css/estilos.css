@@ -2,8 +2,17 @@ body {
     font-family: 'Roboto', sans-serif !important;
 }
 
+.card{
+  box-shadow: 4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+}
+
 .artcor{
  background-color: rgb(221, 153, 51);
+}
+
+.artcorFraco{
+  background-color: rgb(177, 122, 41);
+  color: white  !important;
 }
 
 .btn-artcor{
@@ -17,7 +26,18 @@ body {
 }
 
 .li-a-artcor:hover{
-  background-color: rgb(102, 102, 102);
+  background-color: rgb(177, 122, 41);
+  color: white !important;
+  font-weight: bold;
+}
+
+.dropdown-artcor{
+  color: rgb(198, 124, 12) !important;
+  font-weight: bold;
+}
+
+.dropdown-artcor:hover{
+  background-color: rgb(177, 122, 41);
   color: white !important;
   font-weight: bold;
 }
