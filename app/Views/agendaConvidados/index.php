@@ -6,7 +6,7 @@
 
         <div class="artcor card-header">
 
-            <h5>AGENDA DE CONVIDADOS
+            <h5>AC Encontros Literários - Agenda de Convidados
                 <div style="float: right;">
                     <a href="<?php echo URL ?>/agendaController/cadastrar" class="btn btn-artcor">Novo evento</a>
                 </div>
