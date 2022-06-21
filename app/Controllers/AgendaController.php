@@ -48,7 +48,7 @@ class AgendaController extends Controller
             // var_dump($formulario);
 
 
-            if (in_array("", $formulario)) {
+            // if (in_array("", $formulario)) {
 
                 //Verifica se está vazio
                 if (empty($formulario['txtNomeConvidado'])) {
@@ -57,7 +57,7 @@ class AgendaController extends Controller
                 if (empty($formulario['txtDataEntrevistaEscrita'])) {
                     $dados['dataEntrevista_erro'] = "Preencha a Data da Entrevista";
                 }
-            } else {
+            // } else {
                 //Invoca método estatico da classe 
                 if (Checa::checarNome($formulario['txtNomeConvidado'])) {
                     $dados['nome_erro'] = "Nome inválido";
@@ -74,7 +74,7 @@ class AgendaController extends Controller
                         die("Erro ao armazenar agenda no banco de dados");
                     }
                 }
-            }
+            // }
         } else {
             $dados = [
                 'txtNomeConvidado' => '',
@@ -124,7 +124,7 @@ class AgendaController extends Controller
             // var_dump($dados);
 
 
-            if (in_array("", $formulario)) {
+            // if (in_array("", $formulario)) {
 
                 //Verifica se está vazio
                 if (empty($formulario['txtNomeConvidado'])) {
@@ -133,7 +133,7 @@ class AgendaController extends Controller
                 if (empty($formulario['txtDataEntrevistaEscrita'])) {
                     $dados['dataEntrevista_erro'] = "Preencha a Data da Entrevista";
                 }
-            } else {
+            // } else {
                 //Invoca método estatico da classe 
                 if (Checa::checarNome($formulario['txtNomeConvidado'])) {
                     $dados['nome_erro'] = "Nome inválido";
@@ -150,7 +150,7 @@ class AgendaController extends Controller
                         die("Erro ao atualizar a agenda no banco de dados");
                     }
                 }
-            }
+            // }
         } else {
 
             $dados = [
