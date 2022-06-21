@@ -25,10 +25,10 @@ class AgendaConvidado
 
 
 
-    //Armazena usuário no banco
+    //Armazena agenda no banco
     public function armazenarAgenda($dados)
     {
-
+        
         $this->db->query("INSERT INTO tb_agenda_convidados (ds_nome_convidado, dt_entrevista_escrita, link_entrevista_escrita, dt_treinamento, dt_hora_treinamento, dt_live, dt_hora_live, link_live, fk_usuario) VALUES (:ds_nome_convidado, :dt_entrevista_escrita, :link_entrevista_escrita, :dt_treinamento, :dt_hora_treinamento, :dt_live, :dt_hora_live, :link_live, :fk_usuario)");
 
         $this->db->bind("ds_nome_convidado", $dados['txtNomeConvidado']);
@@ -40,12 +40,16 @@ class AgendaConvidado
         $this->db->bind("dt_hora_live", $dados['txtHoraLive']);
         $this->db->bind("link_live", $dados['txtLinkLive']);
         $this->db->bind("fk_usuario", $dados['id_usuario']);
-
+      
+       
+        // $this->db->imprimeSqlMontada();       
+       
         if ($this->db->executa()) {
             return true;
         } else {
             return false;
         }
+
     }
 
 

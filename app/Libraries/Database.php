@@ -62,9 +62,16 @@ class Database {
         $this->stmt->bindValue($parametro, $valor, $tipo);
     }
 
+     //Para olhar a query montada
+    public function imprimeSqlMontada(){
+
+        $this->stmt->execute();
+        return $this->stmt->debugDumpParams();
+
+    }
 
     public function executa(){
-        return $this->stmt->execute();
+        return $this->stmt->execute();  
     }
 
     //Retorna apenas 1 resultado
