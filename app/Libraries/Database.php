@@ -2,11 +2,11 @@
 
 class Database {
 
-    private $host = 'localhost';
-    private $usuario = 'root';
-    private $senha = '';
-    private $banco = 'ac-gerenciamento';
-    private $porta = '3306';
+    private $host = DB_HOST;
+    private $usuario = DB_USER;
+    private $senha = DB_PASS;
+    private $banco = DB_NAME;
+    private $porta = DB_PORT;
     private $dbh;
     private $stmt;
 
@@ -100,7 +100,3 @@ class Database {
     }
 
 }
-
-
-
-

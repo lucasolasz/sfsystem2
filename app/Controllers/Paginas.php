@@ -7,11 +7,10 @@ class Paginas extends Controller
         //Parâmetros enviados para o método do controller VIEW
         $dados = [
             'tituloPagina' => 'Página Inicial',
-            'descricao' => 'Curso de PHP'
         ];
 
         //Chamada do novo objeto PAGINAS 
-        $this->view('paginas/home', $dados);
+        $this->view('Paginas/home', $dados);
     }
 
 
@@ -23,7 +22,7 @@ class Paginas extends Controller
         ];
 
         //Chamada do novo objeto PAGINAS 
-        $this->view('paginas/sobre', $dados);
+        $this->view('Paginas/sobre', $dados);
 
         
     }

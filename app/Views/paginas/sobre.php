@@ -1,9 +1,12 @@
 <div class="container p-5">
     <div class="row">
         <div class="col-md-8">
-            <h1><?php echo $dados['tituloPagina'] ?></h3>
-            <p>O Portal ARTECULT acredita no poder transformador da arte e do conhecimento. Atualmente, além de vários serviços de divulgação para artistas e escritores, o site conta com vários canais de arte e conhecimento, contando com inúmeros colaboradores em cada segmento que nos ajudam a criar um um ambiente de celebração – e divulgação – de arte e cultura. Um ambiente que combate de forma bem particular toda ignorância e intolerância.
-            </p>
+            <h1><?= $dados['tituloPagina'] ?></h3>
+            <p>Projeto base para projetos em MVC utilizando o PHP 7</p>
+            <h3>Créditos</h3>
+            <hr>
+            <h5>Micro Framework</h5>
+            <a href="https://youtube.com/playlist?list=PL0N5TAOhX5E-NZ0RRHa2tet6NCf9-7B5G">Link do Curso PHP 7 e MVC - Youtube</a>
         </div>
     </div>
 </div>

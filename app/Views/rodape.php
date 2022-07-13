@@ -1,9 +1,9 @@
-<footer class="artcor p-5 text-light">
+<footer class="p-5 bg-light">
     <div class="container">
         <small>
-            <?php echo APP_NOME ?> - Versão <?php echo APP_VERSAO ?>
+            <?= APP_NOME ?> - Versão <?= APP_VERSAO ?>
             <div class="bord-top mt-3">
-                &COPY; 2022 - <?php echo date('Y') ?> Lucas Andrade 
+                &COPY; 2022 - <?= date('Y') ?> Lucas Andrade
             </div>
         </small>
     </div>
