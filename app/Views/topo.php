@@ -41,7 +41,7 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Cadastro</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" aria-current="page" href="<?= URL . '/UsuariosController/cadastrar' ?>">Usuário</a></li>
+                                        <li><a class="dropdown-item" aria-current="page" href="<?= URL . '/Usuarios/cadastrar' ?>">Usuário</a></li>
                                     </ul>
                                 </li>
                             <?php } ?>

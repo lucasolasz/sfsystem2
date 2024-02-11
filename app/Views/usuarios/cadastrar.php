@@ -4,7 +4,7 @@
             <h2>Cadastro de Usuário</h2>
             <small>Preencha o formulário abaixo para cadastrar um novo usuário</small>
 
-            <form name="cadastrar" method="POST" action="<?= URL ?>/UsuariosController/cadastrar">
+            <form name="cadastrar" method="POST" action="<?= URL ?>/Usuarios/cadastrar">
                 <div class="mb-3">
                     <label for="txtNome" class="form-label">Nome: *</label>
                     <input type="text" class="form-control <?= $dados['nome_erro'] ? 'is-invalid' : '' ?>" name="txtNome" id="txtNome" value="<?= $dados['txtNome'] ?>">

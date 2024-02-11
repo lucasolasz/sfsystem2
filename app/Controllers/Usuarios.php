@@ -1,18 +1,20 @@
 <?php
 
-class UsuariosController extends Controller
+class Usuarios extends Controller
 {
+    private $model;
+
     //Construtor do model do Usuário que fará o acesso ao banco
     public function __construct()
     {
-        $this->usuarioModel = $this->model("Usuario");
+        $this->model = $this->model("Usuario");
     }
 
     public function cadastrar()
     {
-        
-        $tiposUsuario = $this->usuarioModel->listarTipoUsuario();
-        $cargoUsuario = $this->usuarioModel->listarCargoUsuario();
+
+        $tiposUsuario = $this->model->listarTipoUsuario();
+        $cargoUsuario = $this->model->listarCargoUsuario();
 
         //Evita que codigos maliciosos sejam enviados pelos campos
         $formulario = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -26,7 +28,13 @@ class UsuariosController extends Controller
                 'cboTipoUsuario' => $formulario['cboTipoUsuario'],
                 'cboCargoUsuario' => $formulario['cboCargoUsuario'],
                 'tiposUsuario' => $tiposUsuario,
-                'cargoUsuario' => $cargoUsuario
+                'cargoUsuario' => $cargoUsuario,
+                'nome_erro' => '',
+                'email_erro' => '',
+                'senha_erro' => '',
+                'confirma_senha_erro' => '',
+                'tipoUsuario_erro' => '',
+                'tipoCargo_erro' => ''
             ];
 
             if (in_array("", $formulario)) {
@@ -56,7 +64,7 @@ class UsuariosController extends Controller
                     $dados['nome_erro'] = "Nome inválido";
                 } elseif (Checa::checarEmail($formulario['txtEmail'])) {
                     $dados['email_erro'] = "Email inválido";
-                } elseif ($this->usuarioModel->checarEmailUsuario($dados)) {
+                } elseif ($this->model->checarEmailUsuario($dados)) {
                     $dados['email_erro'] = "Email já está sendo utilizado";
                 } elseif (strlen($formulario['txtSenha']) < 6) {
                     $dados['senha_erro'] = "A senha precisa ter no mínimo 6 caracteres";
@@ -67,11 +75,11 @@ class UsuariosController extends Controller
                     //Criptografa a senha com hash em php
                     $dados['txtSenha'] = password_hash($formulario['txtSenha'], PASSWORD_DEFAULT);
 
-                    if ($this->usuarioModel->armazenarUsuario($dados)) {
+                    if ($this->model->armazenarUsuario($dados)) {
 
                         //Para exibir mensagem success , não precisa informar o tipo de classe
                         Alertas::mensagem('usuario', 'Usuário cadastrado com sucesso');
-                        Redirecionamento::redirecionar('UsuariosController/login');
+                        Redirecionamento::redirecionar('Usuarios/login');
                     } else {
                         die("Erro ao armazenar usuário no banco de dados");
                     }
@@ -126,12 +134,12 @@ class UsuariosController extends Controller
                     $dados['senha_erro'] = "A senha precisa ter no mínimo 6 caracteres";
                 } else {
 
-                    $usuario = $this->usuarioModel->checarLogin($formulario['txtEmail'], $formulario['txtSenha']);
+                    $usuario = $this->model->checarLogin($formulario['txtEmail'], $formulario['txtSenha']);
 
                     if ($usuario) {
                         $this->criarSessaoUsuario($usuario);
                     } else {
-                        Alertas::mensagem('usuario', 'Usuário ou senha inválidos','alert alert-danger');
+                        Alertas::mensagem('usuario', 'Usuário ou senha inválidos', 'alert alert-danger');
                     }
                 }
             }
@@ -149,9 +157,10 @@ class UsuariosController extends Controller
     }
 
     //Cria as variaveis de sessao ao fazer login, resgatando informações do usuário
-    private function criarSessaoUsuario($usuario){
+    private function criarSessaoUsuario($usuario)
+    {
         $_SESSION['id_usuario'] = $usuario->id_usuario;
-        $_SESSION['ds_nome_usuario']= $usuario->ds_nome_usuario;
+        $_SESSION['ds_nome_usuario'] = $usuario->ds_nome_usuario;
         $_SESSION['ds_email_usuario'] = $usuario->ds_email_usuario;
         $_SESSION['fk_cargo'] = $usuario->fk_cargo;
         $_SESSION['fk_tipo_usuario'] = $usuario->fk_tipo_usuario;
@@ -161,7 +170,8 @@ class UsuariosController extends Controller
 
 
     //Destroi todas as variáveis de sessão para efetuar logof
-    public function sair(){
+    public function sair()
+    {
         unset($_SESSION['id_usuario']);
         unset($_SESSION['ds_nome_usuario']);
         unset($_SESSION['ds_email_usuario']);
@@ -170,6 +180,6 @@ class UsuariosController extends Controller
 
         session_destroy();
 
-        Redirecionamento::redirecionar('UsuariosController/login');
-    } 
+        Redirecionamento::redirecionar('Usuarios/login');
+    }
 }
