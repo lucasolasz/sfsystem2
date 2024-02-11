@@ -52,11 +52,11 @@
                         <?php if (isset($_SESSION['id_usuario'])) { ?>
                             <span class="">
                                 <p>Olá, <?= ucfirst($_SESSION['ds_nome_usuario']); ?>, Seja bem vindo(a)</p>
-                                <a class="btn btn-sm btn-danger" href="<?= URL . '/UsuariosController/sair' ?>">Sair</a>
+                                <a class="btn btn-sm btn-danger" href="<?= URL . '/Usuarios/sair' ?>">Sair</a>
                             </span>
                         <?php } else { ?>
                             <span class="">
-                                <a class="btn btn-primary" href="<?= URL . '/UsuariosController/login' ?>">Entrar</a>
+                                <a class="btn btn-primary" href="<?= URL . '/Usuarios/login' ?>">Entrar</a>
                             </span>
                         <?php } ?>
 
