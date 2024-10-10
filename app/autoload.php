@@ -4,8 +4,8 @@ spl_autoload_register(function ($classe){
     
     //Diretorios que ele ira monitorar para incluir automaticamente
     $diretorios = [
-        'Libraries',
-        'Helpers'
+        'libraries',
+        'helpers'
     ];
 
     foreach($diretorios as $diretorio){

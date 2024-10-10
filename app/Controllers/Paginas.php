@@ -10,7 +10,7 @@ class Paginas extends Controller
         ];
 
         //Chamada do novo objeto PAGINAS 
-        $this->view('Paginas/home', $dados);
+        $this->view('paginas/home', $dados);
     }
 
 
@@ -22,7 +22,7 @@ class Paginas extends Controller
         ];
 
         //Chamada do novo objeto PAGINAS 
-        $this->view('Paginas/sobre', $dados);
+        $this->view('paginas/sobre', $dados);
 
         
     }

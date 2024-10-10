@@ -10,8 +10,8 @@ class Controller
 
     public function view($view, $dados = [])
     {
-        $arquivo = ('../app/Views/' . $view . '.php');
-        include APP . '/Views/topo.php';
+        $arquivo = ('../app/views/' . $view . '.php');
+        include APP . '/views/topo.php';
 
         if (file_exists($arquivo)) {
             require_once $arquivo;

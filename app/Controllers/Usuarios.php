@@ -79,7 +79,7 @@ class Usuarios extends Controller
 
                         //Para exibir mensagem success , não precisa informar o tipo de classe
                         Alertas::mensagem('usuario', 'Usuário cadastrado com sucesso');
-                        Redirecionamento::redirecionar('Usuarios/login');
+                        Redirecionamento::redirecionar('usuarios/login');
                     } else {
                         die("Erro ao armazenar usuário no banco de dados");
                     }
@@ -114,7 +114,10 @@ class Usuarios extends Controller
 
             $dados = [
                 'txtEmail' => trim($formulario['txtEmail']),
-                'txtSenha' => trim($formulario['txtSenha'])
+                'txtSenha' => trim($formulario['txtSenha']),
+                'txtNome' => '',
+                'email_erro' => '',
+                'senha_erro' => ''
             ];
 
             if (in_array("", $formulario)) {
@@ -147,6 +150,7 @@ class Usuarios extends Controller
             $dados = [
                 'txtNome' => '',
                 'txtEmail' => '',
+                'txtSenha' => '',
                 'email_erro' => '',
                 'senha_erro' => ''
             ];
@@ -165,7 +169,7 @@ class Usuarios extends Controller
         $_SESSION['fk_cargo'] = $usuario->fk_cargo;
         $_SESSION['fk_tipo_usuario'] = $usuario->fk_tipo_usuario;
 
-        Redirecionamento::redirecionar('Paginas/home');
+        Redirecionamento::redirecionar('paginas/home');
     }
 
 
@@ -180,6 +184,6 @@ class Usuarios extends Controller
 
         session_destroy();
 
-        Redirecionamento::redirecionar('Usuarios/login');
+        Redirecionamento::redirecionar('usuarios/login');
     }
 }
