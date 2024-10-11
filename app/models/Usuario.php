@@ -90,4 +90,58 @@ class Usuario
         return $this->db->resultados();
     }
 
+    public function visualizarUsuarios()
+    {
+        $this->db->query("SELECT * FROM tb_usuario WHERE id_usuario != 0");
+        return $this->db->resultados();
+    }
+
+    public function atualizarUsuarioComSenha($dados)
+    {
+        $this->db->query("UPDATE tb_usuario SET 
+        ds_nome_usuario=:ds_nome_usuario,
+        ds_email_usuario=:ds_email_usuario, 
+        fk_cargo=:fk_cargo,
+        fk_tipo_usuario=:fk_tipo_usuario
+        
+        WHERE id_usuario= :id_usuario;
+        ");
+
+        $this->db->bind("ds_nome_usuario", trim($dados['txtNome']));
+        $this->db->bind("ds_email_usuario", trim($dados['txtEmail']));
+        $this->db->bind("fk_cargo", $dados['cboCargoUsuario']);
+        $this->db->bind("fk_tipo_usuario", $dados['cboTipoUsuario']);
+        $this->db->bind("id_usuario", $dados['idUsuario']);
+
+        if ($this->db->executa()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function atualizarUsuarioSemSenha($dados)
+    {
+        $this->db->query("UPDATE tb_usuario SET 
+        ds_nome_usuario=:ds_nome_usuario,
+        ds_email_usuario=:ds_email_usuario, 
+        fk_cargo=:fk_cargo,
+        fk_tipo_usuario=:fk_tipo_usuario
+        
+        WHERE id_usuario= :id_usuario;
+        ");
+
+        $this->db->bind("ds_nome_usuario", trim($dados['txtNome']));
+        $this->db->bind("ds_email_usuario", trim($dados['txtEmail']));
+        $this->db->bind("fk_cargo", $dados['cboCargoUsuario']);
+        $this->db->bind("fk_tipo_usuario", $dados['cboTipoUsuario']);
+        $this->db->bind("id_usuario", $dados['idUsuario']);
+
+        if ($this->db->executa()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
