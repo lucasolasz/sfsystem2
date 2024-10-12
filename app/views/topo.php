@@ -61,16 +61,20 @@
                                 <a class="nav-link" href="<?= URL . '/Paginas/sobre' ?>">Sobre nós</a>
                             </li>
                         </ul>
+                        <div class="d-flex align-items-center">
                         <?php if (isset($_SESSION['id_usuario'])) { ?>
-                            <span class="">
-                                <p>Olá, <?= ucfirst($_SESSION['ds_nome_usuario']); ?>, Seja bem vindo(a)</p>
+                            <div class="me-2" style="width: 300px;">
+                                <p class="mb-0">Olá, <?= ucfirst($_SESSION['ds_nome_usuario']); ?>, Seja bem vindo(a) Seja bem vindo(a)</p>
+                            </div>
+                            <div>
                                 <a class="btn btn-sm btn-danger" href="<?= URL . '/Usuarios/sair' ?>">Sair</a>
-                            </span>
+                            </div>
                         <?php } else { ?>
-                            <span class="">
+                            <div style="width: 30px">
                                 <a class="btn btn-primary" href="<?= URL . '/Usuarios/login' ?>">Entrar</a>
-                            </span>
+                            </div>
                         <?php } ?>
+                        </div>
 
                     </div>
                 </div>
