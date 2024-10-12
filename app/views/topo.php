@@ -64,7 +64,7 @@
                         <div class="d-flex align-items-center">
                         <?php if (isset($_SESSION['id_usuario'])) { ?>
                             <div class="me-2" style="width: 300px;">
-                                <p class="mb-0">Olá, <?= ucfirst($_SESSION['ds_nome_usuario']); ?>, Seja bem vindo(a) Seja bem vindo(a)</p>
+                                <p class="mb-0">Olá, <?= ucfirst($_SESSION['ds_nome_usuario']); ?>, Seja bem vindo(a)</p>
                             </div>
                             <div>
                                 <a class="btn btn-sm btn-danger" href="<?= URL . '/Usuarios/sair' ?>">Sair</a>
