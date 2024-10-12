@@ -12,6 +12,12 @@
                     <div class="invalid-feedback"><?= $dados['nome_erro'] ?></div>
                 </div>
                 <div class="mb-3">
+                    <label for="txtSobreNome" class="form-label">Sobrenome: *</label>
+                    <input type="text" class="form-control <?= $dados['sobrenome_erro'] ? 'is-invalid' : '' ?>" name="txtSobreNome" id="txtSobreNome" value="<?= $dados['txtSobreNome'] ?>">
+                    <!-- Div para exibir o erro abaixo do campo -->
+                    <div class="invalid-feedback"><?= $dados['sobrenome_erro'] ?></div>
+                </div>
+                <div class="mb-3">
                     <label for="txtEmail" class="form-label">E-mail: *</label>
                     <input type="text" class="form-control <?= $dados['email_erro'] ? 'is-invalid' : '' ?>" name="txtEmail" id="txtEmail" value="<?= $dados['txtEmail'] ?>">
                     <div class="invalid-feedback"><?= $dados['email_erro'] ?></div>

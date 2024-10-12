@@ -22,6 +22,7 @@ class Usuarios extends Controller
 
             $dados = [
                 'txtNome' => trim($formulario['txtNome']),
+                'txtSobreNome' => trim($formulario['txtSobreNome']),
                 'txtEmail' => trim($formulario['txtEmail']),
                 'txtSenha' => trim($formulario['txtSenha']),
                 'txtConfirmaSenha' => trim($formulario['txtConfirmaSenha']),
@@ -31,6 +32,7 @@ class Usuarios extends Controller
                 'cargoUsuario' => $cargoUsuario,
                 'nome_erro' => '',
                 'email_erro' => '',
+                'sobrenome_erro' => '',
                 'senha_erro' => '',
                 'confirma_senha_erro' => '',
                 'tipoUsuario_erro' => '',
@@ -42,6 +44,9 @@ class Usuarios extends Controller
                 //Verifica se está vazio
                 if (empty($formulario['txtNome'])) {
                     $dados['nome_erro'] = "Preencha o Nome";
+                }
+                if(empty($formulario["txtSobreNome"])) {
+                    $dados["txtSobreNome"] = "Preencha o sobrenome";
                 }
                 if (empty($formulario['txtEmail'])) {
                     $dados['email_erro'] = "Preencha o email";
@@ -79,7 +84,7 @@ class Usuarios extends Controller
 
                         //Para exibir mensagem success , não precisa informar o tipo de classe
                         Alertas::mensagem('usuario', 'Usuário cadastrado com sucesso');
-                        Redirecionamento::redirecionar('usuarios/login');
+                        Redirecionamento::redirecionar('usuarios/visualizarUsuarios');
                     } else {
                         die("Erro ao armazenar usuário no banco de dados");
                     }
@@ -88,10 +93,12 @@ class Usuarios extends Controller
         } else {
             $dados = [
                 'txtNome' => '',
+                'txtSobreNome' => '',
                 'txtEmail' => '',
                 'txtSenha' => '',
                 'txtConfirmaSenha' => '',
                 'nome_erro' => '',
+                'sobrenome_erro' => '',
                 'email_erro' => '',
                 'senha_erro' => '',
                 'confirma_senha_erro' => '',
@@ -213,6 +220,7 @@ class Usuarios extends Controller
 
             $dados = [
                 'txtNome' => trim($formulario['txtNome']),
+                'txtSobreNome' => trim($formulario['txtSobreNome']),
                 'txtEmail' => trim($formulario['txtEmail']),
                 'txtSenha' => trim($formulario['txtSenha']),
                 'txtConfirmaSenha' => trim($formulario['txtConfirmaSenha']),
@@ -225,6 +233,9 @@ class Usuarios extends Controller
             //Verifica se está vazio
             if (empty($formulario['txtNome'])) {
                 $dados['nome_erro'] = "Preencha o Nome";
+            }
+            if(empty($formulario["txtSobreNome"])) {
+                $dados["txtSobreNome"] = "Preencha o sobrenome";
             }
             if (empty($formulario['txtEmail'])) {
                 $dados['email_erro'] = "Preencha o email";
@@ -273,10 +284,12 @@ class Usuarios extends Controller
         } else {
             $dados = [
                 'txtNome' => '',
+                'txtSobreNome' => '',
                 'txtEmail' => '',
                 'txtSenha' => '',
                 'txtConfirmaSenha' => '',
                 'nome_erro' => '',
+                'sobrenome_erro' => '',
                 'email_erro' => '',
                 'senha_erro' => '',
                 'confirma_senha_erro' => '',
@@ -290,5 +303,19 @@ class Usuarios extends Controller
 
         //Retorna para a view
         $this->view('usuarios/editar', $dados);
+    }
+
+    public function deletarUsuario($id)
+    {
+
+        if ($this->model->deletarUsuario($id)) {
+
+            //Para exibir mensagem success , não precisa informar o tipo de classe
+            Alertas::mensagem('usuario', 'Usuário deletado com sucesso');
+            Redirecionamento::redirecionar('Usuarios/visualizarUsuarios');
+        } else {
+            Alertas::mensagem('usuario', 'Não foi possível deletar o usuário', 'alert alert-danger');
+            Redirecionamento::redirecionar('Usuarios/visualizarUsuarios');
+        }
     }
 }

@@ -53,9 +53,10 @@ class Usuario
     public function armazenarUsuario($dados)
     {
 
-        $this->db->query("INSERT INTO tb_usuario (ds_nome_usuario, ds_email_usuario, ds_senha, fk_cargo, fk_tipo_usuario) VALUES (:ds_nome_usuario, :ds_email_usuario, :ds_senha, :fk_cargo, :fk_tipo_usuario)");
+        $this->db->query("INSERT INTO tb_usuario (ds_nome_usuario, ds_sobrenome_usuario, ds_email_usuario, ds_senha, fk_cargo, fk_tipo_usuario) VALUES (:ds_nome_usuario, :ds_sobrenome_usuario, :ds_email_usuario, :ds_senha, :fk_cargo, :fk_tipo_usuario)");
 
         $this->db->bind("ds_nome_usuario", $dados['txtNome']);
+        $this->db->bind("ds_sobrenome_usuario", $dados['txtSobreNome']);
         $this->db->bind("ds_email_usuario", $dados['txtEmail']);
         $this->db->bind("ds_senha", $dados['txtSenha']);
         $this->db->bind("fk_cargo", $dados['cboCargoUsuario']);
@@ -136,6 +137,18 @@ class Usuario
         $this->db->bind("fk_cargo", $dados['cboCargoUsuario']);
         $this->db->bind("fk_tipo_usuario", $dados['cboTipoUsuario']);
         $this->db->bind("id_usuario", $dados['idUsuario']);
+
+        if ($this->db->executa()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function deletarUsuario($id)
+    {
+        $this->db->query("DELETE FROM tb_usuario WHERE id_usuario = :id_usuario");
+        $this->db->bind("id_usuario", $id);
 
         if ($this->db->executa()) {
             return true;

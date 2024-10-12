@@ -27,6 +27,7 @@ INSERT INTO `tb_tipo_usuario` (`id_tipo_usuario`, `ds_tipo_usuario`) VALUES
 CREATE TABLE IF NOT EXISTS `tb_usuario` (
   `id_usuario` int(4) unsigned NOT NULL AUTO_INCREMENT,
   `ds_nome_usuario` varchar(255) DEFAULT NULL,
+  `ds_sobrenome_usuario` varchar(255) DEFAULT NULL,
   `ds_email_usuario` varchar(255) DEFAULT NULL,
   `ds_senha` varchar(255) DEFAULT NULL,
   `fk_cargo` int(2) unsigned DEFAULT NULL,
@@ -40,6 +41,6 @@ CREATE TABLE IF NOT EXISTS `tb_usuario` (
   CONSTRAINT `fk_tipo_usuario_tb_usuario` FOREIGN KEY (`fk_tipo_usuario`) REFERENCES `tb_tipo_usuario` (`id_tipo_usuario`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-INSERT INTO tb_usuario (id_usuario, ds_nome_usuario, ds_email_usuario, ds_senha, fk_cargo, fk_tipo_usuario) VALUES(1, 'Administrador', 'admin@app.com', '$2y$10$zKh0sq3Fk002BnWooZvHlOi50MOSp8lxlX6aItZ0gecUYQtS5BqXG', 1, 1);
+INSERT INTO tb_usuario (id_usuario, ds_nome_usuario, ds_sobrenome_usuario, ds_email_usuario, ds_senha, fk_cargo, fk_tipo_usuario) VALUES(1, 'Administrador', '', 'admin@app.com', '$2y$10$zKh0sq3Fk002BnWooZvHlOi50MOSp8lxlX6aItZ0gecUYQtS5BqXG', 1, 1);
 
 UPDATE tb_usuario SET id_usuario=0 WHERE id_usuario=1;
