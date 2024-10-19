@@ -53,12 +53,12 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Cadastro</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" aria-current="page" href="<?= URL . '/Usuarios/visualizarUsuarios' ?>">Usuário</a></li>
+                                        <li><a class="dropdown-item" aria-current="page" href="<?= URL . 'Usuarios/visualizarUsuarios' ?>">Usuário</a></li>
                                     </ul>
                                 </li>
                             <?php } ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="<?= URL . '/Paginas/sobre' ?>">Sobre nós</a>
+                                <a class="nav-link" href="<?= URL . 'Paginas/sobre' ?>">Sobre nós</a>
                             </li>
                         </ul>
                         <div class="d-flex align-items-center">
@@ -67,11 +67,11 @@
                                 <p class="mb-0">Olá, <?= ucfirst($_SESSION['ds_nome_usuario']); ?>, Seja bem vindo(a)</p>
                             </div>
                             <div>
-                                <a class="btn btn-sm btn-danger" href="<?= URL . '/Usuarios/sair' ?>">Sair</a>
+                                <a class="btn btn-sm btn-danger" href="<?= URL . 'Usuarios/sair' ?>">Sair</a>
                             </div>
                         <?php } else { ?>
                             <div style="width: 30px">
-                                <a class="btn btn-primary" href="<?= URL . '/Usuarios/login' ?>">Entrar</a>
+                                <a class="btn btn-primary" href="<?= URL . 'Usuarios/login' ?>">Entrar</a>
                             </div>
                         <?php } ?>
                         </div>
