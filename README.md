@@ -16,23 +16,6 @@ define('DB_PASS', 'meu_pass');
 define('DB_NAME', 'meu_db');
 define('DB_PORT', '3306'); //Porta padrão MySQL
 
-// 2 - Url do Projeto
-define('URL','http://meu_host/projetoBaseMVC');
-```
-
-Ajustar o path do .htaccess na pasta public, caso necessário: 
-
-```php
-<ifModule mod_rewrite.c>
-Options -Multiviews
-RewriteEngine On
-RewriteBase /projetoBaseMVC/Public         <==========
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
-</ifModule>
-```
-
 ## Base de dados
 
 Para a criação da base dados é necessário executar os scripts que estão localizados no diretório /BaseDados
