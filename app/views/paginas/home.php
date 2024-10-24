@@ -1,8 +1,5 @@
-<div class="container p-5">
-    <div class="row">
-        <div class="col-md-8">
-            <h1 class="my-5"><?= APP_NOME ?></h1>
-            <p>HOME</p>
-        </div>
+<div class="p-3 p-md-5 m-md-3 text-center bg-light">
+    <div class="col-md-5 p-lg-5 mx-auto my-5">
+      <h1 class="display-4 fw-normal"><?= APP_NOME ?> </h1>
     </div>
 </div>
