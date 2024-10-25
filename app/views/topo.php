@@ -17,8 +17,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Bootstrap -->
 
-    <link href="<?php echo URL ?>/public/css/estilos.css" rel="stylesheet">
-    <script src="<?php echo URL ?>/public/js/jquery.funcoes.js"></script>
+    <link href="<?php echo URL .'public/css/estilos.css' ?>" rel="stylesheet">
+    <script src="<?php echo URL .'public/js/jquery.funcoes.js' ?>"></script>
 
     <!-- DataTables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.css" />
