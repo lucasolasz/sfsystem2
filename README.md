@@ -15,6 +15,7 @@ define('DB_USER', 'meu_user');
 define('DB_PASS', 'meu_pass');
 define('DB_NAME', 'meu_db');
 define('DB_PORT', '3306'); //Porta padrão MySQL
+```
 
 ## Base de dados
 
