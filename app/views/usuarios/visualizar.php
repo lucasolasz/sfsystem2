@@ -4,7 +4,7 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?= URL . 'Paginas/index' ?>">Cadastro</a></li>
+            <li class="breadcrumb-item"><a href="<?= URL . 'Paginas/index' ?>">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">Usuários</li>
         </ol>
     </nav>
@@ -36,7 +36,7 @@
                                 <td>
                                     <a href="<?= URL . 'Usuarios/editarUsuario/' . $usuarios->id_usuario ?>" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Editar</a>
 
-                                    <a href="<?= URL . 'Usuarios/deletarUsuario/$usuarios->id_usuario' ?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Exlcuir</a>
+                                    <a href="<?= URL . 'Usuarios/deletarUsuario/' . $usuarios->id_usuario ?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Exlcuir</a>
                                 </td>
                             <?php  } ?>
                     </tbody>
