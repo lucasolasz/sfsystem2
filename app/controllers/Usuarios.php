@@ -7,7 +7,7 @@ class Usuarios extends Controller
     //Construtor do model do Usuário que fará o acesso ao banco
     public function __construct()
     {
-        $this->model = $this->model("Usuario");
+        $this->model = $this->model("UsuarioModel");
     }
 
     public function cadastrar()
