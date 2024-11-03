@@ -6,12 +6,13 @@ define('DB_USER', 'root');
 define('DB_PASS', '123');
 define('DB_NAME', 'projeto_base');
 define('DB_PORT', '3306');
+define('DB_CHARSET', 'utf8');
 
 //dirname() retorna o nome do diretorio em que o arquivo está
 define('APP', dirname(dirname(__FILE__)));
 
 define('URL', '/');
 
-define('APP_NOME', 'Projeto Base');
+define('APP_NOME', 'SF SYSTEM 2');
 
 define('APP_VERSAO', '1.0.0');

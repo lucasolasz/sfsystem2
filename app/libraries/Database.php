@@ -7,6 +7,7 @@ class Database {
     private $senha = DB_PASS;
     private $banco = DB_NAME;
     private $porta = DB_PORT;
+    private $charset = DB_CHARSET;
     private $dbh;
     private $stmt;
 
@@ -15,7 +16,7 @@ class Database {
     public function __construct()
     {
         //Informações para conectar ao banco
-        $dsn = 'mysql:host='.$this->host.';port='.$this->porta.';dbname='.$this->banco;
+        $dsn = 'mysql:host='.$this->host.';port='.$this->porta.';dbname='.$this->banco.';charset='.$this->charset;
         $opcoes = [
             //constante faz com que a conexão fique persistente em cache, evita sobrecarga
             PDO::ATTR_PERSISTENT => true,
@@ -27,7 +28,7 @@ class Database {
             
             //cria a instancia do banco
            $this->dbh = new PDO($dsn, $this->usuario, $this->senha, $opcoes);
-
+           $this->dbh->exec("set names utf8");
         } catch (PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
