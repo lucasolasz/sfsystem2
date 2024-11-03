@@ -17,14 +17,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Bootstrap -->
 
-    <link href="<?php echo URL .'public/css/estilos.css' ?>" rel="stylesheet">
-    <script src="<?php echo URL .'public/js/jquery.funcoes.js' ?>"></script>
-
     <!-- DataTables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.css" />
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.13.5/i18n/pt-BR.json"></script>
     <!-- DataTables -->
+
+    <link href="<?php echo URL . 'public/css/estilos.css' ?>" rel="stylesheet">
+    <script src="<?php echo URL . 'public/js/jquery.funcoes.js' ?>"></script>
 
     <title>
         <?php echo APP_NOME ?>
@@ -41,7 +41,9 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="<?= URL ?>"><?= APP_NOME ?></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -51,9 +53,17 @@
                             </li>
                             <?php if (isset($_SESSION['id_usuario'])) { ?>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Cadastro</a>
+                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                        aria-expanded="false">Cadastro</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" aria-current="page" href="<?= URL . 'Usuarios/visualizarUsuarios' ?>">Usuário</a></li>
+                                        <li>
+                                            <a class="dropdown-item" aria-current="page"
+                                                href="<?= URL . 'Usuarios/visualizarUsuarios' ?>">Usuário</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="dropdown-item"
+                                                href="<?= URL . 'Visitantes/visualizarVisitantes' ?>">Visitante</a>
+                                        </li>
                                     </ul>
                                 </li>
                             <?php } ?>
@@ -62,18 +72,19 @@
                             </li>
                         </ul>
                         <div class="d-flex align-items-center">
-                        <?php if (isset($_SESSION['id_usuario'])) { ?>
-                            <div class="me-2" style="width: 300px;">
-                                <p class="mb-0">Olá, <?= ucfirst($_SESSION['ds_nome_usuario']); ?>, Seja bem vindo(a)</p>
-                            </div>
-                            <div>
-                                <a class="btn btn-sm btn-danger" href="<?= URL . 'Usuarios/sair' ?>">Sair</a>
-                            </div>
-                        <?php } else { ?>
-                            <div style="width: 30px">
-                                <a class="btn btn-primary" href="<?= URL . 'Usuarios/login' ?>">Entrar</a>
-                            </div>
-                        <?php } ?>
+                            <?php if (isset($_SESSION['id_usuario'])) { ?>
+                                <div class="me-2" style="width: 300px;">
+                                    <p class="mb-0">Olá, <?= ucfirst($_SESSION['ds_nome_usuario']); ?>, Seja bem vindo(a)
+                                    </p>
+                                </div>
+                                <div>
+                                    <a class="btn btn-sm btn-danger" href="<?= URL . 'Usuarios/sair' ?>">Sair</a>
+                                </div>
+                            <?php } else { ?>
+                                <div style="width: 30px">
+                                    <a class="btn btn-primary" href="<?= URL . 'Usuarios/login' ?>">Entrar</a>
+                                </div>
+                            <?php } ?>
                         </div>
 
                     </div>
