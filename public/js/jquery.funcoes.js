@@ -7,7 +7,7 @@ $(document).ready(function () {
             "targets": 0,
             "searchable": true
         }],
-        "lengthMenu": [5, 10, 25],
+        "lengthMenu": [10, 15, 25],
         "searching": true
     });
     
