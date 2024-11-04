@@ -22,29 +22,32 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table id="tableDataTablePtBr" class="table table-hover">
+                <table id="tabela" class="table table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Nome</th>
-                            <th scope="col">Ações</th>
+                            <th scope="col">Documento</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($dados['visitantes'] as $usuarios) { ?>
-                            <tr>
-                                <td><?= ucfirst($usuarios->nm_visitante) ?></td>
-                                <td>
-                                    <a href="<?= URL . 'Visitantes/editarVisitante/' . $usuarios->id_visitante ?>"
-                                        class="btn btn-warning"><i class="bi bi-pencil-square"></i> Editar</a>
 
-                                    <a href="<?= URL . 'Visitantes/entradaVisita/' . $usuarios->id_visitante ?>"
-                                        class="btn btn-success"><i class="bi bi-arrow-up-circle-fill"></i> Entrada
-                                        Visita</a>
-                                </td>
-                            <?php } ?>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#tabela').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "/ListarDataTable/metodo",
+            "columns": [
+                { "data": "nm_visitante" },
+                { "data": "documento_visitante" },
+            ]
+        });
+    });
+</script>
