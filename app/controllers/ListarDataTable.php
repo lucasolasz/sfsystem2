@@ -11,12 +11,18 @@ class ListarDataTable extends Controller
 
     public function metodo()
     {
+        $data = json_decode(file_get_contents('php://input'), true);
+
         // Recebe parâmetros do DataTables
-        $inicio = $_GET['start'];
-        $quantidade = $_GET['length'];
-        $valorBusca = $_GET['search']['value'];
-        $colunaOrdenacao = $_GET['order'][0]['column'];
-        $direcaoOrdenacao = $_GET['order'][0]['dir'];
+        $inicio = $data['start'];
+        $quantidade = $data['length'];
+        $valorBusca = $data['search'];
+        $colunaOrdenacao = $data['order'][0]['column'];
+        $direcaoOrdenacao = $data['order'][0]['dir'];
+
+        $tabela = $data['tabela'];
+        $listaColunasPesquisa = $data['colunas_pesquisa'];
+        $listaColunaOrdenacao = $data['colunas_ordenacao'];  
 
         // Consulta total de registros sem filtros
         $totalRegistros = $this->model->contarVisitantes();
@@ -27,14 +33,17 @@ class ListarDataTable extends Controller
             $quantidade,
             $valorBusca,
             $colunaOrdenacao,
-            $direcaoOrdenacao
+            $direcaoOrdenacao,
+            $tabela,
+            $listaColunasPesquisa,
+            $listaColunaOrdenacao
         );
 
         // Formata a resposta
         $resposta = [
-            "draw" => intval($_GET['draw']),
+            "draw" => intval($data['draw']),
             "recordsTotal" => $totalRegistros,
-            "recordsFiltered" => $totalRegistros, // Pode ajustar conforme os filtros
+            "recordsFiltered" => count($visitantes), // Pode ajustar conforme os filtros
             "data" => $visitantes
         ];
 

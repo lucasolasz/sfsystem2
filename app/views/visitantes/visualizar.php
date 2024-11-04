@@ -43,7 +43,26 @@
         $('#tabela').DataTable({
             "processing": true,
             "serverSide": true,
-            "ajax": "/ListarDataTable/metodo",
+            "ajax": {
+                "url": "/ListarDataTable/metodo",
+                "type": "POST",
+                "data": function(d) {
+                    // Monta o objeto a ser enviado
+                    var params = {
+                        tabela: 'tb_visitante',
+                        colunas_pesquisa: ['nm_visitante', 'documento_visitante'],
+                        colunas_ordenacao: ['nm_visitante'],
+                        start: d.start,
+                        length: d.length,
+                        search: d.search.value,
+                        order: d.order,
+                        draw: d.draw
+                    };
+                    return JSON.stringify(params); // Converte para JSON
+                },
+                "contentType": "application/json; charset=utf-8", // Define o tipo de conteúdo
+                "dataType": "json" // Espera receber JSON
+            },
             "columns": [
                 { "data": "nm_visitante" },
                 { "data": "documento_visitante" },

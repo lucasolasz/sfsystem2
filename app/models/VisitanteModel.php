@@ -73,19 +73,43 @@ class VisitanteModel
         return $this->db->resultado()->total;
     }
 
-    public function obterVisitantesPaginados($inicio, $quantidade, $busca = '', $colunaOrdenacao = 0, $direcaoOrdenacao = 'asc')
-    {
-        $colunas = ['nm_visitante', 'documento_visitante']; // Colunas disponíveis para ordenação
-        $colunaOrdenada = isset($colunas[$colunaOrdenacao]) ? $colunas[$colunaOrdenacao] : 'nm_visitante';
+    // public function obterVisitantesPaginados($inicio, $quantidade, $busca = '', $colunaOrdenacao = 0, $direcaoOrdenacao = 'asc')
+    // {
+    //     $colunas = ['nm_visitante', 'documento_visitante']; // Colunas disponíveis para ordenação
+    //     $colunaOrdenada = isset($colunas[$colunaOrdenacao]) ? $colunas[$colunaOrdenacao] : 'nm_visitante';
 
-        $consulta = "SELECT * FROM tb_visitante WHERE 1=1";
+    //     $consulta = "SELECT * FROM tb_visitante WHERE 1=1";
+
+    //     if (!empty($busca)) {
+    //         $consulta .= " AND (nm_visitante LIKE :busca)";
+    //         // $this->db->bind("busca", '%' . $busca . '%');
+    //     }
+
+    //     $consulta .= " ORDER BY $colunaOrdenada $direcaoOrdenacao LIMIT :inicio, :quantidade";
+    //     $this->db->query($consulta);
+    //     $this->db->bind("inicio", (int) $inicio, PDO::PARAM_INT);
+    //     $this->db->bind("quantidade", (int) $quantidade, PDO::PARAM_INT);
+    //     if (!empty($busca)) {
+    //         // $consulta .= " AND (nm_visitante LIKE :busca)";
+    //         $this->db->bind("busca", '%' . $busca . '%');
+    //     }
+
+    //     return $this->db->resultados();
+    // }
+
+    public function obterVisitantesPaginados($inicio, $quantidade, $busca = '', $colunaOrdenacao = 0, $direcaoOrdenacao = 'asc', $tabela, $listaColunasPesquisa, $listaColunaOrdenacao)
+    {
+        $colunaOrdenada = isset($listaColunasPesquisa[$colunaOrdenacao]) ? $listaColunasPesquisa[$colunaOrdenacao] : 'nm_visitante';
+
+        $consulta = "SELECT * FROM $tabela WHERE 1=1";
 
         if (!empty($busca)) {
-            $consulta .= " AND (nm_visitante LIKE :busca)";
-            // $this->db->bind("busca", '%' . $busca . '%');
+            $consulta .= $this->montarQueryBusca($listaColunasPesquisa);
         }
 
-        $consulta .= " ORDER BY $colunaOrdenada $direcaoOrdenacao LIMIT :inicio, :quantidade";
+        // $consulta .= " ORDER BY $colunaOrdenada $direcaoOrdenacao LIMIT :inicio, :quantidade";
+        $consulta .= $this->montarQueryOderBy($listaColunaOrdenacao, $direcaoOrdenacao);
+
         $this->db->query($consulta);
         $this->db->bind("inicio", (int) $inicio, PDO::PARAM_INT);
         $this->db->bind("quantidade", (int) $quantidade, PDO::PARAM_INT);
@@ -97,6 +121,31 @@ class VisitanteModel
         return $this->db->resultados();
     }
 
-    
+    private function montarQueryOderBy($listaColunaOrdenacao, $direcaoOrdenacao)
+    {
+        $stringSaida = " ORDER BY ";
+        foreach ($listaColunaOrdenacao as $coluna) {
+            $stringSaida .= "$coluna ,";
+        }
+        $stringSaida = substr($stringSaida, 0, -1);
+        $stringSaida .= " $direcaoOrdenacao LIMIT :inicio, :quantidade ";
+
+        return $stringSaida;
+    }
+
+    private function montarQueryBusca($listaColunas)
+    {
+        $stringSaida = " AND (";
+        $condicoes = [];
+        foreach ($listaColunas as $coluna) {
+            $condicoes[] = "$coluna LIKE :busca";
+        }
+        $stringSaida .= implode(" OR ", $condicoes);
+        $stringSaida .= ")";
+
+        return $stringSaida;
+    }
+
+
 
 }
