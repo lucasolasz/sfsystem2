@@ -46,7 +46,7 @@
             "ajax": {
                 "url": "/ListarDataTable/metodo",
                 "type": "POST",
-                "data": function(d) {
+                "data": function (d) {
                     // Monta o objeto a ser enviado
                     var params = {
                         tabela: 'tb_visitante',
@@ -65,7 +65,7 @@
             },
             "columns": [
                 { "data": "nm_visitante" },
-                { "data": "documento_visitante" },
+                { "data": "documento_visitante" }
             ]
         });
     });

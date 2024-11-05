@@ -22,7 +22,7 @@ class ListarDataTable extends Controller
 
         $tabela = $data['tabela'];
         $listaColunasPesquisa = $data['colunas_pesquisa'];
-        $listaColunaOrdenacao = $data['colunas_ordenacao'];  
+        $listaColunaOrdenacao = $data['colunas_ordenacao'];
 
         // Consulta total de registros sem filtros
         $totalRegistros = $this->model->contarVisitantes();
@@ -39,11 +39,20 @@ class ListarDataTable extends Controller
             $listaColunaOrdenacao
         );
 
+        $totalRegistrosFiltrados = $this->model->contarVisitantesComFiltro(
+            $valorBusca,
+            $colunaOrdenacao,
+            $tabela,
+            $direcaoOrdenacao,
+            $listaColunasPesquisa,
+            $listaColunaOrdenacao
+        );
+
         // Formata a resposta
         $resposta = [
             "draw" => intval($data['draw']),
             "recordsTotal" => $totalRegistros,
-            "recordsFiltered" => count($visitantes), // Pode ajustar conforme os filtros
+            "recordsFiltered" => count($totalRegistrosFiltrados), // Pode ajustar conforme os filtros
             "data" => $visitantes
         ];
 

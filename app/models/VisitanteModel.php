@@ -73,32 +73,50 @@ class VisitanteModel
         return $this->db->resultado()->total;
     }
 
-    // public function obterVisitantesPaginados($inicio, $quantidade, $busca = '', $colunaOrdenacao = 0, $direcaoOrdenacao = 'asc')
-    // {
-    //     $colunas = ['nm_visitante', 'documento_visitante']; // Colunas disponíveis para ordenação
-    //     $colunaOrdenada = isset($colunas[$colunaOrdenacao]) ? $colunas[$colunaOrdenacao] : 'nm_visitante';
+    public function contarVisitantesComFiltro(
+        $busca = '',
+        $colunaOrdenacao = 0,
+        $tabela = null,
+        $direcaoOrdenacao = 'asc',
+        $listaColunasPesquisa = null,
+        $listaColunaOrdenacao = null
+    ) {
 
-    //     $consulta = "SELECT * FROM tb_visitante WHERE 1=1";
+        $consulta = "SELECT * FROM $tabela WHERE 1=1";
 
-    //     if (!empty($busca)) {
-    //         $consulta .= " AND (nm_visitante LIKE :busca)";
-    //         // $this->db->bind("busca", '%' . $busca . '%');
-    //     }
+        if (!empty($busca)) {
+            $consulta .= $this->montarQueryBusca($listaColunasPesquisa);
+        }
 
-    //     $consulta .= " ORDER BY $colunaOrdenada $direcaoOrdenacao LIMIT :inicio, :quantidade";
-    //     $this->db->query($consulta);
-    //     $this->db->bind("inicio", (int) $inicio, PDO::PARAM_INT);
-    //     $this->db->bind("quantidade", (int) $quantidade, PDO::PARAM_INT);
-    //     if (!empty($busca)) {
-    //         // $consulta .= " AND (nm_visitante LIKE :busca)";
-    //         $this->db->bind("busca", '%' . $busca . '%');
-    //     }
+        // Adicionar a cláusula ORDER BY
+        if (!empty($listaColunaOrdenacao)) {
+            $consulta .= " ORDER BY ";
+            foreach ($listaColunaOrdenacao as $coluna) {
+                $consulta .= " $coluna,";
+            }
+            // Remover a última vírgula e adicionar a direção de ordenação
+            $consulta = rtrim($consulta, ',') . " $direcaoOrdenacao";
+        }
 
-    //     return $this->db->resultados();
-    // }
+        $this->db->query($consulta);
 
-    public function obterVisitantesPaginados($inicio, $quantidade, $busca = '', $colunaOrdenacao = 0, $direcaoOrdenacao = 'asc', $tabela, $listaColunasPesquisa, $listaColunaOrdenacao)
-    {
+        if (!empty($busca)) {
+            $this->db->bind("busca", '%' . $busca . '%');
+        }
+
+        return $this->db->resultados();
+    }
+
+    public function obterVisitantesPaginados(
+        $inicio = null,
+        $quantidade = null,
+        $busca = '',
+        $colunaOrdenacao = 0,
+        $direcaoOrdenacao = 'asc',
+        $tabela = null,
+        $listaColunasPesquisa = null,
+        $listaColunaOrdenacao = null
+    ) {
         $colunaOrdenada = isset($listaColunasPesquisa[$colunaOrdenacao]) ? $listaColunasPesquisa[$colunaOrdenacao] : 'nm_visitante';
 
         $consulta = "SELECT * FROM $tabela WHERE 1=1";
