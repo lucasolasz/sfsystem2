@@ -6,10 +6,10 @@ class ListarDataTable extends Controller
     //Construtor do model do Usuário que fará o acesso ao banco
     public function __construct()
     {
-        $this->model = $this->model("VisitanteModel");
+        $this->model = $this->model("DataTablesModel");
     }
 
-    public function metodo()
+    public function listarRegistrosDataTable()
     {
         $data = json_decode(file_get_contents('php://input'), true);
 

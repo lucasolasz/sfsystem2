@@ -44,7 +44,7 @@
             "processing": true,
             "serverSide": true,
             "ajax": {
-                "url": "/ListarDataTable/metodo",
+                "url": "/ListarDataTable/listarRegistrosDataTable",
                 "type": "POST",
                 "data": function (d) {
                     // Monta o objeto a ser enviado
