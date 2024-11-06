@@ -50,15 +50,15 @@
 </div>
 <script>
     var params = {
-        tabela: 'tb_usuario',
-        colunas_pesquisa: ['ds_nome_usuario'],
-        colunas_ordenacao: ['ds_nome_usuario'],
+        tabela: 'tb_usuario', //tabela que será utilizada para pesquisa
+        colunas_pesquisa: ['ds_nome_usuario'], //coluna para a busca dentro da tabela. Input Search
+        colunas_ordenacao: ['ds_nome_usuario'], //colunas utilizadas para ordenação
         joins: [
             {
                 tabela: 'tb_cargo',
                 condicao: 'tb_usuario.fk_cargo = tb_cargo.id_cargo'
             }
-        ],
+        ], // Joins se necessário
         columns: [
             { "data": "ds_nome_usuario" },
             { "data": "ds_cargo" },
@@ -76,7 +76,7 @@
                     </a>`;
                 }
             }
-        ]
+        ] // Colunas que irão se adequar as colunas definidas no html
     };
 
     // Chama a função passando o ID da tabela e os parâmetros configurados
