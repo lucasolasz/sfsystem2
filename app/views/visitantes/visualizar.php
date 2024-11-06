@@ -27,6 +27,7 @@
                         <tr>
                             <th scope="col">Nome</th>
                             <th scope="col">Documento</th>
+                            <th scope="col">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,7 +57,8 @@
                         length: d.length,
                         search: d.search.value,
                         order: d.order,
-                        draw: d.draw
+                        draw: d.draw,
+                        joins: []
                     };
                     return JSON.stringify(params); // Converte para JSON
                 },
@@ -65,7 +67,21 @@
             },
             "columns": [
                 { "data": "nm_visitante" },
-                { "data": "documento_visitante" }
+                { "data": "documento_visitante" },
+                {
+                    "data": null, // Define como null pois será preenchido manualmente
+                    "orderable": false, // Impede ordenação para esta coluna
+                    "render": function (data, type, row) {
+                        // Retorna o HTML para os botões de ação
+                        return `
+                            <a href="/Visitantes/editarVisitante/${row.id_visitante}" class="btn btn-warning">
+                                <i class="bi bi-pencil-square"></i> Editar
+                            </a>
+                            <a href="/Visitantes/deletarUsuario/${row.id_visitante}" class="btn btn-danger">
+                                <i class="bi bi-trash-fill"></i> Excluir
+                            </a>`;
+                    }
+                }
             ]
         });
     });

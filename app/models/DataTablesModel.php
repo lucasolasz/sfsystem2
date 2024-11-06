@@ -9,24 +9,35 @@ class DataTablesModel
         $this->db = new Database();
     }
 
-    public function contarVisitantes()
+    public function contarRegistros($tabela = null)
     {
-        $this->db->query("SELECT COUNT(*) AS total FROM tb_visitante");
+        $this->db->query("SELECT COUNT(*) AS total FROM $tabela");
         return $this->db->resultado()->total;
     }
 
-    public function contarVisitantesComFiltro(
+    public function obterRegistrosComFiltro(
         $busca = '',
         $colunaOrdenacao = 0,
         $tabela = null,
         $direcaoOrdenacao = 'asc',
         $listaColunasPesquisa = null,
-        $listaColunaOrdenacao = null
+        $listaColunaOrdenacao = null,
+        $joins = []
     ) {
 
-        $consulta = "SELECT * FROM $tabela WHERE 1=1";
+        $consulta = " SELECT * FROM $tabela ";
+
+        if (!empty($joins)) {
+            foreach ($joins as $join) {
+                // Verifica se cada item de join contém 'tabela' e 'condicao' para garantir que o JOIN seja válido
+                if (isset($join['tabela']) && isset($join['condicao'])) {
+                    $consulta .= " JOIN " . $join['tabela'] . " ON " . $join['condicao'];
+                }
+            }
+        }
 
         if (!empty($busca)) {
+            $consulta .= " WHERE 1=1";
             $consulta .= $this->montarQueryBusca($listaColunasPesquisa);
         }
 
@@ -49,7 +60,7 @@ class DataTablesModel
         return $this->db->resultados();
     }
 
-    public function obterVisitantesPaginados(
+    public function obterRegistrosPaginados(
         $inicio = null,
         $quantidade = null,
         $busca = '',
@@ -57,13 +68,23 @@ class DataTablesModel
         $direcaoOrdenacao = 'asc',
         $tabela = null,
         $listaColunasPesquisa = null,
-        $listaColunaOrdenacao = null
+        $listaColunaOrdenacao = null,
+        $joins = []
     ) {
-        $colunaOrdenada = isset($listaColunasPesquisa[$colunaOrdenacao]) ? $listaColunasPesquisa[$colunaOrdenacao] : 'nm_visitante';
 
-        $consulta = "SELECT * FROM $tabela WHERE 1=1";
+        $consulta = " SELECT * FROM $tabela ";
+
+        if (!empty($joins)) {
+            foreach ($joins as $join) {
+                // Verifica se cada item de join contém 'tabela' e 'condicao' para garantir que o JOIN seja válido
+                if (isset($join['tabela']) && isset($join['condicao'])) {
+                    $consulta .= " JOIN " . $join['tabela'] . " ON " . $join['condicao'];
+                }
+            }
+        }
 
         if (!empty($busca)) {
+            $consulta .= " WHERE 1=1 ";
             $consulta .= $this->montarQueryBusca($listaColunasPesquisa);
         }
 

@@ -24,11 +24,13 @@ class ListarDataTable extends Controller
         $listaColunasPesquisa = $data['colunas_pesquisa'];
         $listaColunaOrdenacao = $data['colunas_ordenacao'];
 
+        $joins = isset($data['joins']) ? $data['joins'] : [];
+
         // Consulta total de registros sem filtros
-        $totalRegistros = $this->model->contarVisitantes();
+        $totalRegistros = $this->model->contarRegistros($tabela);
 
         // Consulta com filtros e ordenação
-        $visitantes = $this->model->obterVisitantesPaginados(
+        $visitantes = $this->model->obterRegistrosPaginados(
             $inicio,
             $quantidade,
             $valorBusca,
@@ -36,16 +38,18 @@ class ListarDataTable extends Controller
             $direcaoOrdenacao,
             $tabela,
             $listaColunasPesquisa,
-            $listaColunaOrdenacao
+            $listaColunaOrdenacao,
+            $joins
         );
 
-        $totalRegistrosFiltrados = $this->model->contarVisitantesComFiltro(
+        $totalRegistrosFiltrados = $this->model->obterRegistrosComFiltro(
             $valorBusca,
             $colunaOrdenacao,
             $tabela,
             $direcaoOrdenacao,
             $listaColunasPesquisa,
-            $listaColunaOrdenacao
+            $listaColunaOrdenacao,
+            $joins
         );
 
         // Formata a resposta
