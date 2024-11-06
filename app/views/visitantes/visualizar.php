@@ -40,49 +40,31 @@
 </div>
 
 <script>
-    $(document).ready(function () {
-        $('#tabela').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
-                "url": "/ListarDataTable/listarRegistrosDataTable",
-                "type": "POST",
-                "data": function (d) {
-                    // Monta o objeto a ser enviado
-                    var params = {
-                        tabela: 'tb_visitante',
-                        colunas_pesquisa: ['nm_visitante', 'documento_visitante'],
-                        colunas_ordenacao: ['nm_visitante'],
-                        start: d.start,
-                        length: d.length,
-                        search: d.search.value,
-                        order: d.order,
-                        draw: d.draw,
-                        joins: []
-                    };
-                    return JSON.stringify(params); // Converte para JSON
-                },
-                "contentType": "application/json; charset=utf-8", // Define o tipo de conteúdo
-                "dataType": "json" // Espera receber JSON
-            },
-            "columns": [
-                { "data": "nm_visitante" },
-                { "data": "documento_visitante" },
-                {
-                    "data": null, // Define como null pois será preenchido manualmente
-                    "orderable": false, // Impede ordenação para esta coluna
-                    "render": function (data, type, row) {
-                        // Retorna o HTML para os botões de ação
-                        return `
-                            <a href="/Visitantes/editarVisitante/${row.id_visitante}" class="btn btn-warning">
-                                <i class="bi bi-pencil-square"></i> Editar
-                            </a>
-                            <a href="/Visitantes/deletarUsuario/${row.id_visitante}" class="btn btn-danger">
-                                <i class="bi bi-trash-fill"></i> Excluir
-                            </a>`;
-                    }
+    var params = {
+        tabela: 'tb_visitante',
+        colunas_pesquisa: ['nm_visitante', 'documento_visitante'],
+        colunas_ordenacao: ['nm_visitante'],
+        joins: [],
+        columns: [
+            { "data": "nm_visitante" },
+            { "data": "documento_visitante" },
+            {
+                "data": null, // Define como null pois será preenchido manualmente
+                "orderable": false, // Impede ordenação para esta coluna
+                "render": function (data, type, row) {
+                    // Retorna o HTML para os botões de ação, com href dinâmico
+                    return `
+                    <a href="/Visitantes/editarVisitante/${row.id_visitante}" class="btn btn-warning">
+                        <i class="bi bi-pencil-square"></i> Editar
+                    </a>
+                    <a href="/Visitantes/deletarUsuario/${row.id_visitante}" class="btn btn-danger">
+                        <i class="bi bi-trash-fill"></i> Excluir
+                    </a>`;
                 }
-            ]
-        });
-    });
+            }
+        ]
+    };
+
+    // Chama a função passando o ID da tabela e os parâmetros configurados
+    initDataTable('tabela', params);
 </script>
