@@ -20,4 +20,11 @@ class Controller
         }
         include APP . '/views/rodape.php';
     }
+
+    public function verificaSeEstaLogado()
+    {
+        if (!IsLoged::estaLogado()) {
+            Redirecionamento::redirecionar('Paginas/paginaErro');
+        }
+    }
 }
