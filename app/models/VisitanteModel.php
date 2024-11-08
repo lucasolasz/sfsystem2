@@ -67,4 +67,9 @@ class VisitanteModel
         }
     }
 
+    public function ultimoIdInserido()
+    {
+        return $this->db->ultimoIdInserido();
+    }
+
 }

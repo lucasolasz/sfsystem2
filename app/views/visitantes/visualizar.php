@@ -57,8 +57,8 @@
                     <a href="/Visitantes/editarVisitante/${row.id_visitante}" class="btn btn-warning">
                         <i class="bi bi-pencil-square"></i> Editar
                     </a>
-                    <a href="/Visitantes/deletarUsuario/${row.id_visitante}" class="btn btn-danger">
-                        <i class="bi bi-trash-fill"></i> Excluir
+                    <a href="/Visitantes/deletarUsuario/${row.id_visitante}" class="btn btn-success">
+                        <i class="bi bi-arrow-up-circle-fill"></i> Entrada Visita
                     </a>`;
                 }
             }

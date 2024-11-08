@@ -3,6 +3,7 @@
 class Visitantes extends Controller
 {
     private $model;
+    private $modelVeiculo;
 
     //Construtor do model do Usuário que fará o acesso ao banco
     public function __construct()
@@ -10,14 +11,20 @@ class Visitantes extends Controller
         $this->verificaSeEstaLogado();
 
         $this->model = $this->model("VisitanteModel");
+        $this->modelVeiculo = $this->model("VeiculoModel");
     }
 
     public function cadastrar()
     {
 
+        $listaTiposVeiculos = $this->modelVeiculo->recuperarTiposVeiculos();
+        $listaCoresVeiculos = $this->modelVeiculo->recuperarCoresVeiculos();
+
         //Evita que codigos maliciosos sejam enviados pelos campos
         $formulario = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         if (isset($formulario)) {
+
+            $listaVeiculosCadastradosForm = $this->recuperarVeiculosFormulario($formulario);
 
             $dados = [
                 'txtNome' => trim($formulario['txtNome']),
@@ -25,25 +32,28 @@ class Visitantes extends Controller
                 'txtTelefoneUm' => trim($formulario['txtTelefoneUm']),
                 'txtTelefoneDois' => $formulario['txtTelefoneDois'],
                 'nome_erro' => '',
-                'documento_erro' => ''
+                'documento_erro' => '',
+                'listaTiposVeiculos' => $listaTiposVeiculos,
+                'listaCoresVeiculos' => $listaCoresVeiculos
+
             ];
 
-            if (in_array("", $formulario)) {
-
-                //Verifica se está vazio
-                if (empty($formulario['txtNome'])) {
-                    $dados['nome_erro'] = "Preencha o Nome";
-                }
-                if (empty($formulario["txtDocumento"])) {
-                    $dados["txtDocumento"] = "Preencha o documento";
-                }
+            //Verifica se está vazio
+            if (empty($formulario['txtNome'])) {
+                $dados['nome_erro'] = "Preencha o Nome";
+            } elseif (empty($formulario["txtDocumento"])) {
+                $dados["txtDocumento"] = "Preencha o documento";
             } else {
 
                 if ($this->model->armazenarVisitante($dados)) {
 
-                    //Para exibir mensagem success , não precisa informar o tipo de classe
-                    Alertas::mensagem('visitante', texto: 'Visitante cadastrado com sucesso');
-                    Redirecionamento::redirecionar('Visitantes/visualizarVisitantes');
+                    $idVisitante = $this->model->ultimoIdInserido();
+
+                    if ($this->modelVeiculo->armazenarCarrosVisitante($listaVeiculosCadastradosForm, $idVisitante)) {
+                        Alertas::mensagem('visitante', texto: 'Visitante cadastrado com sucesso');
+                        Redirecionamento::redirecionar('Visitantes/visualizarVisitantes');
+                    }
+
                 } else {
                     die("Erro ao armazenar visitante no banco de dados");
                 }
@@ -55,7 +65,10 @@ class Visitantes extends Controller
                 'txtTelefoneUm' => '',
                 'txtTelefoneDois' => '',
                 'nome_erro' => '',
-                'documento_erro' => ''
+                'documento_erro' => '',
+                'listaTiposVeiculos' => $listaTiposVeiculos,
+                'listaCoresVeiculos' => $listaCoresVeiculos
+
             ];
         }
 
@@ -113,5 +126,32 @@ class Visitantes extends Controller
 
         //Retorna para a view
         $this->view('visitantes/editar', $dados);
+    }
+
+    private function recuperarVeiculosFormulario($formulario)
+    {
+
+        $listaVeiculosSaida = [];
+
+        // Iterar pelos índices dos veículos
+        foreach ($formulario as $key => $value) {
+            // Verifica se a chave contém o prefixo "tipo_veiculo_"
+            if (strpos($key, 'tipo_veiculo_') === 0) {
+                // Extrair o número do veículo a partir da chave
+                $index = str_replace('tipo_veiculo_', '', $key);
+
+                // Verificar se existem os campos correspondentes para "placa" e "cor"
+                if (isset($formulario["placa_veiculo_$index"]) && isset($formulario["cor_veiculo_$index"])) {
+                    // Criar um array associativo para o veículo
+                    $listaVeiculosSaida[] = [
+                        'fk_tipo_veiculo' => $formulario["tipo_veiculo_$index"],
+                        'ds_placa_veiculo' => $formulario["placa_veiculo_$index"],
+                        'fk_cor_veiculo' => $formulario["cor_veiculo_$index"]
+                    ];
+                }
+            }
+        }
+
+        return $listaVeiculosSaida;
     }
 }
