@@ -49,10 +49,12 @@ class Visitantes extends Controller
 
                     $idVisitante = $this->model->ultimoIdInserido();
 
-                    if ($this->modelVeiculo->armazenarCarrosVisitante($listaVeiculosCadastradosForm, $idVisitante)) {
-                        Alertas::mensagem('visitante', texto: 'Visitante cadastrado com sucesso');
-                        Redirecionamento::redirecionar('Visitantes/visualizarVisitantes');
+                    if (!empty($listaVeiculosCadastradosForm)) {
+                        $this->modelVeiculo->armazenarCarrosVisitante($listaVeiculosCadastradosForm, $idVisitante);
                     }
+
+                    Alertas::mensagem('visitante', texto: 'Visitante cadastrado com sucesso');
+                    Redirecionamento::redirecionar('Visitantes/visualizarVisitantes');
 
                 } else {
                     die("Erro ao armazenar visitante no banco de dados");
@@ -92,10 +94,14 @@ class Visitantes extends Controller
     {
 
         $visitante = $this->model->retornarVisitantePorId($id);
+        $listaTiposVeiculos = $this->modelVeiculo->recuperarTiposVeiculos();
+        $listaCoresVeiculos = $this->modelVeiculo->recuperarCoresVeiculos();
 
         //Evita que codigos maliciosos sejam enviados pelos campos
         $formulario = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         if (isset($formulario)) {
+
+            $listaVeiculosCadastradosForm = $this->recuperarVeiculosFormulario($formulario);
 
             $dados = [
                 'txtNome' => trim($formulario['txtNome']),
@@ -104,12 +110,20 @@ class Visitantes extends Controller
                 'txtTelefoneDois' => $formulario['txtTelefoneDois'],
                 'nome_erro' => '',
                 'documento_erro' => '',
-                'idVisitante' => $id
+                'idVisitante' => $id,
+                'listaTiposVeiculos' => $listaTiposVeiculos,
+                'listaCoresVeiculos' => $listaCoresVeiculos
             ];
 
             if ($this->model->atualizarVisitante($dados)) {
+
+                if (!empty($listaVeiculosCadastradosForm)) {
+                    $this->modelVeiculo->editarCarrosVisitante($listaVeiculosCadastradosForm, $id);
+                }
+
                 Alertas::mensagem('visitante', 'Visitante atualizado com sucesso');
                 Redirecionamento::redirecionar('Visitantes/visualizarVisitantes');
+
             }
 
         } else {
@@ -120,10 +134,13 @@ class Visitantes extends Controller
                 'txtTelefoneDois' => '',
                 'nome_erro' => '',
                 'documento_erro' => '',
-                'visitante' => $visitante
+                'visitante' => $visitante,
+                'listaTiposVeiculos' => $listaTiposVeiculos,
+                'listaCoresVeiculos' => $listaCoresVeiculos
             ];
         }
 
+        // var_dump($dados);
         //Retorna para a view
         $this->view('visitantes/editar', $dados);
     }

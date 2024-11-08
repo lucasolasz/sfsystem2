@@ -25,22 +25,35 @@ class VeiculoModel
 
     public function armazenarCarrosVisitante($lista, $idVisitante)
     {
-        if (!empty($lista)) {
-            foreach ($lista as $veiculo) {
-                $this->db->query("INSERT INTO tb_veiculo (ds_placa_veiculo, fk_visitante, fk_cor_veiculo, fk_tipo_veiculo) VALUES (:ds_placa_veiculo, :fk_visitante, :fk_cor_veiculo, :fk_tipo_veiculo)");
-
-                $this->db->bind("ds_placa_veiculo", trim($veiculo['ds_placa_veiculo']));
-                $this->db->bind("fk_visitante", intval($idVisitante));
-                $this->db->bind("fk_cor_veiculo", intval($veiculo['fk_cor_veiculo']));
-                $this->db->bind("fk_tipo_veiculo", intval($veiculo['fk_tipo_veiculo']));
-
-                $this->db->executa();
-            }
-
-            return true;
-        }
-
-        return false;
+        $this->executarQueryInsertVeiculos($lista, $idVisitante);
     }
 
+    public function editarCarrosVisitante($lista, $idVisitante)
+    {
+        $this->executarQueryDeleteVeiculosPorIdVisitante($idVisitante);
+        $this->executarQueryInsertVeiculos($lista, $idVisitante);
+    }
+
+    private function executarQueryDeleteVeiculosPorIdVisitante($idVisitante)
+    {
+        $this->db->query(" DELETE FROM tb_veiculo WHERE fk_visitante = :idVisitante ");
+        $this->db->bind("idVisitante", intval($idVisitante));
+        $this->db->executa();
+
+    }
+
+    private function executarQueryInsertVeiculos($lista, $idVisitante)
+    {
+        foreach ($lista as $veiculo) {
+            $this->db->query("INSERT INTO tb_veiculo (ds_placa_veiculo, fk_visitante, fk_cor_veiculo, fk_tipo_veiculo) VALUES (:ds_placa_veiculo, :fk_visitante, :fk_cor_veiculo, :fk_tipo_veiculo)");
+
+            $this->db->bind("ds_placa_veiculo", trim($veiculo['ds_placa_veiculo']));
+            $this->db->bind("fk_visitante", intval($idVisitante));
+            $this->db->bind("fk_cor_veiculo", intval($veiculo['fk_cor_veiculo']));
+            $this->db->bind("fk_tipo_veiculo", intval($veiculo['fk_tipo_veiculo']));
+
+            $this->db->executa();
+        }
+
+    }
 }

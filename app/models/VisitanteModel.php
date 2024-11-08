@@ -13,7 +13,14 @@ class VisitanteModel
 
     public function retornarVisitantePorId($id)
     {
-        $this->db->query("SELECT * FROM tb_visitante WHERE id_visitante = :id_visitante");
+        $queryMontada = " SELECT * FROM tb_visitante v ";
+        $queryMontada .= " LEFT JOIN tb_veiculo as tv ON tv.fk_visitante = v.id_visitante ";
+        $queryMontada .= " LEFT JOIN tb_tipo_veiculo as ttv ON ttv.id_tipo_veiculo = tv.fk_tipo_veiculo ";
+        $queryMontada .= " LEFT JOIN tb_cor_veiculo as tcv ON tcv.id_cor_veiculo = tv.fk_cor_veiculo ";
+        $queryMontada .= " WHERE id_visitante = :id_visitante ";
+
+
+        $this->db->query($queryMontada);
 
         $this->db->bind("id_visitante", $id);
 
@@ -33,9 +40,8 @@ class VisitanteModel
 
         if ($this->db->executa()) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function visualizarVisitantes()

@@ -1,3 +1,74 @@
+<script>
+    let contador = 0; // Para novos campos de veículos
+
+    function adicionarCampos(tipo = "", placa = "", cor = "", idVeiculo = "") {
+        contador++;
+
+        const novoCampo = $(`
+                <div class="campo-veiculo" id="veiculo_${contador}">
+                    <input type="hidden" name="veiculo_id_${contador}" value="${idVeiculo}">
+                    <div class="mb-3">
+                        <label class="form-label" >Tipo de Veículo:</label>
+                        <select class="form-select" name="tipo_veiculo_${contador}">
+                            <?php foreach ($dados['listaTiposVeiculos'] as $tipoVeiculo): ?>
+                                        <option value="<?= $tipoVeiculo->id_tipo_veiculo ?>" 
+                                            ${tipo == <?= $tipoVeiculo->id_tipo_veiculo ?> ? "selected" : ""}>
+                                            <?= $tipoVeiculo->ds_tipo_veiculo ?>
+                                        </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" >Placa do Veículo:</label>
+                        <input class="form-control" type="text" name="placa_veiculo_${contador}" value="${placa}" placeholder="Digite a placa do veículo">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" >Cor do Veículo:</label>
+                        <select class="form-select" name="cor_veiculo_${contador}">
+                            <?php foreach ($dados['listaCoresVeiculos'] as $corVeiculo): ?>
+                                        <option value="<?= $corVeiculo->id_cor_veiculo ?>" 
+                                            ${cor == <?= $corVeiculo->id_cor_veiculo ?> ? "selected" : ""}>
+                                            <?= $corVeiculo->ds_cor_veiculo ?>
+                                        </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <button class="btn btn-danger" type="button" class="remover-veiculo" data-id="${contador}"><i class="bi bi-trash-fill"></i> Remover</button>
+                    <hr>
+                </div>
+            `);
+
+        $("#veiculosContainer").append(novoCampo);
+    }
+
+    function carregarVeiculosExistentes() {
+        <?php if (isset($dados['visitante']->id_veiculo)): ?>
+            adicionarCampos(
+                "<?= $dados['visitante']->id_tipo_veiculo ?>",
+                "<?= $dados['visitante']->ds_placa_veiculo ?>",
+                "<?= $dados['visitante']->id_cor_veiculo ?>",
+                "<?= $dados['visitante']->id_veiculo ?>"
+            );
+        <?php endif; ?>
+    }
+
+    $(document).ready(function () {
+        // Carregar veículos existentes ao carregar a página
+        carregarVeiculosExistentes();
+
+        // Botão para adicionar novo veículo
+        $("#adicionarVeiculo").click(function () {
+            adicionarCampos();
+        });
+
+        // Remover veículo ao clicar no botão "Remover"
+        $(document).on("click", ".remover-veiculo", function () {
+            const id = $(this).data("id");
+            $(`#veiculo_${id}`).remove();
+        });
+    });
+</script>
+
 <div class="col-xl-4 col-md-6 mx-auto p-5">
 
     <nav aria-label="breadcrumb">
@@ -18,31 +89,42 @@
                 <div class="mb-3 mt-4">
                     <label for="txtNome" class="form-label">Nome: *</label>
                     <input type="text" class="form-control <?= $dados['nome_erro'] ? 'is-invalid' : '' ?>"
-                        name="txtNome" id="txtNome" value="<?= $dados['visitante']->nm_visitante ?>">
+                        name="txtNome" id="txtNome" value="<?= trim($dados['visitante']->nm_visitante) ?>">
                     <div class="invalid-feedback"><?= $dados['nome_erro'] ?></div>
                 </div>
                 <div class="mb-3">
                     <label for="txtDocumento" class="form-label">Documento: * <span style="color: gray;">(apenas
                             números)</span></label>
                     <input type="text" class="form-control <?= $dados['documento_erro'] ? 'is-invalid' : '' ?>"
-                        name="txtDocumento" id="txtDocumento" value="<?= $dados['visitante']->documento_visitante ?>"
-                        maxlength="11">
+                        name="txtDocumento" id="txtDocumento"
+                        value="<?= trim($dados['visitante']->documento_visitante) ?>" maxlength="11">
                     <div class="invalid-feedback"><?= $dados['documento_erro'] ?></div>
                 </div>
                 <div class="mb-3">
-                    <label for="txtTelefoneUm" class="form-label">Telefone 1: * <span style="color: gray;">(apenas
+                    <label for="txtTelefoneUm" class="form-label">Telefone 1: <span style="color: gray;">(apenas
                             números)</span></label>
                     <input type="text" class="form-control" name="txtTelefoneUm" id="txtTelefoneUm"
-                        value="<?= $dados['visitante']->telefone_um_visitante ?>" maxlength="11">
+                        value="<?= trim($dados['visitante']->telefone_um_visitante) ?>" maxlength="11">
 
                 </div>
-                <div class="mb-3">
-                    <label for="txtTelefoneDois" class="form-label">Telefone 2: * <span style="color: gray;">(apenas
+                <div class="mb-4">
+                    <label for="txtTelefoneDois" class="form-label">Telefone 2: <span style="color: gray;">(apenas
                             números)</span></label>
                     <input type="text" class="form-control" name="txtTelefoneDois" id="txtTelefoneDois"
-                        value="<?= $dados['visitante']->telefone_dois_visitante ?>" maxlength="11">
+                        value="<?= trim($dados['visitante']->telefone_dois_visitante) ?>" maxlength="11">
 
                 </div>
+
+                <h2>Veículos Cadastrados</h2>
+
+                <div id="veiculosContainer">
+                    <!-- Carregar veículos já existentes aqui -->
+                </div>
+                <button class="btn btn-secondary mb-3" type="button" onclick="adicionarCampos()"><i
+                        class="bi bi-plus-circle"></i> Adicionar
+                    Veículo</button>
+
+
                 <div class="d-flex">
                     <div class="p-2">
                         <input type="submit" value="Salvar" class="btn btn-primary">
