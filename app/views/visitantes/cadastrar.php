@@ -17,7 +17,7 @@
                     <label>Tipo de Veículo:</label>
                     <select class="form-select" name="tipo_veiculo_${contador}">
                         <?php foreach ($dados['listaTiposVeiculos'] as $tipo): ?>
-                                                    <option value="<?= $tipo->id_tipo_veiculo ?>"><?= $tipo->ds_tipo_veiculo ?></option>
+                                <option value="<?= $tipo->id_tipo_veiculo ?>"><?= $tipo->ds_tipo_veiculo ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -29,7 +29,7 @@
                     <label>Cor do Veículo:</label>
                     <select class="form-select" name="cor_veiculo_${contador}">
                         <?php foreach ($dados['listaCoresVeiculos'] as $cor): ?>
-                                                    <option value="<?= $cor->id_cor_veiculo ?>"><?= $cor->ds_cor_veiculo ?></option>
+                                <option value="<?= $cor->id_cor_veiculo ?>"><?= $cor->ds_cor_veiculo ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -56,6 +56,9 @@
             <small>Preencha o formulário abaixo para cadastrar um novo visitante</small>
 
             <form name="cadastrar" method="POST" action="<?= URL . 'Visitantes/cadastrar' ?>">
+
+                <input type="hidden" name="acao" id="acao" value="salvar">
+
                 <div class="mb-3">
                     <label for="txtNome" class="form-label">Nome: *</label>
                     <input type="text" class="form-control <?= $dados['nome_erro'] ? 'is-invalid' : '' ?>"
@@ -94,7 +97,15 @@
 
                 <div class="d-flex">
                     <div class="p-2">
-                        <input type="submit" value="Cadastrar" class="btn btn-primary">
+                        <button type="submit" onclick="document.getElementById('acao').value = 'OPERACAO_SALVAR'"
+                            class="btn btn-primary">Cadastrar
+                        </button>
+                    </div>
+                    <div class="p-2">
+                        <button type="submit" class="btn btn-success" name="btnEntradaVisita" id="btnEntradaVisita"
+                            onclick="document.getElementById('acao').value = 'OPERACAO_SALVAR_E_ENTRAR'">
+                            <i class="bi bi-arrow-up-circle-fill"></i> Salvar e Entrada Visita
+                        </button>
                     </div>
                     <div class="p-2">
                         <a class="btn btn-secondary" href="<?= URL . 'Visitantes/visualizarVisitantes' ?>"

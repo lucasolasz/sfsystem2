@@ -16,11 +16,9 @@ class Visitantes extends Controller
 
     public function cadastrar()
     {
-
         $listaTiposVeiculos = $this->modelVeiculo->recuperarTiposVeiculos();
         $listaCoresVeiculos = $this->modelVeiculo->recuperarCoresVeiculos();
 
-        //Evita que codigos maliciosos sejam enviados pelos campos
         $formulario = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         if (isset($formulario)) {
 
@@ -38,28 +36,21 @@ class Visitantes extends Controller
 
             ];
 
-            //Verifica se está vazio
+            // Verifica se está vazio
             if (empty($formulario['txtNome'])) {
                 $dados['nome_erro'] = "Preencha o Nome";
             } elseif (empty($formulario["txtDocumento"])) {
                 $dados["txtDocumento"] = "Preencha o documento";
             } else {
 
-                if ($this->model->armazenarVisitante($dados)) {
-
-                    $idVisitante = $this->model->ultimoIdInserido();
-
-                    if (!empty($listaVeiculosCadastradosForm)) {
-                        $this->modelVeiculo->armazenarCarrosVisitante($listaVeiculosCadastradosForm, $idVisitante);
-                    }
-
-                    Alertas::mensagem('visitante', texto: 'Visitante cadastrado com sucesso');
-                    Redirecionamento::redirecionar('Visitantes/visualizarVisitantes');
-
-                } else {
-                    die("Erro ao armazenar visitante no banco de dados");
+                if ($formulario['acao'] === OPERACAO_SALVAR) {
+                    $this->cadastrarVisitante($listaVeiculosCadastradosForm, $dados);
+                }
+                if ($formulario['acao'] === OPERACAO_SALVAR_E_ENTRAR) {
+                    $this->cadastrarVisitanteDarEntradaVisita($listaVeiculosCadastradosForm, $dados);
                 }
             }
+
         } else {
             $dados = [
                 'txtNome' => '',
@@ -72,10 +63,47 @@ class Visitantes extends Controller
                 'listaCoresVeiculos' => $listaCoresVeiculos
 
             ];
+
         }
 
         //Retorna para a view
         $this->view('visitantes/cadastrar', $dados);
+    }
+
+    private function cadastrarVisitante($listaVeiculosCadastradosForm, $dados)
+    {
+        $idRetorno = $this->executarQuerysCadastro($listaVeiculosCadastradosForm, $dados);
+        if (!empty($idRetorno)) {
+            Alertas::mensagem('visitante', texto: 'Visitante cadastrado com sucesso');
+            Redirecionamento::redirecionar('Visitantes/visualizarVisitantes');
+        }
+    }
+
+    private function cadastrarVisitanteDarEntradaVisita($listaVeiculosCadastradosForm, $dados)
+    {
+        $idVisitanteRetorno = $this->executarQuerysCadastro($listaVeiculosCadastradosForm, $dados);
+        if (!empty($idVisitanteRetorno)) {
+            Alertas::mensagem('visitante', texto: 'Visitante cadastrado com sucesso');
+            Redirecionamento::redirecionar('Visitas/cadastrarVisitanteComEntrada/' . $idVisitanteRetorno);
+        }
+    }
+
+    private function executarQuerysCadastro($listaVeiculosCadastradosForm, $dados)
+    {
+        $idVisitante = null;
+
+        if ($this->model->armazenarVisitante($dados)) {
+
+            $idVisitante = $this->model->ultimoIdInserido();
+
+            if (!empty($listaVeiculosCadastradosForm)) {
+                $this->modelVeiculo->armazenarCarrosVisitante($listaVeiculosCadastradosForm, $idVisitante);
+            }
+
+            return $idVisitante;
+        }
+
+        return $idVisitante;
     }
 
     public function visualizarVisitantes()
