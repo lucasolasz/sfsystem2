@@ -71,7 +71,7 @@
                                 </li>
                             <?php } ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="<?= URL . 'Paginas/sobre' ?>">Sobre nós</a>
+                                <a class="nav-link" href="<?= URL . 'Visitas/visualizarVisitasEmAndamento' ?>"><i class="bi bi-layout-text-sidebar"></i> Visitas em Andamento</a>
                             </li>
                         </ul>
                         <div class="d-flex align-items-center">

@@ -77,5 +77,4 @@ class VisitanteModel
     {
         return $this->db->ultimoIdInserido();
     }
-
 }

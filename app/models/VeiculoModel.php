@@ -11,6 +11,12 @@ class VeiculoModel
         $this->db = new Database();
     }
 
+    public function recuperarTodosVeiculosPorIdVisitante($idVisitante){
+        $this->db->query("SELECT * FROM tb_veiculo WHERE fk_visitante = :idVisitante ");
+        $this->db->bind("idVisitante", intval($idVisitante));
+        return $this->db->resultados();
+    }
+
     public function recuperarTiposVeiculos()
     {
         $this->db->query("SELECT * FROM tb_tipo_veiculo ORDER BY ds_tipo_veiculo");
