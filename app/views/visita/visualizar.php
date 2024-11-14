@@ -126,7 +126,7 @@
                                             <h6>Confirma saída da visita: <b><?= $visita->nm_visitante ?></b></h6>
                                         </div>
                                         <div class="modal-footer">
-                                            <a href="<?= URL . 'Visitas/registrarSaida' . $visita->id_visita ?>" class="btn btn-primary">Confirma</a>
+                                            <a href="<?= URL . 'Visitas/registrarSaida/' . $visita->fk_visitante ?>" class="btn btn-primary">Confirma</a>
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                                         </div>
                                     </div>

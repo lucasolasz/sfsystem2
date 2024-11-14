@@ -122,4 +122,24 @@ class Visitas extends Controller
         //Retorna para a view
         $this->view('visita/visualizar', $dados);
     }
+
+    public function registrarSaida($idVisitante)
+    {
+        date_default_timezone_set('America/Sao_Paulo');
+        $anoMesDia = date("Y-m-d");
+        $horaMinutoSegundo = date("H:i:s");
+        $idUsuarioLogao = $_SESSION['id_usuario'];
+
+        $dados = [
+            'fk_usuario_saida' => $idUsuarioLogao,
+            'fk_visitante' => $idVisitante,
+            'dt_saida_visita' => $anoMesDia,
+            'dt_hora_saida_visita' => $horaMinutoSegundo
+        ];
+
+        $this->visitaModel->registrarSaida($dados);
+        Alertas::mensagem('visita', texto: 'Saída realizada com sucesso');
+
+        $this->visualizarVisitasEmAndamento();
+    }
 }

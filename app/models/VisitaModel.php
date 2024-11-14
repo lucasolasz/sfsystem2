@@ -66,4 +66,22 @@ class VisitaModel
         $this->db->query($query);
         return $this->db->resultados();
     }
+
+    public function registrarSaida($dados)
+    {
+        $query = " UPDATE tb_visita SET ";
+        $query .= " fk_usuario_saida = :fk_usuario_saida, ";
+        $query .= " dt_saida_visita = :dt_saida_visita, ";
+        $query .= " dt_hora_saida_visita = :dt_hora_saida_visita ";
+        $query .= " WHERE fk_visitante = :fk_visitante ";
+
+        $this->db->query($query);
+
+        $this->db->bind("fk_visitante", $dados['fk_visitante']);
+        $this->db->bind("fk_usuario_saida", $dados['fk_usuario_saida']);
+        $this->db->bind("dt_saida_visita", $dados['dt_saida_visita']);
+        $this->db->bind("dt_hora_saida_visita", $dados['dt_hora_saida_visita']);
+
+        $this->db->executa();
+    }
 }
