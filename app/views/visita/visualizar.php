@@ -43,18 +43,19 @@
                                 <td><?= date('H:i', strtotime($visita->dt_hora_entrada_visita)) . 'h' ?></td>
                                 <td>
                                     <a href="<?= URL . 'Visitas/visualizarInformacoes/' . $visita->id_visita ?>"
-                                        class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalInformacoes"><i class="bi bi-info-circle"></i> Informações</a>
+                                        class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalInformacoes<?= $visita->id_visita ?>"><i class="bi bi-info-circle"></i> Informações</a>
 
-                                    <a href="<?= URL . 'Visitas/registrarSaida' . $visita->id_visita ?>"
-                                        class="btn btn-danger"><i class="bi bi-arrow-up-square"></i> Registrar Saída</a>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalSaida<?= $visita->id_visita ?>">
+                                        <i class="bi bi-arrow-up-square"></i> Registra Saida
+                                    </button>
                                 </td>
                             </tr>
                             <!-- Modal -->
-                            <div class="modal fade" id="modalInformacoes" tabindex="-1" aria-labelledby="modalInformacoesLabel" aria-hidden="true">
+                            <div class="modal fade" id="modalInformacoes<?= $visita->id_visita ?>" tabindex="-1" aria-labelledby="modalInformacoes<?= $visita->id_visita ?>Label" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="modalInformacoesLabel">Informações da Visita: <?= ucfirst($visita->nm_visitante) ?></h5>
+                                            <h5 class="modal-title" id="modalInformacoes<?= $visita->id_visita ?>Label">Informações da Visita: <?= ucfirst($visita->nm_visitante) ?></h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
@@ -78,6 +79,59 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                    // Define o timestamp de entrada para o JavaScript
+                                    const entradaTimestamp<?= $visita->id_visita ?> = new Date("<?= $visita->dt_entrada_visita . ' ' . $visita->dt_hora_entrada_visita ?>").getTime();
+
+                                    let intervaloContador<?= $visita->id_visita ?>;
+
+                                    // Função para atualizar o contador
+                                    function iniciarContador<?= $visita->id_visita ?>() {
+                                        const agora = new Date().getTime();
+                                        const tempoDecorrido = agora - entradaTimestamp<?= $visita->id_visita ?>;
+
+                                        const horas = Math.floor((tempoDecorrido / (1000 * 60 * 60)) % 24);
+                                        const minutos = Math.floor((tempoDecorrido / (1000 * 60)) % 60);
+                                        const segundos = Math.floor((tempoDecorrido / 1000) % 60);
+
+                                        $("#contador<?= $visita->id_visita ?>").text(
+                                            `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`
+                                        );
+                                    }
+
+                                    // Inicia o contador imediatamente e depois continua a atualização em intervalos
+                                    $('#modalInformacoes<?= $visita->id_visita ?>').on('shown.bs.modal', function() {
+                                        iniciarContador<?= $visita->id_visita ?>(); // Atualiza imediatamente
+                                        intervaloContador<?= $visita->id_visita ?> = setInterval(iniciarContador<?= $visita->id_visita ?>, 1000);
+                                    });
+
+                                    // Limpa o contador quando o modal é fechado
+                                    $('#modalInformacoes<?= $visita->id_visita ?>').on('hidden.bs.modal', function() {
+                                        clearInterval(intervaloContador<?= $visita->id_visita ?>);
+                                    });
+                                });
+                            </script>
+
+                            <div class="modal fade" id="modalSaida<?= $visita->id_visita ?>" tabindex="-1" aria-labelledby="modalSaidaLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalSaidaLabel">Confirmação saída visita</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <h6>Confirma saída da visita: <b><?= $visita->nm_visitante ?></b></h6>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="<?= URL . 'Visitas/registrarSaida' . $visita->id_visita ?>" class="btn btn-primary">Confirma</a>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         <?php } ?>
                     </tbody>
                 </table>
@@ -85,20 +139,3 @@
         </div>
     </div>
 </div>
-<script>
-    const entradaTimestamp<?= $visita->id_visita ?> = new Date("<?= $visita->dt_entrada_visita . ' ' . $visita->dt_hora_entrada_visita ?>").getTime();
-
-    function atualizarContador<?= $visita->id_visita ?>() {
-        const agora = new Date().getTime();
-        const tempoDecorrido = agora - entradaTimestamp<?= $visita->id_visita ?>;
-
-        const horas = Math.floor((tempoDecorrido / (1000 * 60 * 60)) % 24);
-        const minutos = Math.floor((tempoDecorrido / (1000 * 60)) % 60);
-        const segundos = Math.floor((tempoDecorrido / 1000) % 60);
-
-        document.getElementById("contador<?= $visita->id_visita ?>").innerHTML =
-            `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
-    }
-
-    setInterval(atualizarContador<?= $visita->id_visita ?>, 1000);
-</script>
