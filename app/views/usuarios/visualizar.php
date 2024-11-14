@@ -31,17 +31,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($dados['usuarios'] as $usuarios) { ?>
-                            <tr>
-                                <td><?= ucfirst($usuarios->ds_nome_usuario) ?></td>
-                                <td>
-                                    <a href="<?= URL . 'Usuarios/editarUsuario/' . $usuarios->id_usuario ?>"
-                                        class="btn btn-warning"><i class="bi bi-pencil-square"></i> Editar</a>
 
-                                    <a href="<?= URL . 'Usuarios/deletarUsuario/' . $usuarios->id_usuario ?>"
-                                        class="btn btn-danger"><i class="bi bi-trash-fill"></i> Exlcuir</a>
-                                </td>
-                            <?php } ?>
                     </tbody>
                 </table>
             </div>
@@ -53,19 +43,20 @@
         tabela: 'tb_usuario', //tabela que será utilizada para pesquisa
         colunas_pesquisa: ['ds_nome_usuario'], //coluna para a busca dentro da tabela. Input Search
         colunas_ordenacao: ['ds_nome_usuario'], //colunas utilizadas para ordenação
-        joins: [
+        joins: [{
+            tabela: 'tb_cargo',
+            condicao: 'tb_usuario.fk_cargo = tb_cargo.id_cargo'
+        }], // Joins se necessário
+        columns: [{
+                "data": "ds_nome_usuario"
+            },
             {
-                tabela: 'tb_cargo',
-                condicao: 'tb_usuario.fk_cargo = tb_cargo.id_cargo'
-            }
-        ], // Joins se necessário
-        columns: [
-            { "data": "ds_nome_usuario" },
-            { "data": "ds_cargo" },
+                "data": "ds_cargo"
+            },
             {
                 "data": null, // Define como null pois será preenchido manualmente
                 "orderable": false, // Impede ordenação para esta coluna
-                "render": function (data, type, row) {
+                "render": function(data, type, row) {
                     // Retorna o HTML para os botões de ação, com href dinâmico
                     return `
                     <a href="/Usuarios/editarUsuario/${row.id_usuario}" class="btn btn-warning">
