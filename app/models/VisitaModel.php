@@ -53,6 +53,7 @@ class VisitaModel
     public function visualizarVisitasEmAndamento()
     {
         $query = " SELECT * FROM tb_visita tv ";
+        $query .= " LEFT JOIN tb_usuario as tus ON tus.id_usuario = tv.fk_usuario_entrada";
         $query .= " LEFT JOIN tb_tipo_visita as tvista ON tvista.id_tipo_visita = tv.fk_tipo_visita ";
         $query .= " LEFT JOIN tb_visitante as tvis ON tvis.id_visitante = tv.fk_visitante ";
         $query .= " LEFT JOIN tb_veiculo as tve ON tve.id_veiculo = tv.fk_veiculo ";
@@ -60,7 +61,7 @@ class VisitaModel
         $query .= " LEFT JOIN tb_cor_veiculo as tcv ON tcv.id_cor_veiculo = tve.fk_cor_veiculo ";
         $query .= " LEFT JOIN tb_casa as tca ON tca.id_casa = tv.fk_casa ";
 
-        $query .= "WHERE dt_saida_visita IS NULL AND dt_hora_saida_visita IS NULL ORDER BY dt_entrada_visita";
+        $query .= "WHERE dt_saida_visita IS NULL AND dt_hora_saida_visita IS NULL ORDER BY dt_entrada_visita asc, dt_hora_entrada_visita asc";
 
         $this->db->query($query);
         return $this->db->resultados();
