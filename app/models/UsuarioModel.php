@@ -14,7 +14,7 @@ class UsuarioModel
     //Realiza o login do usuário baseado no email e senha hash
     public function checarLogin($email, $senha)
     {
-        $this->db->query("SELECT * FROM tb_usuario WHERE ds_email_usuario = :ds_email_usuario");
+        $this->db->query("SELECT * FROM tb_usuario JOIN tb_tipo_usuario as tus ON tus.id_tipo_usuario = fk_tipo_usuario WHERE ds_email_usuario = :ds_email_usuario");
 
         $this->db->bind("ds_email_usuario", $email);
 
@@ -71,23 +71,26 @@ class UsuarioModel
     }
 
     //A principio, criada para retornar a linha com os dados do usuário específico
-    public function lerUsuarioPorId($id){
+    public function lerUsuarioPorId($id)
+    {
         $this->db->query("SELECT * FROM tb_usuario WHERE id_usuario = :id_usuario");
-        
+
         $this->db->bind("id_usuario", $id);
 
         return $this->db->resultado();
     }
 
-    public function listarTipoUsuario(){
+    public function listarTipoUsuario()
+    {
         $this->db->query("SELECT * FROM tb_tipo_usuario ORDER BY ds_tipo_usuario");
-        
+
         return $this->db->resultados();
     }
 
-    public function listarCargoUsuario(){
+    public function listarCargoUsuario()
+    {
         $this->db->query("SELECT * FROM tb_cargo ORDER BY ds_cargo");
-        
+
         return $this->db->resultados();
     }
 
@@ -157,4 +160,16 @@ class UsuarioModel
         }
     }
 
+    public function carregarPermissoes($id_usuario)
+    {
+        $query = "select * from tb_tipo_usuario_cargo ttuc 
+                join tb_cargo tc on tc.id_cargo = ttuc.fk_cargo 
+                join tb_tipo_usuario ttu on ttu.id_tipo_usuario = ttuc.fk_tipo_usuario 
+                join tb_usuario tu on tu.fk_tipo_usuario = ttuc.fk_tipo_usuario
+                where tu.id_usuario = :id_usuario";
+        $this->db->query($query);
+        $this->db->bind("id_usuario", $id_usuario);
+
+        return $this->db->resultados();
+    }
 }

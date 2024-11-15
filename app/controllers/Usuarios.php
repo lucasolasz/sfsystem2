@@ -45,8 +45,8 @@ class Usuarios extends Controller
                 if (empty($formulario['txtNome'])) {
                     $dados['nome_erro'] = "Preencha o Nome";
                 }
-                if(empty($formulario["txtSobreNome"])) {
-                    $dados["txtSobreNome"] = "Preencha o sobrenome";
+                if (empty($formulario["txtSobreNome"])) {
+                    $dados["sobrenome_erro"] = "Preencha o sobrenome";
                 }
                 if (empty($formulario['txtEmail'])) {
                     $dados['email_erro'] = "Preencha o email";
@@ -145,9 +145,10 @@ class Usuarios extends Controller
                 } else {
 
                     $usuario = $this->model->checarLogin($formulario['txtEmail'], $formulario['txtSenha']);
+                    $permissoes = $this->model->carregarPermissoes($usuario->id_usuario);
 
                     if ($usuario) {
-                        $this->criarSessaoUsuario($usuario);
+                        $this->criarSessaoUsuario($usuario, $permissoes);
                     } else {
                         Alertas::mensagem('usuario', 'Usuário ou senha inválidos', 'alert alert-danger');
                     }
@@ -168,13 +169,14 @@ class Usuarios extends Controller
     }
 
     //Cria as variaveis de sessao ao fazer login, resgatando informações do usuário
-    private function criarSessaoUsuario($usuario)
+    private function criarSessaoUsuario($usuario, $permissoes)
     {
         $_SESSION['id_usuario'] = $usuario->id_usuario;
         $_SESSION['ds_nome_usuario'] = $usuario->ds_nome_usuario;
         $_SESSION['ds_email_usuario'] = $usuario->ds_email_usuario;
         $_SESSION['fk_cargo'] = $usuario->fk_cargo;
         $_SESSION['fk_tipo_usuario'] = $usuario->fk_tipo_usuario;
+        $_SESSION['permissoes'] = $permissoes;
 
         Redirecionamento::redirecionar('paginas/home');
     }
@@ -188,6 +190,7 @@ class Usuarios extends Controller
         unset($_SESSION['ds_email_usuario']);
         unset($_SESSION['fk_cargo']);
         unset($_SESSION['fk_tipo_usuario']);
+        unset($_SESSION['cod_tipo_usuario']);
 
         session_destroy();
 
@@ -234,7 +237,7 @@ class Usuarios extends Controller
             if (empty($formulario['txtNome'])) {
                 $dados['nome_erro'] = "Preencha o Nome";
             }
-            if(empty($formulario["txtSobreNome"])) {
+            if (empty($formulario["txtSobreNome"])) {
                 $dados["txtSobreNome"] = "Preencha o sobrenome";
             }
             if (empty($formulario['txtEmail'])) {

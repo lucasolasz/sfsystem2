@@ -36,8 +36,16 @@
 
 <body>
 
+    <?php function temPermissao($permissao)
+    {
+        foreach ($_SESSION['permissoes'] as $obj) {
+            if ($obj->cod_cargo === $permissao) {
+                return true;
+            }
+        }
+    }
 
-
+    ?>
     <header class="bg-light">
 
         <div class="container">
@@ -59,14 +67,18 @@
                                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                                         aria-expanded="false">Cadastro</a>
                                     <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item" aria-current="page"
-                                                href="<?= URL . 'Usuarios/visualizarUsuarios' ?>">Usuário</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="dropdown-item"
-                                                href="<?= URL . 'Visitantes/visualizarVisitantes' ?>">Visitante</a>
-                                        </li>
+                                        <?php if (temPermissao(ADMINISTRADOR)) { ?>
+                                            <li>
+                                                <a class="dropdown-item" aria-current="page"
+                                                    href="<?= URL . 'Usuarios/visualizarUsuarios' ?>">Usuário</a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if (temPermissao(PORTEIRO)) { ?>
+                                            <li class="nav-item">
+                                                <a class="dropdown-item"
+                                                    href="<?= URL . 'Visitantes/visualizarVisitantes' ?>">Visitante</a>
+                                            </li>
+                                        <?php } ?>
                                     </ul>
                                 </li>
                                 <li class="nav-item">
