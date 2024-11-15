@@ -14,7 +14,8 @@ class Visitas extends Controller
 
     public function __construct()
     {
-        $this->verificaSeEstaLogado();
+        $permissoes = [ADMINISTRADOR, PORTEIRO];
+        $this->verificaSeEstaLogadoETemPermissao($permissoes);
 
         $this->modelVisitante = $this->model("VisitanteModel");
         $this->modelVeiculo = $this->model("VeiculoModel");

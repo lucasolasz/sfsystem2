@@ -8,7 +8,8 @@ class Visitantes extends Controller
     //Construtor do model do Usuário que fará o acesso ao banco
     public function __construct()
     {
-        $this->verificaSeEstaLogado();
+        $permissoes = [ADMINISTRADOR, PORTEIRO];
+        $this->verificaSeEstaLogadoETemPermissao($permissoes);
 
         $this->model = $this->model("VisitanteModel");
         $this->modelVeiculo = $this->model("VeiculoModel");
@@ -50,7 +51,6 @@ class Visitantes extends Controller
                     $this->cadastrarVisitanteDarEntradaVisita($listaVeiculosCadastradosForm, $dados);
                 }
             }
-
         } else {
             $dados = [
                 'txtNome' => '',
@@ -63,7 +63,6 @@ class Visitantes extends Controller
                 'listaCoresVeiculos' => $listaCoresVeiculos
 
             ];
-
         }
 
         //Retorna para a view
@@ -151,9 +150,7 @@ class Visitantes extends Controller
 
                 Alertas::mensagem('visitante', 'Visitante atualizado com sucesso');
                 Redirecionamento::redirecionar('Visitantes/visualizarVisitantes');
-
             }
-
         } else {
             $dados = [
                 'txtNome' => '',

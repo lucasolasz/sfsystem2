@@ -27,4 +27,23 @@ class Controller
             Redirecionamento::redirecionar('Paginas/paginaErro');
         }
     }
+
+    public function temPermissao($permissoes)
+    {
+        foreach ($permissoes as $permissao) {
+            foreach ($_SESSION['permissoes'] as $obj) {
+                if ($obj->cod_cargo === $permissao) {
+                    return;
+                }
+            }
+        }
+
+        Redirecionamento::redirecionar('Paginas/paginaErro');
+    }
+
+    public function verificaSeEstaLogadoETemPermissao($permissoes)
+    {
+        $this->verificaSeEstaLogado();
+        $this->temPermissao($permissoes);
+    }
 }

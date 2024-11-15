@@ -81,9 +81,11 @@
                                         <?php } ?>
                                     </ul>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?= URL . 'Visitas/visualizarVisitasEmAndamento' ?>"><i class="bi bi-layout-text-sidebar"></i> Visitas em Andamento</a>
-                                </li>
+                                <?php if (temPermissao(PORTEIRO)) { ?>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="<?= URL . 'Visitas/visualizarVisitasEmAndamento' ?>"><i class="bi bi-layout-text-sidebar"></i> Visitas em Andamento</a>
+                                    </li>
+                                <?php } ?>
                             <?php } ?>
 
                         </ul>
@@ -94,11 +96,11 @@
                                     </p>
                                 </div>
                                 <div>
-                                    <a class="btn btn-sm btn-danger" href="<?= URL . 'Usuarios/sair' ?>">Sair</a>
+                                    <a class="btn btn-sm btn-danger" href="<?= URL . 'Login/sair' ?>">Sair</a>
                                 </div>
                             <?php } else { ?>
                                 <div style="width: 30px">
-                                    <a class="btn btn-primary" href="<?= URL . 'Usuarios/login' ?>">Entrar</a>
+                                    <a class="btn btn-primary" href="<?= URL . 'Login/login' ?>">Entrar</a>
                                 </div>
                             <?php } ?>
                         </div>
