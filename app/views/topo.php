@@ -79,6 +79,12 @@
                                                     href="<?= URL . 'Visitantes/visualizarVisitantes' ?>">Visitante</a>
                                             </li>
                                         <?php } ?>
+                                        <?php if (temPermissao(MORADOR)) { ?>
+                                            <li class="nav-item">
+                                                <a class="dropdown-item"
+                                                    href="<?= URL . 'Moradores/visualizarMoradores' ?>">Moradores</a>
+                                            </li>
+                                        <?php } ?>
                                     </ul>
                                 </li>
                                 <?php if (temPermissao(PORTEIRO)) { ?>
