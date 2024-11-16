@@ -10,7 +10,7 @@
         <div class="card">
             <div class="card-body">
                 <h2>Nova visita</h2>
-                <small>Preencha o formulário abaixo para cadastrar uma nova visita</small>
+                <p class="mb-3 text-muted">Preencha o formulário abaixo para cadastrar uma nova visita</p class="mb-3 text-muted">
 
                 <form name="cadastrar" method="POST" action="<?= URL . 'Visitas/cadastrar/' . $dados['idVisitante'] ?>">
 

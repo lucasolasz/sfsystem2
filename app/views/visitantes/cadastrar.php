@@ -66,7 +66,7 @@
         <div class="card">
             <div class="card-body">
                 <h2>Cadastro de Visitante</h2>
-                <small>Preencha o formulário abaixo para cadastrar um novo visitante</small>
+                <p class="mb-3 text-muted">Preencha o formulário abaixo para cadastrar um novo visitante</p class="mb-3 text-muted">
 
                 <form name="cadastrar" method="POST" action="<?= URL . 'Visitantes/cadastrar' ?>">
 
