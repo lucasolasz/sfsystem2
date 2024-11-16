@@ -48,7 +48,14 @@
             condicao: 'tb_usuario.fk_cargo = tb_cargo.id_cargo'
         }], // Joins se necessário
         columns: [{
-                "data": "ds_nome_usuario"
+                "data": "ds_nome_usuario",
+                "render": function(data, type, row) {
+                    var maxLength = 50; // Define o número máximo de caracteres
+                    if (data.length > maxLength) {
+                        return data.substring(0, maxLength) + '...';
+                    }
+                    return data;
+                }
             },
             {
                 "data": "ds_cargo"

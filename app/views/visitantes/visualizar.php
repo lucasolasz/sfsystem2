@@ -46,7 +46,14 @@
         colunas_ordenacao: ['nm_visitante'],
         joins: [],
         columns: [{
-                "data": "nm_visitante"
+                "data": "nm_visitante",
+                "render": function(data, type, row) {
+                    var maxLength = 50; // Define o número máximo de caracteres
+                    if (data.length > maxLength) {
+                        return data.substring(0, maxLength) + '...';
+                    }
+                    return data;
+                }
             },
             {
                 "data": "documento_visitante"
