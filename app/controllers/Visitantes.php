@@ -96,7 +96,7 @@ class Visitantes extends Controller
             $idVisitante = $this->model->ultimoIdInserido();
 
             if (!empty($listaVeiculosCadastradosForm)) {
-                $this->modelVeiculo->armazenarCarrosVisitante($listaVeiculosCadastradosForm, $idVisitante);
+                $this->modelVeiculo->armazenarListaCarros($listaVeiculosCadastradosForm, $idVisitante);
             }
 
             return $idVisitante;

@@ -15,7 +15,7 @@
 
             <h5 class="tituloIndex">Moradores
                 <div style="float: right;">
-                    <a href="<?= URL . 'Moradores/cadastrar' ?>" class="btn btn-primary">Novo</a>
+                    <a href="<?= URL . 'Moradores/cadastrar' ?>" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i> Novo</a>
                 </div>
             </h5>
 
