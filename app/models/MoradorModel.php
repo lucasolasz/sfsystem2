@@ -96,4 +96,17 @@ class MoradorModel
     {
         return $this->db->ultimoIdInserido();
     }
+
+    public function retornarMoradorPorId($id)
+    {
+        $queryMontada = " SELECT * FROM tb_morador m ";
+        $queryMontada .= " LEFT JOIN tb_casa tc ON tc.id_casa = m.fk_casa";
+        $queryMontada .= " WHERE id_morador = :id_morador ";
+
+        $this->db->query($queryMontada);
+
+        $this->db->bind("id_morador", $id);
+
+        return $this->db->resultado();
+    }
 }

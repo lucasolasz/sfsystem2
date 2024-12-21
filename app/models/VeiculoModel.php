@@ -81,4 +81,19 @@ class VeiculoModel
             $this->db->executa();
         }
     }
+
+    public function recuperarListaTodosOsVeiculosPorIdMorador($id)
+    {
+        $queryMontada = " SELECT * FROM tb_veiculo tv ";
+        $queryMontada .= " LEFT JOIN tb_tipo_veiculo as ttv ON ttv.id_tipo_veiculo = tv.fk_tipo_veiculo ";
+        $queryMontada .= " LEFT JOIN tb_cor_veiculo as tcv ON tcv.id_cor_veiculo = tv.fk_cor_veiculo ";
+        $queryMontada .= " WHERE fk_morador = :fk_morador ";
+
+
+        $this->db->query($queryMontada);
+
+        $this->db->bind("fk_morador", $id);
+
+        return $this->db->resultado();
+    }
 }
