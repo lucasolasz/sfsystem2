@@ -33,7 +33,7 @@
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <button class="btn btn-danger" type="button" class="remover-veiculo" data-id="${contador}"><i class="bi bi-trash-fill"></i> Remover</button>
+                    <button class="btn btn-danger" type="button" class="remover-veiculo" onclick="removerCampo(${contador})"><i class="bi bi-trash-fill"></i> Remover</button>
                     <hr>
                 </div>
             `);
@@ -52,24 +52,32 @@
         <?php endif; ?>
     }
 
-    $(document).ready(function () {
+    function removerCampo(id) {
+        // Seleciona o campo a ser removido pelo ID e o remove do DOM
+        const campo = document.getElementById(`veiculo_${id}`);
+        if (campo) {
+            campo.remove();
+        }
+    }
+
+    $(document).ready(function() {
         // Carregar veículos existentes ao carregar a página
         carregarVeiculosExistentes();
 
         // Botão para adicionar novo veículo
-        $("#adicionarVeiculo").click(function () {
+        $("#adicionarVeiculo").click(function() {
             adicionarCampos();
         });
 
         // Remover veículo ao clicar no botão "Remover"
-        $(document).on("click", ".remover-veiculo", function () {
+        $(document).on("click", ".remover-veiculo", function() {
             const id = $(this).data("id");
             $(`#veiculo_${id}`).remove();
         });
     });
 </script>
 
-<div class="col-xl-4 col-md-6 mx-auto p-5">
+<div class="col-sm-10 mx-auto p-5">
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
