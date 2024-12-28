@@ -231,7 +231,9 @@ class Moradores extends Controller
                 'listaCoresVeiculos' => $listaCoresVeiculos,
 
                 'veiculosMorador' => $veiculosMorador,
-                'morador' => $morador
+                'morador' => $morador,
+
+                'idMorador' => $id
             ];
 
             if (empty($formulario['txtNomeProprietario'])) {
@@ -248,15 +250,13 @@ class Moradores extends Controller
                 $dados["cboCasa_erro"] = "Escolha uma casa";
             } else {
 
-                // $idRetorno = $this->executarQuerysCadastroMorador($listaVeiculosCadastradosForm, $dados);
+                if ($this->model->atualizarMorador($dados)) {
 
-                // if (!empty($idRetorno)) {
-                //     Alertas::mensagem('morador', 'Morador cadastrado com sucesso');
-                //     Redirecionamento::redirecionar('Moradores/visualizarMoradores');
-                // } else {
-                //     Alertas::mensagem('morador', 'Algo deu errado. Se o problema persistir, contate o administrador do sistema.', 'alert alert-danger');
-                //     Redirecionamento::redirecionar('Moradores/visualizarMoradores');
-                // }
+                    $this->modelVeiculo->editarCarrosMorador($listaVeiculosCadastradosForm, $id);
+                }
+
+                Alertas::mensagem('morador', 'Morador atualizado com sucesso');
+                Redirecionamento::redirecionar('Moradores/visualizarMoradores');
             }
         } else {
 
@@ -303,7 +303,8 @@ class Moradores extends Controller
                 'listaCoresVeiculos' => $listaCoresVeiculos,
 
                 'veiculosMorador' => $veiculosMorador,
-                'morador' => $morador
+                'morador' => $morador,
+                'idMorador' => $id
 
             ];
         }

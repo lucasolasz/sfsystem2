@@ -42,14 +42,16 @@
     }
 
     function carregarVeiculosExistentes() {
-        <?php if (isset($dados['veiculosMorador']->id_veiculo)): ?>
-            adicionarCampos(
-                "<?= $dados['veiculosMorador']->id_tipo_veiculo ?>",
-                "<?= $dados['veiculosMorador']->ds_placa_veiculo ?>",
-                "<?= $dados['veiculosMorador']->id_cor_veiculo ?>",
-                "<?= $dados['veiculosMorador']->id_veiculo ?>"
-            );
-        <?php endif; ?>
+        <?php if (isset($dados['veiculosMorador']) && !empty($dados['veiculosMorador'])) {
+            foreach ($dados['veiculosMorador'] as $veiculo) { ?>
+                adicionarCampos(
+                    "<?= $veiculo->id_tipo_veiculo ?>",
+                    "<?= $veiculo->ds_placa_veiculo ?>",
+                    "<?= $veiculo->id_cor_veiculo ?>",
+                    "<?= $veiculo->id_veiculo ?>"
+                );
+        <?php }
+        } ?>
     }
 
     function removerCampo(id) {
@@ -95,7 +97,7 @@
                 <hr>
                 <h3>Dados do proprietário</h3>
 
-                <form name="cadastrar" method="POST" action="<?= URL . 'Moradores/editarMorador' ?>">
+                <form name="editar" method="POST" action="<?= URL . 'Moradores/editarMorador/' . $dados['idMorador'] ?>">
                     <div class="row">
                         <div class="mb-3 col-sm-6">
                             <label for="txtNomeProprietario" class="form-label">Nome Completo do proprietário: *</label>

@@ -46,6 +46,12 @@ class VeiculoModel
         $this->executarQueryInsertVeiculos($lista, $idVisitante);
     }
 
+    public function editarCarrosMorador($lista, $idMorador)
+    {
+        $this->executarQueryDeleteVeiculosPorIdMorador($idMorador);
+        $this->executarQueryInsertVeiculosMorador($lista, $idMorador);
+    }
+
     private function executarQueryDeleteVeiculosPorIdVisitante($idVisitante)
     {
         $this->db->query(" DELETE FROM tb_veiculo WHERE fk_visitante = :idVisitante ");
@@ -55,32 +61,44 @@ class VeiculoModel
 
     private function executarQueryInsertVeiculos($lista, $idVisitante)
     {
-        foreach ($lista as $veiculo) {
-            $this->db->query("INSERT INTO tb_veiculo (ds_placa_veiculo, fk_visitante, fk_cor_veiculo, fk_tipo_veiculo) VALUES (:ds_placa_veiculo, :fk_visitante, :fk_cor_veiculo, :fk_tipo_veiculo)");
+        if (!empty($lista)) {
+            foreach ($lista as $veiculo) {
+                $this->db->query("INSERT INTO tb_veiculo (ds_placa_veiculo, fk_visitante, fk_cor_veiculo, fk_tipo_veiculo) VALUES (:ds_placa_veiculo, :fk_visitante, :fk_cor_veiculo, :fk_tipo_veiculo)");
 
-            $this->db->bind("ds_placa_veiculo", trim($veiculo['ds_placa_veiculo']));
-            $this->db->bind("fk_visitante", intval($idVisitante));
-            $this->db->bind("fk_cor_veiculo", intval($veiculo['fk_cor_veiculo']));
-            $this->db->bind("fk_tipo_veiculo", intval($veiculo['fk_tipo_veiculo']));
+                $this->db->bind("ds_placa_veiculo", trim($veiculo['ds_placa_veiculo']));
+                $this->db->bind("fk_visitante", intval($idVisitante));
+                $this->db->bind("fk_cor_veiculo", intval($veiculo['fk_cor_veiculo']));
+                $this->db->bind("fk_tipo_veiculo", intval($veiculo['fk_tipo_veiculo']));
 
-            $this->db->executa();
+                $this->db->executa();
+            }
         }
     }
 
     private function executarQueryInsertVeiculosMorador($lista, $idMorador)
     {
 
-        foreach ($lista as $veiculo) {
-            $this->db->query("INSERT INTO tb_veiculo (ds_placa_veiculo, fk_morador, fk_cor_veiculo, fk_tipo_veiculo) VALUES (:ds_placa_veiculo, :fk_morador, :fk_cor_veiculo, :fk_tipo_veiculo)");
+        if (!empty($lista)) {
+            foreach ($lista as $veiculo) {
+                $this->db->query("INSERT INTO tb_veiculo (ds_placa_veiculo, fk_morador, fk_cor_veiculo, fk_tipo_veiculo) VALUES (:ds_placa_veiculo, :fk_morador, :fk_cor_veiculo, :fk_tipo_veiculo)");
 
-            $this->db->bind("ds_placa_veiculo", trim($veiculo['ds_placa_veiculo']));
-            $this->db->bind("fk_morador", intval($idMorador));
-            $this->db->bind("fk_cor_veiculo", intval($veiculo['fk_cor_veiculo']));
-            $this->db->bind("fk_tipo_veiculo", intval($veiculo['fk_tipo_veiculo']));
+                $this->db->bind("ds_placa_veiculo", trim($veiculo['ds_placa_veiculo']));
+                $this->db->bind("fk_morador", intval($idMorador));
+                $this->db->bind("fk_cor_veiculo", intval($veiculo['fk_cor_veiculo']));
+                $this->db->bind("fk_tipo_veiculo", intval($veiculo['fk_tipo_veiculo']));
 
-            $this->db->executa();
+                $this->db->executa();
+            }
         }
     }
+
+    private function executarQueryDeleteVeiculosPorIdMorador($idMorador)
+    {
+        $this->db->query(" DELETE FROM tb_veiculo WHERE fk_morador = :idMorador ");
+        $this->db->bind("idMorador", intval($idMorador));
+        $this->db->executa();
+    }
+
 
     public function recuperarListaTodosOsVeiculosPorIdMorador($id)
     {
@@ -94,6 +112,6 @@ class VeiculoModel
 
         $this->db->bind("fk_morador", $id);
 
-        return $this->db->resultado();
+        return $this->db->resultados();
     }
 }
