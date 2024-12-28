@@ -121,6 +121,7 @@ class Visitantes extends Controller
     {
 
         $visitante = $this->model->retornarVisitantePorId($id);
+        $veiculosVisitante = $this->modelVeiculo->recuperarListaTodosOsVeiculosPorIdVisitante($id);
         $listaTiposVeiculos = $this->modelVeiculo->recuperarTiposVeiculos();
         $listaCoresVeiculos = $this->modelVeiculo->recuperarCoresVeiculos();
 
@@ -139,7 +140,8 @@ class Visitantes extends Controller
                 'documento_erro' => '',
                 'idVisitante' => $id,
                 'listaTiposVeiculos' => $listaTiposVeiculos,
-                'listaCoresVeiculos' => $listaCoresVeiculos
+                'listaCoresVeiculos' => $listaCoresVeiculos,
+                'veiculosVisitante' => $veiculosVisitante,
             ];
 
             if ($this->model->atualizarVisitante($dados)) {
@@ -161,7 +163,8 @@ class Visitantes extends Controller
                 'documento_erro' => '',
                 'visitante' => $visitante,
                 'listaTiposVeiculos' => $listaTiposVeiculos,
-                'listaCoresVeiculos' => $listaCoresVeiculos
+                'listaCoresVeiculos' => $listaCoresVeiculos,
+                'veiculosVisitante' => $veiculosVisitante,
             ];
         }
 

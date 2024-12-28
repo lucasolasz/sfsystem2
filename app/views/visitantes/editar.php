@@ -42,14 +42,16 @@
     }
 
     function carregarVeiculosExistentes() {
-        <?php if (isset($dados['visitante']->id_veiculo)): ?>
-            adicionarCampos(
-                "<?= $dados['visitante']->id_tipo_veiculo ?>",
-                "<?= $dados['visitante']->ds_placa_veiculo ?>",
-                "<?= $dados['visitante']->id_cor_veiculo ?>",
-                "<?= $dados['visitante']->id_veiculo ?>"
-            );
-        <?php endif; ?>
+        <?php if (isset($dados['veiculosVisitante']) && !empty($dados['veiculosVisitante'])) {
+            foreach ($dados['veiculosVisitante'] as $veiculo) { ?>
+                adicionarCampos(
+                    "<?= $veiculo->id_tipo_veiculo ?>",
+                    "<?= $veiculo->ds_placa_veiculo ?>",
+                    "<?= $veiculo->id_cor_veiculo ?>",
+                    "<?= $veiculo->id_veiculo ?>"
+                );
+        <?php }
+        }; ?>
     }
 
     function removerCampo(id) {
