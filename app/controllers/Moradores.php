@@ -55,7 +55,7 @@ class Moradores extends Controller
                 'chkLocatario' => isset($formulario['chkLocatario']) ? trim($formulario['chkLocatario']) : "N",
                 'txtNomeLocatario' => trim($formulario['txtNomeLocatario']),
                 'txtDocumentoLocatario' => $formulario['txtDocumentoLocatario'],
-                'dateNascimentoLocatario' => trim($formulario['dateNascimentoLocatario']),
+                'dateNascimentoLocatario' => trim($formulario['dateNascimentoLocatario']) == "" ? null : trim($formulario['dateNascimentoLocatario']),
                 'txtEmailLocatario' => trim($formulario['txtEmailLocatario']),
                 'txtTelefoneUmLocatario' => trim($formulario['txtTelefoneUmLocatario']),
                 'txtTelefoneDoisLocatario' => trim($formulario['txtTelefoneDoisLocatario']),
@@ -250,7 +250,9 @@ class Moradores extends Controller
                 $dados["cboCasa_erro"] = "Escolha uma casa";
             } else {
 
-                if ($this->model->atualizarMorador($dados)) {
+                $dadosAtualizado = $this->verificarSeNaoTemLocatario($dados);
+
+                if ($this->model->atualizarMorador($dadosAtualizado)) {
 
                     $this->modelVeiculo->editarCarrosMorador($listaVeiculosCadastradosForm, $id);
                 }
@@ -310,6 +312,23 @@ class Moradores extends Controller
         }
 
         $this->view('morador/editar', $dados);
+    }
+
+    public function verificarSeNaoTemLocatario($dados)
+    {
+        if ($dados['chkLocatario'] == 'N') {
+
+            $dados['txtNomeLocatario'] = '';
+            $dados['txtDocumentoLocatario'] = '';
+            $dados['dateNascimentoLocatario'] = null;
+            $dados['txtEmailLocatario'] = '';
+            $dados['txtTelefoneUmLocatario'] = '';
+            $dados['txtTelefoneDoisLocatario'] = '';
+
+            return $dados;
+        }
+
+        return $dados;
     }
 
     public function deletarMorador($id)

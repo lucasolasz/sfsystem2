@@ -76,6 +76,22 @@
             const id = $(this).data("id");
             $(`#veiculo_${id}`).remove();
         });
+
+
+        if ($('#chkLocatario').is(':checked')) {
+            $('#divLocatario').show(); // Exibe a div se o checkbox estiver marcado
+        } else {
+            $('#divLocatario').hide(); // Esconde a div se o checkbox estiver desmarcado
+        }
+
+        // Evento para exibir/ocultar a div ao clicar no checkbox
+        $('#chkLocatario').on('change', function() {
+            if ($(this).is(':checked')) {
+                $('#divLocatario').slideDown(); // Exibe a div com animação
+            } else {
+                $('#divLocatario').slideUp(); // Esconde a div com animação
+            }
+        });
     });
 </script>
 
@@ -181,44 +197,47 @@
                         </div>
                     </div>
 
-                    <h3>Dados do locatário</h3>
+                    <div id="divLocatario">
 
-                    <div class="row">
-                        <div class="mb-3 col-sm-6">
-                            <label for="txtNomeLocatario" class="form-label">Nome Completo do locatário: *</label>
-                            <input type="text" class="form-control <?= $dados['nomeLocatario_erro'] ? 'is-invalid' : '' ?>" name="txtNomeLocatario" id="txtNomeLocatario" value="<?= trim($dados['morador']->nm_locatario) ?>" maxlength="255">
-                            <!-- Div para exibir o erro abaixo do campo -->
-                            <div class="invalid-feedback"><?= $dados['nomeLocatario_erro'] ?></div>
+                        <h3>Dados do locatário</h3>
+
+                        <div class="row">
+                            <div class="mb-3 col-sm-6">
+                                <label for="txtNomeLocatario" class="form-label">Nome Completo do locatário: *</label>
+                                <input type="text" class="form-control <?= $dados['nomeLocatario_erro'] ? 'is-invalid' : '' ?>" name="txtNomeLocatario" id="txtNomeLocatario" value="<?= trim($dados['morador']->nm_locatario) ?>" maxlength="255">
+                                <!-- Div para exibir o erro abaixo do campo -->
+                                <div class="invalid-feedback"><?= $dados['nomeLocatario_erro'] ?></div>
+                            </div>
+                            <div class="mb-3 col-sm-6">
+                                <label for="txtDocumentoLocatario" class="form-label">Documento do proprietário: *</label>
+                                <input type="text" placeholder="Somente números" class="form-control <?= $dados['documentoLocatario_erro'] ? 'is-invalid' : '' ?>" name="txtDocumentoLocatario" id="txtDocumentoLocatario" value="<?= trim($dados['morador']->documento_locatario) ?>" maxlength="11">
+                                <!-- Div para exibir o erro abaixo do campo -->
+                                <div class="invalid-feedback"><?= $dados['documentoLocatario_erro'] ?></div>
+                            </div>
                         </div>
-                        <div class="mb-3 col-sm-6">
-                            <label for="txtDocumentoLocatario" class="form-label">Documento do proprietário: *</label>
-                            <input type="text" placeholder="Somente números" class="form-control <?= $dados['documentoLocatario_erro'] ? 'is-invalid' : '' ?>" name="txtDocumentoLocatario" id="txtDocumentoLocatario" value="<?= trim($dados['morador']->documento_locatario) ?>" maxlength="11">
-                            <!-- Div para exibir o erro abaixo do campo -->
-                            <div class="invalid-feedback"><?= $dados['documentoLocatario_erro'] ?></div>
+                        <div class="row">
+                            <div class="mb-3 col-sm-6">
+                                <label for="dateNascimentoLocatario" class="form-label">Data Nascimento do Locatário: *</label>
+                                <input type="date" class="form-control <?= $dados['dataNascimentoLocatario_erro'] ? 'is-invalid' : '' ?>" name="dateNascimentoLocatario" id="dateNascimentoLocatario" value="<?= trim($dados['morador']->dt_nascimento_locatario) ?>">
+                                <!-- Div para exibir o erro abaixo do campo -->
+                                <div class="invalid-feedback"><?= $dados['dataNascimentoLocatario_erro'] ?></div>
+                            </div>
+                            <div class="mb-3 col-sm-6">
+                                <label for="txtEmailLocatario" class="form-label">E-mail do Locatário: *</label>
+                                <input type="text" class="form-control <?= $dados['emailLocatario_erro'] ? 'is-invalid' : '' ?>" name="txtEmailLocatario" id="txtEmailLocatario" value="<?= trim($dados['morador']->email_locatario) ?>" maxlength="100">
+                                <div class="invalid-feedback"><?= $dados['emailLocatario_erro'] ?></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="mb-3 col-sm-6">
-                            <label for="dateNascimentoLocatario" class="form-label">Data Nascimento do Locatário: *</label>
-                            <input type="date" class="form-control <?= $dados['dataNascimentoLocatario_erro'] ? 'is-invalid' : '' ?>" name="dateNascimentoLocatario" id="dateNascimentoLocatario" value="<?= trim($dados['morador']->dt_nascimento_locatario) ?>">
-                            <!-- Div para exibir o erro abaixo do campo -->
-                            <div class="invalid-feedback"><?= $dados['dataNascimentoLocatario_erro'] ?></div>
-                        </div>
-                        <div class="mb-3 col-sm-6">
-                            <label for="txtEmailLocatario" class="form-label">E-mail do Locatário: *</label>
-                            <input type="text" class="form-control <?= $dados['emailLocatario_erro'] ? 'is-invalid' : '' ?>" name="txtEmailLocatario" id="txtEmailLocatario" value="<?= trim($dados['morador']->email_locatario) ?>" maxlength="100">
-                            <div class="invalid-feedback"><?= $dados['emailLocatario_erro'] ?></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="mb-3 col-sm-6">
-                            <label for="txtTelefoneUmLocatario" class="form-label">Telefone 1: *</label>
-                            <input type="text" placeholder="Somente números" class="form-control <?= $dados['telefone_um_locatario_erro'] ? 'is-invalid' : '' ?>" name="txtTelefoneUmLocatario" id="txtTelefoneUmLocatario" value="<?= trim($dados['morador']->tel_um_locatario) ?>" maxlength="11">
-                            <div class="invalid-feedback"><?= $dados['telefone_um_locatario_erro'] ?></div>
-                        </div>
-                        <div class="mb-3 col-sm-6">
-                            <label for="txtTelefoneDoisLocatario" class="form-label">Telefone 2:</label>
-                            <input type="text" placeholder="Somente números" class="form-control" name="txtTelefoneDoisLocatario" id="txtTelefoneDoisLocatario" value="<?= trim($dados['morador']->tel_dois_locatario) ?>" maxlength="11">
+                        <div class="row">
+                            <div class="mb-3 col-sm-6">
+                                <label for="txtTelefoneUmLocatario" class="form-label">Telefone 1: *</label>
+                                <input type="text" placeholder="Somente números" class="form-control <?= $dados['telefone_um_locatario_erro'] ? 'is-invalid' : '' ?>" name="txtTelefoneUmLocatario" id="txtTelefoneUmLocatario" value="<?= trim($dados['morador']->tel_um_locatario) ?>" maxlength="11">
+                                <div class="invalid-feedback"><?= $dados['telefone_um_locatario_erro'] ?></div>
+                            </div>
+                            <div class="mb-3 col-sm-6">
+                                <label for="txtTelefoneDoisLocatario" class="form-label">Telefone 2:</label>
+                                <input type="text" placeholder="Somente números" class="form-control" name="txtTelefoneDoisLocatario" id="txtTelefoneDoisLocatario" value="<?= trim($dados['morador']->tel_dois_locatario) ?>" maxlength="11">
+                            </div>
                         </div>
                     </div>
 

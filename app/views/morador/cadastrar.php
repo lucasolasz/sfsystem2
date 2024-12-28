@@ -52,6 +52,37 @@
             campo.remove();
         }
     }
+
+    function esconderCampo() {
+        // Obtém o estado do checkbox
+        const isChecked = document.getElementById("chkLocatario").checked;
+
+        // Seleciona todos os campos do locatário
+        const camposLocatario = document.querySelectorAll("#txtNomeLocatario, #txtDocumentoLocatario, #dateNascimentoLocatario, #txtEmailLocatario, #txtTelefoneUmLocatario, #txtTelefoneDoisLocatario");
+
+        // Habilita ou desabilita os campos com base no estado do checkbox
+        camposLocatario.forEach(campo => {
+            campo.disabled = !isChecked;
+        });
+    }
+
+    $(document).ready(function() {
+
+        if ($('#chkLocatario').is(':checked')) {
+            $('#divLocatario').show(); // Exibe a div se o checkbox estiver marcado
+        } else {
+            $('#divLocatario').hide(); // Esconde a div se o checkbox estiver desmarcado
+        }
+
+        // Evento para exibir/ocultar a div ao clicar no checkbox
+        $('#chkLocatario').on('change', function() {
+            if ($(this).is(':checked')) {
+                $('#divLocatario').slideDown(); // Exibe a div com animação
+            } else {
+                $('#divLocatario').slideUp(); // Esconde a div com animação
+            }
+        });
+    });
 </script>
 
 <div class="row">
@@ -100,6 +131,7 @@
                             <div class="invalid-feedback"><?= $dados['emailProprietario_erro'] ?></div>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="mb-3 col-sm-6">
                             <label for="txtTelefoneUmProprietario" class="form-label">Telefone 1: *</label>
@@ -115,7 +147,7 @@
 
                     <div class="row">
                         <div class="mb-3 col-sm-6">
-                            <label for="txtTelefoneEmergenciaProprietario" class="form-label">Telefone Emergência:</label>
+                            <label for="txtTelefoneEmergenciaPropesconderCamporietario" class="form-label">Telefone Emergência:</label>
                             <input type="text" placeholder="Somente números" class="form-control" name="txtTelefoneEmergenciaProprietario" id="txtTelefoneEmergenciaProprietario" value="<?= $dados['txtTelefoneEmergenciaProprietario'] ?>" maxlength="11">
                         </div>
 
@@ -142,7 +174,7 @@
                     <div class="row mt-4">
                         <div class="mb-3 col-sm-6">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="S" id="chkLocatario" name="chkLocatario">
+                                <input class="form-check-input" type="checkbox" value="S" id="chkLocatario" name="chkLocatario" onclick="esconderCampo()">
                                 <label class="form-check-label" for="chkLocatario">
                                     Imóvel Locado?
                                 </label>
@@ -150,47 +182,50 @@
                         </div>
                     </div>
 
-                    <h3>Dados do locatário</h3>
+                    <div id="divLocatario">
 
-                    <div class="row">
-                        <div class="mb-3 col-sm-6">
-                            <label for="txtNomeLocatario" class="form-label">Nome Completo do locatário: *</label>
-                            <input type="text" class="form-control <?= $dados['nomeLocatario_erro'] ? 'is-invalid' : '' ?>" name="txtNomeLocatario" id="txtNomeLocatario" value="<?= $dados['txtNomeLocatario'] ?>" maxlength="255">
-                            <!-- Div para exibir o erro abaixo do campo -->
-                            <div class="invalid-feedback"><?= $dados['nomeLocatario_erro'] ?></div>
-                        </div>
-                        <div class="mb-3 col-sm-6">
-                            <label for="txtDocumentoLocatario" class="form-label">Documento do proprietário: *</label>
-                            <input type="text" placeholder="Somente números" class="form-control <?= $dados['documentoLocatario_erro'] ? 'is-invalid' : '' ?>" name="txtDocumentoLocatario" id="txtDocumentoLocatario" value="<?= $dados['txtDocumentoLocatario'] ?>" maxlength="11">
-                            <!-- Div para exibir o erro abaixo do campo -->
-                            <div class="invalid-feedback"><?= $dados['documentoLocatario_erro'] ?></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="mb-3 col-sm-6">
-                            <label for="dateNascimentoLocatario" class="form-label">Data Nascimento do Locatário: *</label>
-                            <input type="date" class="form-control <?= $dados['dataNascimentoLocatario_erro'] ? 'is-invalid' : '' ?>" name="dateNascimentoLocatario" id="dateNascimentoLocatario" value="<?= $dados['dateNascimentoLocatario'] ?>">
-                            <!-- Div para exibir o erro abaixo do campo -->
-                            <div class="invalid-feedback"><?= $dados['dataNascimentoLocatario_erro'] ?></div>
-                        </div>
-                        <div class="mb-3 col-sm-6">
-                            <label for="txtEmailLocatario" class="form-label">E-mail do Locatário: *</label>
-                            <input type="text" class="form-control <?= $dados['emailLocatario_erro'] ? 'is-invalid' : '' ?>" name="txtEmailLocatario" id="txtEmailLocatario" value="<?= $dados['txtEmailLocatario'] ?>" maxlength="100">
-                            <div class="invalid-feedback"><?= $dados['emailLocatario_erro'] ?></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="mb-3 col-sm-6">
-                            <label for="txtTelefoneUmLocatario" class="form-label">Telefone 1: *</label>
-                            <input type="text" placeholder="Somente números" class="form-control <?= $dados['telefone_um_locatario_erro'] ? 'is-invalid' : '' ?>" name="txtTelefoneUmLocatario" id="txtTelefoneUmLocatario" value="<?= $dados['txtTelefoneUmLocatario'] ?>" maxlength="11">
-                            <div class="invalid-feedback"><?= $dados['telefone_um_locatario_erro'] ?></div>
-                        </div>
-                        <div class="mb-3 col-sm-6">
-                            <label for="txtTelefoneDoisLocatario" class="form-label">Telefone 2:</label>
-                            <input type="text" placeholder="Somente números" class="form-control" name="txtTelefoneDoisLocatario" id="txtTelefoneDoisLocatario" value="<?= $dados['txtTelefoneDoisLocatario'] ?>" maxlength="11">
-                        </div>
-                    </div>
+                        <h3>Dados do locatário</h3>
 
+
+                        <div class="row">
+                            <div class="mb-3 col-sm-6" id="teste">
+                                <label for="txtNomeLocatario" class="form-label">Nome Completo do locatário: *</label>
+                                <input type="text" class="form-control <?= $dados['nomeLocatario_erro'] ? 'is-invalid' : '' ?>" name="txtNomeLocatario" id="txtNomeLocatario" value="<?= $dados['txtNomeLocatario'] ?>" maxlength="255">
+                                <!-- Div para exibir o erro abaixo do campo -->
+                                <div class="invalid-feedback"><?= $dados['nomeLocatario_erro'] ?></div>
+                            </div>
+                            <div class="mb-3 col-sm-6">
+                                <label for="txtDocumentoLocatario" class="form-label">Documento do proprietário: *</label>
+                                <input type="text" placeholder="Somente números" class="form-control <?= $dados['documentoLocatario_erro'] ? 'is-invalid' : '' ?>" name="txtDocumentoLocatario" id="txtDocumentoLocatario" value="<?= $dados['txtDocumentoLocatario'] ?>" maxlength="11">
+                                <!-- Div para exibir o erro abaixo do campo -->
+                                <div class="invalid-feedback"><?= $dados['documentoLocatario_erro'] ?></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-sm-6">
+                                <label for="dateNascimentoLocatario" class="form-label">Data Nascimento do Locatário: *</label>
+                                <input type="date" class="form-control <?= $dados['dataNascimentoLocatario_erro'] ? 'is-invalid' : '' ?>" name="dateNascimentoLocatario" id="dateNascimentoLocatario" value="<?= $dados['dateNascimentoLocatario'] ?>">
+                                <!-- Div para exibir o erro abaixo do campo -->
+                                <div class="invalid-feedback"><?= $dados['dataNascimentoLocatario_erro'] ?></div>
+                            </div>
+                            <div class="mb-3 col-sm-6">
+                                <label for="txtEmailLocatario" class="form-label">E-mail do Locatário: *</label>
+                                <input type="text" class="form-control <?= $dados['emailLocatario_erro'] ? 'is-invalid' : '' ?>" name="txtEmailLocatario" id="txtEmailLocatario" value="<?= $dados['txtEmailLocatario'] ?>" maxlength="100">
+                                <div class="invalid-feedback"><?= $dados['emailLocatario_erro'] ?></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-sm-6">
+                                <label for="txtTelefoneUmLocatario" class="form-label">Telefone 1: *</label>
+                                <input type="text" placeholder="Somente números" class="form-control <?= $dados['telefone_um_locatario_erro'] ? 'is-invalid' : '' ?>" name="txtTelefoneUmLocatario" id="txtTelefoneUmLocatario" value="<?= $dados['txtTelefoneUmLocatario'] ?>" maxlength="11">
+                                <div class="invalid-feedback"><?= $dados['telefone_um_locatario_erro'] ?></div>
+                            </div>
+                            <div class="mb-3 col-sm-6">
+                                <label for="txtTelefoneDoisLocatario" class="form-label">Telefone 2:</label>
+                                <input type="text" placeholder="Somente números" class="form-control" name="txtTelefoneDoisLocatario" id="txtTelefoneDoisLocatario" value="<?= $dados['txtTelefoneDoisLocatario'] ?>" maxlength="11">
+                            </div>
+                        </div>
+                    </div>
                     <hr>
                     <h3>Pets</h3>
 
