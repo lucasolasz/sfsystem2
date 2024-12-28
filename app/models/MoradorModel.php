@@ -166,4 +166,16 @@ class MoradorModel
             return false;
         }
     }
+
+    public function deletarMorador($id)
+    {
+        $this->db->query("DELETE FROM tb_morador WHERE id_morador = :id_morador");
+        $this->db->bind("id_morador", $id);
+
+        if ($this->db->executa()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

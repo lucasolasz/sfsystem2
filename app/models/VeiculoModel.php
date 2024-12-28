@@ -52,7 +52,7 @@ class VeiculoModel
         $this->executarQueryInsertVeiculosMorador($lista, $idMorador);
     }
 
-    private function executarQueryDeleteVeiculosPorIdVisitante($idVisitante)
+    public function executarQueryDeleteVeiculosPorIdVisitante($idVisitante)
     {
         $this->db->query(" DELETE FROM tb_veiculo WHERE fk_visitante = :idVisitante ");
         $this->db->bind("idVisitante", intval($idVisitante));
@@ -92,7 +92,7 @@ class VeiculoModel
         }
     }
 
-    private function executarQueryDeleteVeiculosPorIdMorador($idMorador)
+    public function executarQueryDeleteVeiculosPorIdMorador($idMorador)
     {
         $this->db->query(" DELETE FROM tb_veiculo WHERE fk_morador = :idMorador ");
         $this->db->bind("idMorador", intval($idMorador));

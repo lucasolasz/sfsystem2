@@ -311,4 +311,14 @@ class Moradores extends Controller
 
         $this->view('morador/editar', $dados);
     }
+
+    public function deletarMorador($id)
+    {
+        $this->modelVeiculo->executarQueryDeleteVeiculosPorIdMorador($id);
+        $this->model->deletarMorador($id);
+
+        //Para exibir mensagem success , não precisa informar o tipo de classe
+        Alertas::mensagem('morador', 'Morador deletado com sucesso');
+        Redirecionamento::redirecionar('Moradores/visualizarMoradores');
+    }
 }
