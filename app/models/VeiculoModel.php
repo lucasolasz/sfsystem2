@@ -32,7 +32,7 @@ class VeiculoModel
 
     public function armazenarListaCarros($lista, $idVisitante)
     {
-        $this->executarQueryInsertVeiculos($lista, $idVisitante);
+        $this->executarQueryInsertVeiculosVisitante($lista, $idVisitante);
     }
 
     public function armazenarListaCarrosMorador($lista, $idMorador)
@@ -43,7 +43,7 @@ class VeiculoModel
     public function editarCarrosVisitante($lista, $idVisitante)
     {
         $this->executarQueryDeleteVeiculosPorIdVisitante($idVisitante);
-        $this->executarQueryInsertVeiculos($lista, $idVisitante);
+        $this->executarQueryInsertVeiculosVisitante($lista, $idVisitante);
     }
 
     public function editarCarrosMorador($lista, $idMorador)
@@ -59,7 +59,7 @@ class VeiculoModel
         $this->db->executa();
     }
 
-    private function executarQueryInsertVeiculos($lista, $idVisitante)
+    private function executarQueryInsertVeiculosVisitante($lista, $idVisitante)
     {
         if (!empty($lista)) {
             foreach ($lista as $veiculo) {

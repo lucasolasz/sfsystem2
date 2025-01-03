@@ -84,4 +84,17 @@ class VisitaModel
 
         $this->db->executa();
     }
+
+    public function verificarSeExisteVisitaEmAndamentoPorIdVisitante($idVisitante)
+    {
+        $query = " SELECT * FROM tb_visita tv ";
+        $query .= " WHERE fk_visitante = :idVisitante ";
+        $query .= " AND (dt_saida_visita IS NULL AND dt_hora_saida_visita IS NULL)";
+
+        $this->db->query($query);
+
+        $this->db->bind("idVisitante", intval($idVisitante));
+        $this->db->executa();
+        return $this->db->totalResultados();
+    }
 }

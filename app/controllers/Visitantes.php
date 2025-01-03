@@ -4,6 +4,7 @@ class Visitantes extends Controller
 {
     private $model;
     private $modelVeiculo;
+    private $modelVisita;
 
     //Construtor do model do Usuário que fará o acesso ao banco
     public function __construct()
@@ -13,6 +14,7 @@ class Visitantes extends Controller
 
         $this->model = $this->model("VisitanteModel");
         $this->modelVeiculo = $this->model("VeiculoModel");
+        $this->modelVisita = $this->model("VisitaModel");
     }
 
     public function cadastrar()
@@ -23,7 +25,7 @@ class Visitantes extends Controller
         $formulario = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         if (isset($formulario)) {
 
-            $listaVeiculosCadastradosForm = $this->recuperarVeiculosFormulario($formulario);
+            $listaVeiculosCadastradosForm = VeiculosUtil::recuperarVeiculosFormulario($formulario);
 
             $dados = [
                 'txtNome' => trim($formulario['txtNome']),
@@ -82,8 +84,8 @@ class Visitantes extends Controller
     {
         $idVisitanteRetorno = $this->executarQuerysCadastro($listaVeiculosCadastradosForm, $dados);
         if (!empty($idVisitanteRetorno)) {
-            Alertas::mensagem('visitante', texto: 'Visitante cadastrado com sucesso');
-            Redirecionamento::redirecionar('Visitas/cadastrarVisitanteComEntrada/' . $idVisitanteRetorno);
+            Alertas::mensagem('visita', texto: 'Visita cadastrada com sucesso');
+            Redirecionamento::redirecionar('Visitas/carregarTelaCadastroVisita/' . $idVisitanteRetorno);
         }
     }
 
@@ -129,7 +131,7 @@ class Visitantes extends Controller
         $formulario = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         if (isset($formulario)) {
 
-            $listaVeiculosCadastradosForm = $this->recuperarVeiculosFormulario($formulario);
+            $listaVeiculosCadastradosForm = VeiculosUtil::recuperarVeiculosFormulario($formulario);
 
             $dados = [
                 'txtNome' => trim($formulario['txtNome']),
@@ -146,9 +148,12 @@ class Visitantes extends Controller
 
             if ($this->model->atualizarVisitante($dados)) {
 
-                if (!empty($listaVeiculosCadastradosForm)) {
-                    $this->modelVeiculo->editarCarrosVisitante($listaVeiculosCadastradosForm, $id);
+                $resultado = $this->modelVisita->verificarSeExisteVisitaEmAndamentoPorIdVisitante($id);
+                if ($resultado > 0) {
+                    Alertas::mensagem('visitante', 'Não é possivel editar o visitante. Existe visita em andamento para este visitante', 'alert alert-danger');
+                    Redirecionamento::redirecionar('Visitantes/visualizarVisitantes');
                 }
+                $this->modelVeiculo->editarCarrosVisitante($listaVeiculosCadastradosForm, $id);
 
                 Alertas::mensagem('visitante', 'Visitante atualizado com sucesso');
                 Redirecionamento::redirecionar('Visitantes/visualizarVisitantes');
@@ -171,32 +176,5 @@ class Visitantes extends Controller
         // var_dump($dados);
         //Retorna para a view
         $this->view('visitantes/editar', $dados);
-    }
-
-    private function recuperarVeiculosFormulario($formulario)
-    {
-
-        $listaVeiculosSaida = [];
-
-        // Iterar pelos índices dos veículos
-        foreach ($formulario as $key => $value) {
-            // Verifica se a chave contém o prefixo "tipo_veiculo_"
-            if (strpos($key, 'tipo_veiculo_') === 0) {
-                // Extrair o número do veículo a partir da chave
-                $index = str_replace('tipo_veiculo_', '', $key);
-
-                // Verificar se existem os campos correspondentes para "placa" e "cor"
-                if (isset($formulario["placa_veiculo_$index"]) && isset($formulario["cor_veiculo_$index"])) {
-                    // Criar um array associativo para o veículo
-                    $listaVeiculosSaida[] = [
-                        'fk_tipo_veiculo' => $formulario["tipo_veiculo_$index"],
-                        'ds_placa_veiculo' => $formulario["placa_veiculo_$index"],
-                        'fk_cor_veiculo' => $formulario["cor_veiculo_$index"]
-                    ];
-                }
-            }
-        }
-
-        return $listaVeiculosSaida;
     }
 }

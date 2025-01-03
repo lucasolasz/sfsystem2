@@ -90,7 +90,7 @@ class Visitas extends Controller
             } else {
 
                 $this->visitaModel->armazenarVisita($dados);
-                Alertas::mensagem('visita', texto: 'Visitante cadastrado com sucesso');
+                Alertas::mensagem('visita', texto: 'Visita cadastrada com sucesso');
                 Redirecionamento::redirecionar('Visitas/visualizarVisitasEmAndamento');
             }
         } else {
