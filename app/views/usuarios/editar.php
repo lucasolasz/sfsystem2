@@ -33,7 +33,7 @@
 
                 <div class="mb-3">
                     <label for="cboTipoUsuario" class="form-label">Tipo usuário: *</label>
-                    <select class="form-control <?= $dados['tipoUsuario_erro'] ? 'is-invalid' : '' ?>" name="cboTipoUsuario" id="cboTipoUsuario">
+                    <select class="form-select <?= $dados['tipoUsuario_erro'] ? 'is-invalid' : '' ?>" name="cboTipoUsuario" id="cboTipoUsuario">
                         <option value="NULL"></option>
                         <?php foreach ($dados['tiposUsuario'] as $tiposUsuario) {
                             //Resgata valor do select 
@@ -49,7 +49,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="cboCargoUsuario" class="form-label">Cargo usuário: *</label>
-                    <select class="form-control <?= $dados['tipoCargo_erro'] ? 'is-invalid' : '' ?>" name="cboCargoUsuario" id="cboCargoUsuario">
+                    <select class="form-select <?= $dados['tipoCargo_erro'] ? 'is-invalid' : '' ?>" name="cboCargoUsuario" id="cboCargoUsuario">
                         <option value="NULL"></option>
                         <?php foreach ($dados['cargoUsuario'] as $cargoUsuario) {
                             //Resgata valor do select 
