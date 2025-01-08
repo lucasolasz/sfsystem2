@@ -15,7 +15,7 @@
 
             <h5 class="tituloIndex">Usuários
                 <div style="float: right;">
-                    <a href="<?= URL . 'Usuarios/cadastrar' ?>" class="btn btn-primary">Novo</a>
+                    <a href="<?= URL . 'Usuarios/cadastrar' ?>" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i> Novo</a>
                 </div>
             </h5>
 
