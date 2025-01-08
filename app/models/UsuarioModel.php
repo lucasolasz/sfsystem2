@@ -104,6 +104,7 @@ class UsuarioModel
     {
         $this->db->query("UPDATE tb_usuario SET 
         ds_nome_usuario=:ds_nome_usuario,
+        ds_sobrenome_usuario=:ds_sobrenome_usuario,
         ds_email_usuario=:ds_email_usuario, 
         fk_cargo=:fk_cargo,
         fk_tipo_usuario=:fk_tipo_usuario
@@ -112,6 +113,7 @@ class UsuarioModel
         ");
 
         $this->db->bind("ds_nome_usuario", trim($dados['txtNome']));
+        $this->db->bind("ds_sobrenome_usuario", trim($dados['txtSobreNome']));
         $this->db->bind("ds_email_usuario", trim($dados['txtEmail']));
         $this->db->bind("fk_cargo", $dados['cboCargoUsuario']);
         $this->db->bind("fk_tipo_usuario", $dados['cboTipoUsuario']);
@@ -128,6 +130,7 @@ class UsuarioModel
     {
         $this->db->query("UPDATE tb_usuario SET 
         ds_nome_usuario=:ds_nome_usuario,
+        ds_sobrenome_usuario=:ds_sobrenome_usuario,
         ds_email_usuario=:ds_email_usuario, 
         fk_cargo=:fk_cargo,
         fk_tipo_usuario=:fk_tipo_usuario
@@ -136,6 +139,7 @@ class UsuarioModel
         ");
 
         $this->db->bind("ds_nome_usuario", trim($dados['txtNome']));
+        $this->db->bind("ds_sobrenome_usuario", trim($dados['txtSobreNome']));
         $this->db->bind("ds_email_usuario", trim($dados['txtEmail']));
         $this->db->bind("fk_cargo", $dados['cboCargoUsuario']);
         $this->db->bind("fk_tipo_usuario", $dados['cboTipoUsuario']);
