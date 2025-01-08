@@ -12,7 +12,7 @@ class Moradores extends Controller
     //Construtor do model do Usuário que fará o acesso ao banco
     public function __construct()
     {
-        $permissoes = [ADMINISTRADOR, MORADOR];
+        $permissoes = [ADMINISTRADOR, MORADOR, SINDICO];
         $this->verificaSeEstaLogadoETemPermissao($permissoes);
         $this->model = $this->model("MoradorModel");
         $this->casaModel = $this->model("CasaModel");

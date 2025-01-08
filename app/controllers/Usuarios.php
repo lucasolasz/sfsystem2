@@ -7,7 +7,7 @@ class Usuarios extends Controller
     //Construtor do model do Usuário que fará o acesso ao banco
     public function __construct()
     {
-        $permissoes = [ADMINISTRADOR];
+        $permissoes = [ADMINISTRADOR, SINDICO];
         $this->verificaSeEstaLogadoETemPermissao($permissoes);
 
         $this->model = $this->model("UsuarioModel");
@@ -29,7 +29,7 @@ class Usuarios extends Controller
                 'txtEmail' => trim($formulario['txtEmail']),
                 'txtSenha' => trim($formulario['txtSenha']),
                 'txtConfirmaSenha' => trim($formulario['txtConfirmaSenha']),
-                'cboTipoUsuario' => $formulario['cboTipoUsuario'],
+                'cboTipoUsuario' => $this->defineTipoUsuarioDeAcordoComCargoSelecionado($formulario['cboCargoUsuario']),
                 'cboCargoUsuario' => $formulario['cboCargoUsuario'],
                 'tiposUsuario' => $tiposUsuario,
                 'cargoUsuario' => $cargoUsuario,
@@ -54,9 +54,9 @@ class Usuarios extends Controller
                 if (empty($formulario['txtEmail'])) {
                     $dados['email_erro'] = "Preencha o email";
                 }
-                if ($formulario['cboTipoUsuario'] == 'NULL') {
-                    $dados['tipoUsuario_erro'] = "Escolha um tipo de usuário";
-                }
+                // if ($formulario['cboTipoUsuario'] == 'NULL') {
+                //     $dados['tipoUsuario_erro'] = "Escolha um tipo de usuário";
+                // }
                 if ($formulario['cboCargoUsuario'] == 'NULL') {
                     $dados['tipoCargo_erro'] = "Escolha um cargo de usuário";
                 }
@@ -117,10 +117,27 @@ class Usuarios extends Controller
     }
 
 
+    public function defineTipoUsuarioDeAcordoComCargoSelecionado($cboCargoUsuario)
+    {
+        if (!empty($cboCargoUsuario)) {
+
+            switch ($cboCargoUsuario) {
+                case "1":
+                    return 2;
+                case "2":
+                    return 1;
+                case "3":
+                    return 3;
+                case "4":
+                    return 4;
+            }
+        }
+
+    }
 
     public function visualizarUsuarios()
     {
-        $usuarios =  $this->model->visualizarUsuarios();
+        $usuarios = $this->model->visualizarUsuarios();
 
         $dados = [
             'usuarios' => $usuarios,
@@ -148,7 +165,7 @@ class Usuarios extends Controller
                 'txtEmail' => trim($formulario['txtEmail']),
                 'txtSenha' => trim($formulario['txtSenha']),
                 'txtConfirmaSenha' => trim($formulario['txtConfirmaSenha']),
-                'cboTipoUsuario' => $formulario['cboTipoUsuario'],
+                'cboTipoUsuario' => $this->defineTipoUsuarioDeAcordoComCargoSelecionado($formulario['cboCargoUsuario']),
                 'cboCargoUsuario' => $formulario['cboCargoUsuario'],
                 'idUsuario' => $id
             ];
@@ -164,9 +181,9 @@ class Usuarios extends Controller
             if (empty($formulario['txtEmail'])) {
                 $dados['email_erro'] = "Preencha o email";
             }
-            if ($formulario['cboTipoUsuario'] == 'NULL') {
-                $dados['tipoUsuario_erro'] = "Escolha um tipo de usuário";
-            }
+            // if ($formulario['cboTipoUsuario'] == 'NULL') {
+            //     $dados['tipoUsuario_erro'] = "Escolha um tipo de usuário";
+            // }
             if ($formulario['cboCargoUsuario'] == 'NULL') {
                 $dados['tipoCargo_erro'] = "Escolha um cargo de usuário";
             }

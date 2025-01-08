@@ -36,11 +36,15 @@
 
 <body>
 
-    <?php function temPermissao($permissao)
+    <?php function temPermissao($listaPermissao)
     {
-        foreach ($_SESSION['permissoes'] as $obj) {
-            if ($obj->cod_cargo === $permissao) {
-                return true;
+        foreach ($listaPermissao as $codPermissao) {
+
+            foreach ($_SESSION['permissoes'] as $obj) {
+
+                if ($obj->cod_cargo === $codPermissao) {
+                    return true;
+                }
             }
         }
     }
@@ -67,19 +71,19 @@
                                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                                         aria-expanded="false">Cadastro</a>
                                     <ul class="dropdown-menu">
-                                        <?php if (temPermissao(ADMINISTRADOR)) { ?>
+                                        <?php if (temPermissao([ADMINISTRADOR, SINDICO])) { ?>
                                             <li>
                                                 <a class="dropdown-item" aria-current="page"
                                                     href="<?= URL . 'Usuarios/visualizarUsuarios' ?>">Usuário</a>
                                             </li>
                                         <?php } ?>
-                                        <?php if (temPermissao(PORTEIRO)) { ?>
+                                        <?php if (temPermissao([PORTEIRO, SINDICO])) { ?>
                                             <li class="nav-item">
                                                 <a class="dropdown-item"
                                                     href="<?= URL . 'Visitantes/visualizarVisitantes' ?>">Visitante</a>
                                             </li>
                                         <?php } ?>
-                                        <?php if (temPermissao(MORADOR)) { ?>
+                                        <?php if (temPermissao([MORADOR, SINDICO])) { ?>
                                             <li class="nav-item">
                                                 <a class="dropdown-item"
                                                     href="<?= URL . 'Moradores/visualizarMoradores' ?>">Moradores</a>
@@ -87,9 +91,10 @@
                                         <?php } ?>
                                     </ul>
                                 </li>
-                                <?php if (temPermissao(PORTEIRO)) { ?>
+                                <?php if (temPermissao([PORTEIRO, SINDICO])) { ?>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="<?= URL . 'Visitas/visualizarVisitasEmAndamento' ?>"><i class="bi bi-layout-text-sidebar"></i> Visitas em Andamento</a>
+                                        <a class="nav-link" href="<?= URL . 'Visitas/visualizarVisitasEmAndamento' ?>"><i
+                                                class="bi bi-layout-text-sidebar"></i> Visitas em Andamento</a>
                                     </li>
                                 <?php } ?>
                             <?php } ?>

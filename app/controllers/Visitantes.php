@@ -9,7 +9,7 @@ class Visitantes extends Controller
     //Construtor do model do Usuário que fará o acesso ao banco
     public function __construct()
     {
-        $permissoes = [ADMINISTRADOR, PORTEIRO];
+        $permissoes = [ADMINISTRADOR, PORTEIRO, SINDICO];
         $this->verificaSeEstaLogadoETemPermissao($permissoes);
 
         $this->model = $this->model("VisitanteModel");
