@@ -44,9 +44,9 @@ class Login extends Controller
                 } else {
 
                     $usuario = $this->model->checarLogin($formulario['txtEmail'], $formulario['txtSenha']);
-                    $permissoes = $this->model->carregarPermissoes($usuario->id_usuario);
 
                     if ($usuario) {
+                        $permissoes = $this->model->carregarPermissoes($usuario->id_usuario);
                         $this->criarSessaoUsuario($usuario, $permissoes);
                     } else {
                         Alertas::mensagem('usuario', 'Usuário ou senha inválidos', 'alert alert-danger');
