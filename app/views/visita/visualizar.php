@@ -89,17 +89,17 @@
 
                                         let intervaloContador<?= $visita->id_visita ?>;
 
-                                        // Função para atualizar o contador
                                         function iniciarContador<?= $visita->id_visita ?>() {
                                             const agora = new Date().getTime();
                                             const tempoDecorrido = agora - entradaTimestamp<?= $visita->id_visita ?>;
 
+                                            const dias = Math.floor(tempoDecorrido / (1000 * 60 * 60 * 24));
                                             const horas = Math.floor((tempoDecorrido / (1000 * 60 * 60)) % 24);
                                             const minutos = Math.floor((tempoDecorrido / (1000 * 60)) % 60);
                                             const segundos = Math.floor((tempoDecorrido / 1000) % 60);
 
                                             $("#contador<?= $visita->id_visita ?>").text(
-                                                `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`
+                                                `${dias} dias, ${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`
                                             );
                                         }
 
