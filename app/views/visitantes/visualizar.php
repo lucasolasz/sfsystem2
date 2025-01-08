@@ -15,7 +15,8 @@
 
             <h5 class="tituloIndex">Visitantes
                 <div style="float: right;">
-                    <a href="<?= URL . 'Visitantes/cadastrar' ?>" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i> Novo</a>
+                    <a href="<?= URL . 'Visitantes/cadastrar' ?>" class="btn btn-primary"><i
+                            class="bi bi-plus-circle-fill"></i> Novo</a>
                 </div>
             </h5>
 
@@ -46,32 +47,32 @@
         colunas_ordenacao: ['nm_visitante'],
         joins: [],
         columns: [{
-                "data": "nm_visitante",
-                "render": function(data, type, row) {
-                    var maxLength = 50; // Define o número máximo de caracteres
-                    if (data.length > maxLength) {
-                        return data.substring(0, maxLength) + '...';
-                    }
-                    return data;
+            "data": "nm_visitante",
+            "render": function (data, type, row) {
+                var maxLength = 50; // Define o número máximo de caracteres
+                if (data.length > maxLength) {
+                    return data.substring(0, maxLength) + '...';
                 }
-            },
-            {
-                "data": "documento_visitante"
-            },
-            {
-                "data": null, // Define como null pois será preenchido manualmente
-                "orderable": false, // Impede ordenação para esta coluna
-                "render": function(data, type, row) {
-                    // Retorna o HTML para os botões de ação, com href dinâmico
-                    return `
+                return data;
+            }
+        },
+        {
+            "data": "documento_visitante"
+        },
+        {
+            "data": null, // Define como null pois será preenchido manualmente
+            "orderable": false, // Impede ordenação para esta coluna
+            "render": function (data, type, row) {
+                // Retorna o HTML para os botões de ação, com href dinâmico
+                return `
                     <a href="/Visitantes/editarVisitante/${row.id_visitante}" class="btn btn-warning">
                         <i class="bi bi-pencil-square"></i> Editar
                     </a>
                     <a href="/Visitas/carregarTelaCadastroVisita/${row.id_visitante}" class="btn btn-success">
                         <i class="bi bi-arrow-up-circle-fill"></i> Entrada Visita
                     </a>`;
-                }
             }
+        }
         ]
     };
 

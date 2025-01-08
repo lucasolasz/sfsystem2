@@ -28,6 +28,14 @@ class Visitas extends Controller
     public function carregarTelaCadastroVisita($idVisitante)
     {
 
+        $visitaEmAndamento = $this->visitaModel->verificarSeExisteVisitaEmAndamentoPorIdVisitante($idVisitante);
+
+        if ($visitaEmAndamento > 0) {
+            Alertas::mensagem('visitante', 'Já existe visita ativa para este visitante', 'alert alert-danger');
+            Redirecionamento::redirecionar('Visitantes/visualizarVisitantes');
+        }
+
+
         $visitante = $this->modelVisitante->retornarVisitantePorId($idVisitante);
         $veiculos = $this->modelVeiculo->recuperarTodosVeiculosPorIdVisitante($idVisitante);
         $tipoVisita = $this->tipoVisitaModel->recuperarTodosTipoVisita();
