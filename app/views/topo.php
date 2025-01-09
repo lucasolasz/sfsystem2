@@ -83,10 +83,16 @@
                                                     href="<?= URL . 'Visitantes/visualizarVisitantes' ?>">Visitante</a>
                                             </li>
                                         <?php } ?>
-                                        <?php if (temPermissao([MORADOR, SINDICO])) { ?>
+                                        <?php if (temPermissao([ADMINISTRADOR, SINDICO])) { ?>
                                             <li class="nav-item">
                                                 <a class="dropdown-item"
                                                     href="<?= URL . 'Moradores/visualizarMoradores' ?>">Moradores</a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if (temPermissao([MORADOR])) { ?>
+                                            <li class="nav-item">
+                                                <a class="dropdown-item"
+                                                    href="<?= URL . 'Moradores/visualizarMoradorPorIdUsuario/' . $_SESSION['id_usuario'] ?>">Morador</a>
                                             </li>
                                         <?php } ?>
                                     </ul>
