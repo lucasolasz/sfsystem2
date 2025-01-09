@@ -176,4 +176,18 @@ class UsuarioModel
 
         return $this->db->resultados();
     }
+
+    public function lerUsuarioPorIdComCasas($id)
+    {
+
+        $query = "select * from tb_usuario tbu 
+                    LEFT JOIN tb_casa tbc ON tbc.id_casa = tbu.fk_casa
+                    WHERE id_usuario = :id_usuario";
+
+        $this->db->query($query);
+
+        $this->db->bind("id_usuario", $id);
+
+        return $this->db->resultado();
+    }
 }
