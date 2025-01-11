@@ -1,48 +1,57 @@
 <script>
-    let contador = 0; // Contador para rastrear o número de campos
+    let contador = 0; // Para novos campos de veículos
 
-    function adicionarCampos() {
+    function adicionarCampos(tipo = "", placa = "", cor = "", idVeiculo = "") {
         contador++;
 
-        // Seleciona a div onde os novos campos serão adicionados
-        const container = document.getElementById("veiculosContainer");
+        const novoCampo = $(`
+                <div class="campo-veiculo" id="veiculo_${contador}">
+                    <input type="hidden" name="veiculo_id_${contador}" value="${idVeiculo}">
+                    <div class="mb-3">
+                        <label class="form-label" >Tipo de Veículo:</label>
+                        <select class="form-select" name="tipo_veiculo_${contador}">
+                            <?php foreach ($dados['listaTiposVeiculos'] as $tipoVeiculo): ?>
+                                                                                            <option value="<?= $tipoVeiculo->id_tipo_veiculo ?>" 
+                                                                                                ${tipo == <?= $tipoVeiculo->id_tipo_veiculo ?> ? "selected" : ""}>
+                                                                                                <?= $tipoVeiculo->ds_tipo_veiculo ?>
+                                                                                            </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" >Placa do Veículo:</label>
+                        <input class="form-control" type="text" name="placa_veiculo_${contador}" value="${placa}" placeholder="Digite a placa do veículo">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" >Cor do Veículo:</label>
+                        <select class="form-select" name="cor_veiculo_${contador}">
+                            <?php foreach ($dados['listaCoresVeiculos'] as $corVeiculo): ?>
+                                                                                            <option value="<?= $corVeiculo->id_cor_veiculo ?>" 
+                                                                                                ${cor == <?= $corVeiculo->id_cor_veiculo ?> ? "selected" : ""}>
+                                                                                                <?= $corVeiculo->ds_cor_veiculo ?>
+                                                                                            </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <button class="btn btn-danger" type="button" class="remover-veiculo" onclick="removerCampo(${contador})"><i class="bi bi-trash-fill"></i> Remover Veículo</button>
+                    <hr>
+                </div>
+            `);
 
-        // Cria o container dos novos campos
-        const novoCampo = document.createElement("div");
-        novoCampo.classList.add("campo-veiculo");
-        novoCampo.setAttribute("id", `veiculo_${contador}`);
+        $("#veiculosContainer").append(novoCampo);
+    }
 
-        novoCampo.innerHTML = `
-            <div class="row">
-                <div class="mb-3 col-sm-6">
-                    <label>Tipo de Veículo:</label>
-                    <select class="form-select" name="tipo_veiculo_${contador}">
-                        <?php foreach ($dados['listaTiposVeiculos'] as $tipo): ?>
-                                                                                                                                            <option value="<?= $tipo->id_tipo_veiculo ?>"><?= $tipo->ds_tipo_veiculo ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="mb-3 col-sm-6">
-                    <label class="form-label" >Placa do Veículo:</label>
-                    <input class="form-control" type="text" name="placa_veiculo_${contador}" placeholder="Digite a placa do veículo">
-                </div>
-                <div class="mb-3 col-sm-6">
-                    <label>Cor do Veículo:</label>
-                    <select class="form-select" name="cor_veiculo_${contador}">
-                        <?php foreach ($dados['listaCoresVeiculos'] as $cor): ?>
-                                                                                                                                            <option value="<?= $cor->id_cor_veiculo ?>"><?= $cor->ds_cor_veiculo ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="mt-4 col-sm-6">
-                    <button class="btn btn-danger" type="button" onclick="removerCampo(${contador})"><i class="bi bi-trash-fill"></i>  Remover Veículo</button>
-                </div>
-            </div>
-            <hr>                
-            `;
-
-        // Adiciona o novo conjunto de campos ao container
-        container.appendChild(novoCampo);
+    function carregarVeiculosExistentes() {
+        <?php if (isset($dados['veiculosMorador']) && !empty($dados['veiculosMorador'])) {
+            foreach ($dados['veiculosMorador'] as $veiculo) { ?>
+                adicionarCampos(
+                    "<?= $veiculo->id_tipo_veiculo ?>",
+                    "<?= $veiculo->ds_placa_veiculo ?>",
+                    "<?= $veiculo->id_cor_veiculo ?>",
+                    "<?= $veiculo->id_veiculo ?>"
+                );
+            <?php }
+        } ?>
     }
 
     function removerCampo(id) {
@@ -51,20 +60,6 @@
         if (campo) {
             campo.remove();
         }
-    }
-
-    function esconderCampo() {
-        // Obtém o estado do checkbox
-        const locatarioIsChecked = document.getElementById("chkLocatario").checked;
-
-        // Seleciona todos os campos do locatário
-        const camposLocatario = document.querySelectorAll("#txtNomeLocatario, #txtDocumentoLocatario, #dateNascimentoLocatario, #txtEmailLocatario, #txtTelefoneUmLocatario, #txtTelefoneDoisLocatario");
-
-        // Habilita ou desabilita os campos com base no estado do checkbox
-        camposLocatario.forEach(campo => {
-            campo.disabled = !locatarioIsChecked;
-        });
-
     }
 
     function esconderCampoPets() {
@@ -92,6 +87,20 @@
     }
 
     $(document).ready(function () {
+        // Carregar veículos existentes ao carregar a página
+        carregarVeiculosExistentes();
+
+        // Botão para adicionar novo veículo
+        $("#adicionarVeiculo").click(function () {
+            adicionarCampos();
+        });
+
+        // Remover veículo ao clicar no botão "Remover"
+        $(document).on("click", ".remover-veiculo", function () {
+            const id = $(this).data("id");
+            $(`#veiculo_${id}`).remove();
+        });
+
 
         if ($('#chkLocatario').is(':checked')) {
             $('#divLocatario').show(); // Exibe a div se o checkbox estiver marcado
@@ -107,6 +116,7 @@
                 $('#divLocatario').slideUp(); // Esconde a div com animação
             }
         });
+
 
         if ($('#chkPossuiPets').is(':checked')) {
             $('#divQuantidadePets').show(); // Exibe a div se o checkbox estiver marcado
@@ -138,6 +148,7 @@
             }
         });
 
+
     });
 </script>
 
@@ -147,29 +158,30 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a
-                        href="<?= URL . 'Moradores/visualizarMoradorPorIdUsuario/' . $dados['usuario']->id_usuario ?>">Morador</a>
+                        href="<?= URL . 'Moradores/visualizarMoradorPorIdUsuario/' . $dados['morador']->fk_usuario ?>">Moradores</a>
                 </li>
-                <li class="breadcrumb-item active" aria-current="page">Novo morador</li>
+                <li class="breadcrumb-item active" aria-current="page">Casa número:
+                    <?= ucfirst($dados['morador']->ds_numero_casa) ?>
             </ol>
         </nav>
 
         <div class="card">
             <div class="card-body">
-                <h2>Cadastro de Moradores</h2>
-                <p class="mb-3 text-muted">Preencha o formulário abaixo para cadastrar um novo morador</p>
+                <h2>Editar Morador Casa: <?= ucfirst($dados['morador']->ds_numero_casa) ?></h2>
+                <p class="mb-3 text-muted">Preencha o formulário abaixo para editar o morador</p>
 
                 <hr>
                 <h3>Dados do proprietário</h3>
 
-                <form name="cadastrar" method="POST"
-                    action="<?= URL . 'Moradores/cadastrarMoradorPorIdUsuario/' . $dados['usuario']->id_usuario ?>">
+                <form name="editar" method="POST"
+                    action="<?= URL . 'Moradores/editarMoradorPorIdMorador/' . $dados['idMorador'] ?>">
                     <div class="row">
                         <div class="mb-3 col-sm-6">
                             <label for="txtNomeProprietario" class="form-label">Nome Completo do proprietário: *</label>
                             <input type="text"
                                 class="form-control <?= $dados['nomeProprietario_erro'] ? 'is-invalid' : '' ?>"
                                 name="txtNomeProprietario" id="txtNomeProprietario"
-                                value="<?= $dados['txtNomeProprietario'] ?>" maxlength="255">
+                                value="<?= trim($dados['morador']->nm_morador) ?>" maxlength="255">
                             <!-- Div para exibir o erro abaixo do campo -->
                             <div class="invalid-feedback"><?= $dados['nomeProprietario_erro'] ?></div>
                         </div>
@@ -179,7 +191,7 @@
                             <input type="text" placeholder="Somente números"
                                 class="form-control <?= $dados['documentoProprietario_erro'] ? 'is-invalid' : '' ?>"
                                 name="txtDocumentoProprietario" id="txtDocumentoProprietario"
-                                value="<?= $dados['txtDocumentoProprietario'] ?>" maxlength="11">
+                                value="<?= trim($dados['morador']->documento_morador) ?>" maxlength="11">
                             <!-- Div para exibir o erro abaixo do campo -->
                             <div class="invalid-feedback"><?= $dados['documentoProprietario_erro'] ?></div>
                         </div>
@@ -191,7 +203,7 @@
                             <input type="date"
                                 class="form-control <?= $dados['dataNascimentoProprieratio_erro'] ? 'is-invalid' : '' ?>"
                                 name="dateNascimentoProprietario" id="dateNascimentoProprietario"
-                                value="<?= $dados['dateNascimentoProprietario'] ?>">
+                                value="<?= trim($dados['morador']->dt_nascimento_morador) ?>">
                             <!-- Div para exibir o erro abaixo do campo -->
                             <div class="invalid-feedback"><?= $dados['dataNascimentoProprieratio_erro'] ?></div>
                         </div>
@@ -200,42 +212,41 @@
                             <input type="text"
                                 class="form-control <?= $dados['emailProprietario_erro'] ? 'is-invalid' : '' ?>"
                                 name="txtEmailProprietario" id="txtEmailProprietario"
-                                value="<?= $dados['txtEmailProprietario'] ?>" maxlength="100">
+                                value="<?= trim($dados['morador']->email_morador) ?>" maxlength="100">
                             <div class="invalid-feedback"><?= $dados['emailProprietario_erro'] ?></div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="mb-3 col-sm-6">
                             <label for="txtTelefoneUmProprietario" class="form-label">Telefone 1: *</label>
                             <input type="text" placeholder="Somente números"
                                 class="form-control <?= $dados['telefone_um_proprietario_erro'] ? 'is-invalid' : '' ?>"
                                 name="txtTelefoneUmProprietario" id="txtTelefoneUmProprietario"
-                                value="<?= $dados['txtTelefoneUmProprietario'] ?>" maxlength="11">
+                                value="<?= trim($dados['morador']->tel_um_morador) ?>" maxlength="11">
                             <div class="invalid-feedback"><?= $dados['telefone_um_proprietario_erro'] ?></div>
                         </div>
                         <div class="mb-3 col-sm-6">
                             <label for="txtTelefoneDoisProprietario" class="form-label">Telefone 2:</label>
                             <input type="text" placeholder="Somente números" class="form-control"
                                 name="txtTelefoneDoisProprietario" id="txtTelefoneDoisProprietario"
-                                value="<?= $dados['txtTelefoneDoisProprietario'] ?>" maxlength="11">
+                                value="<?= trim($dados['morador']->tel_dois_morador) ?>" maxlength="11">
 
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="mb-3 col-sm-6">
-                            <label for="txtTelefoneEmergenciaPropesconderCamporietario" class="form-label">Telefone
+                            <label for="txtTelefoneEmergenciaProprietario" class="form-label">Telefone
                                 Emergência:</label>
                             <input type="text" placeholder="Somente números" class="form-control"
                                 name="txtTelefoneEmergenciaProprietario" id="txtTelefoneEmergenciaProprietario"
-                                value="<?= $dados['txtTelefoneEmergenciaProprietario'] ?>" maxlength="11">
+                                value="<?= trim($dados['morador']->tel_emergencia) ?>" maxlength="11">
                         </div>
 
                         <div class="mb-3 col-sm-6">
                             <label for="txtNumeroCasa" class="form-label">N° Casa: </label>
                             <input type="text" class="form-control " name="txtNumeroCasa" id="txtNumeroCasa"
-                                value="<?= $dados['usuario']->ds_numero_casa ?>" readonly>
+                                value="<?= $dados['morador']->ds_numero_casa ?>" readonly>
                         </div>
                     </div>
 
@@ -244,8 +255,14 @@
                     <div class="row mt-4">
                         <div class="mb-3 col-sm-6">
                             <div class="form-check">
+                                <?php
+                                $checkedLocatario = '';
+                                if ($dados['morador']->flag_locatario == 'S') {
+                                    $checkedLocatario = 'checked';
+                                }
+                                ?>
                                 <input class="form-check-input" type="checkbox" value="S" id="chkLocatario"
-                                    name="chkLocatario" onclick="esconderCampo()">
+                                    name="chkLocatario" <?= $checkedLocatario ?>>
                                 <label class="form-check-label" for="chkLocatario">
                                     Imóvel Locado?
                                 </label>
@@ -257,14 +274,13 @@
 
                         <h3>Dados do locatário</h3>
 
-
                         <div class="row">
-                            <div class="mb-3 col-sm-6" id="teste">
+                            <div class="mb-3 col-sm-6">
                                 <label for="txtNomeLocatario" class="form-label">Nome Completo do locatário: *</label>
                                 <input type="text"
                                     class="form-control <?= $dados['nomeLocatario_erro'] ? 'is-invalid' : '' ?>"
                                     name="txtNomeLocatario" id="txtNomeLocatario"
-                                    value="<?= $dados['txtNomeLocatario'] ?>" maxlength="255">
+                                    value="<?= trim($dados['morador']->nm_locatario) ?>" maxlength="255">
                                 <!-- Div para exibir o erro abaixo do campo -->
                                 <div class="invalid-feedback"><?= $dados['nomeLocatario_erro'] ?></div>
                             </div>
@@ -274,7 +290,7 @@
                                 <input type="text" placeholder="Somente números"
                                     class="form-control <?= $dados['documentoLocatario_erro'] ? 'is-invalid' : '' ?>"
                                     name="txtDocumentoLocatario" id="txtDocumentoLocatario"
-                                    value="<?= $dados['txtDocumentoLocatario'] ?>" maxlength="11">
+                                    value="<?= trim($dados['morador']->documento_locatario) ?>" maxlength="11">
                                 <!-- Div para exibir o erro abaixo do campo -->
                                 <div class="invalid-feedback"><?= $dados['documentoLocatario_erro'] ?></div>
                             </div>
@@ -286,7 +302,7 @@
                                 <input type="date"
                                     class="form-control <?= $dados['dataNascimentoLocatario_erro'] ? 'is-invalid' : '' ?>"
                                     name="dateNascimentoLocatario" id="dateNascimentoLocatario"
-                                    value="<?= $dados['dateNascimentoLocatario'] ?>">
+                                    value="<?= trim($dados['morador']->dt_nascimento_locatario) ?>">
                                 <!-- Div para exibir o erro abaixo do campo -->
                                 <div class="invalid-feedback"><?= $dados['dataNascimentoLocatario_erro'] ?></div>
                             </div>
@@ -295,7 +311,7 @@
                                 <input type="text"
                                     class="form-control <?= $dados['emailLocatario_erro'] ? 'is-invalid' : '' ?>"
                                     name="txtEmailLocatario" id="txtEmailLocatario"
-                                    value="<?= $dados['txtEmailLocatario'] ?>" maxlength="100">
+                                    value="<?= trim($dados['morador']->email_locatario) ?>" maxlength="100">
                                 <div class="invalid-feedback"><?= $dados['emailLocatario_erro'] ?></div>
                             </div>
                         </div>
@@ -305,25 +321,32 @@
                                 <input type="text" placeholder="Somente números"
                                     class="form-control <?= $dados['telefone_um_locatario_erro'] ? 'is-invalid' : '' ?>"
                                     name="txtTelefoneUmLocatario" id="txtTelefoneUmLocatario"
-                                    value="<?= $dados['txtTelefoneUmLocatario'] ?>" maxlength="11">
+                                    value="<?= trim($dados['morador']->tel_um_locatario) ?>" maxlength="11">
                                 <div class="invalid-feedback"><?= $dados['telefone_um_locatario_erro'] ?></div>
                             </div>
                             <div class="mb-3 col-sm-6">
                                 <label for="txtTelefoneDoisLocatario" class="form-label">Telefone 2:</label>
                                 <input type="text" placeholder="Somente números" class="form-control"
                                     name="txtTelefoneDoisLocatario" id="txtTelefoneDoisLocatario"
-                                    value="<?= $dados['txtTelefoneDoisLocatario'] ?>" maxlength="11">
+                                    value="<?= trim($dados['morador']->tel_dois_locatario) ?>" maxlength="11">
                             </div>
                         </div>
                     </div>
+
                     <hr>
                     <h3>Pets</h3>
 
                     <div class="row">
                         <div class="mb-3 col-sm-6">
                             <div class="form-check">
+                                <?php
+                                $checkedPet = '';
+                                if ($dados['morador']->flag_tem_pet == 'S') {
+                                    $checkedPet = 'checked';
+                                }
+                                ?>
                                 <input class="form-check-input" type="checkbox" value="S" id="chkPossuiPets"
-                                    name="chkPossuiPets" onclick="esconderCampoPets()">
+                                    <?= $checkedPet ?> name="chkPossuiPets">
                                 <label class="form-check-label" for="chkPossuiPets">
                                     Possui pet?
                                 </label>
@@ -336,7 +359,7 @@
                             <div class="mb-3 col-sm-4">
                                 <label for="qtdPets" class="form-label">Quantidade de pets: </label>
                                 <input type="text" class="form-control" name="qtdPets" id="qtdPets" maxlength="1"
-                                    placeholder="Somente números">
+                                    placeholder="Somente números" value="<?= trim($dados['morador']->qtd_pets) ?>">
                             </div>
                         </div>
                     </div>
@@ -348,8 +371,14 @@
                     <div class="row">
                         <div class="mb-3 col-sm-6">
                             <div class="form-check">
+                                <?php
+                                $checkedAdesivo = '';
+                                if ($dados['morador']->flag_adesivo == 'S') {
+                                    $checkedAdesivo = 'checked';
+                                }
+                                ?>
                                 <input class="form-check-input" type="checkbox" value="S" id="chkRecebeuAdesivo"
-                                    name="chkRecebeuAdesivo" onclick="esconderCampoAdesivo()">
+                                    <?= $checkedAdesivo ?> name="chkRecebeuAdesivo">
                                 <label class="form-check-label" for="chkRecebeuAdesivo">
                                     Recebeu Adesivo?
                                 </label>
@@ -362,7 +391,8 @@
                             <div class="mb-3 col-sm-4">
                                 <label for="qtdAdesivos" class="form-label">Quantidade de adesivos: </label>
                                 <input type="text" class="form-control" name="qtdAdesivos" id="qtdAdesivos"
-                                    maxlength="1" placeholder="Somente números">
+                                    maxlength="1" placeholder="Somente números"
+                                    value="<?= trim($dados['morador']->qtd_adesivos) ?>">
                             </div>
                         </div>
                     </div>
@@ -379,11 +409,11 @@
 
                     <div class="d-flex">
                         <div class="p-2">
-                            <input type="submit" value="Cadastrar" class="btn btn-primary">
+                            <input type="submit" value="Salvar" class="btn btn-primary">
                         </div>
                         <div class="p-2">
                             <a class="btn btn-secondary"
-                                href="<?= URL . 'Moradores/visualizarMoradorPorIdUsuario/' . $dados['usuario']->id_usuario ?>"
+                                href="<?= URL . 'Moradores/visualizarMoradorPorIdUsuario/' . $dados['morador']->fk_usuario ?>"
                                 role="button">Cancelar</a>
                         </div>
                     </div>

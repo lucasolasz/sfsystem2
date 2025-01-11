@@ -367,8 +367,15 @@ class Moradores extends Controller
 
         $morador = $this->model->retornarMoradorCadastradoPorIdUsuario($idUsuario);
 
+        $novoDisabled = !empty($morador) ? "disabled" : "";
+
+        if (empty($morador) || $idUsuario != $_SESSION['id_usuario']) {
+            Redirecionamento::redirecionar('Moradores/visualizarMoradorPorIdUsuario/' . $_SESSION['id_usuario']);
+        }
+
         $dados = [
-            'morador' => $morador
+            'morador' => $morador,
+            'novoDisabled' => $novoDisabled
         ];
 
         $this->view('morador/visualizarPorId', $dados);
@@ -382,11 +389,12 @@ class Moradores extends Controller
         $listaCoresVeiculos = $this->modelVeiculo->recuperarCoresVeiculos();
         // $casas = $this->casaModel->reuperarTodasCasas();
 
+        if ($idUsuario != $_SESSION['id_usuario']) {
+            Redirecionamento::redirecionar('Moradores/visualizarMoradorPorIdUsuario/' . $_SESSION['id_usuario']);
+        }
+
         $formulario = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         if (isset($formulario)) {
-
-            // var_dump($formulario);
-            // exit();
 
             $listaVeiculosCadastradosForm = VeiculosUtil::recuperarVeiculosFormulario($formulario);
 
@@ -503,5 +511,147 @@ class Moradores extends Controller
         }
 
         $this->view('morador/cadastrarPorId', $dados);
+    }
+
+    public function editarMoradorPorIdMorador($id)
+    {
+        $morador = $this->model->retornarMoradorPorId($id);
+
+        if ($morador === false || ($morador->fk_usuario != $_SESSION['id_usuario'])) {
+            Redirecionamento::redirecionar('Moradores/visualizarMoradorPorIdUsuario/' . $_SESSION['id_usuario']);
+        }
+
+        $morador = $this->model->retornarMoradorPorId($id);
+        $veiculosMorador = $this->modelVeiculo->recuperarListaTodosOsVeiculosPorIdMorador($id);
+        $listaTiposVeiculos = $this->modelVeiculo->recuperarTiposVeiculos();
+        $listaCoresVeiculos = $this->modelVeiculo->recuperarCoresVeiculos();
+        $casas = $this->casaModel->reuperarTodasCasas();
+
+        //Evita que codigos maliciosos sejam enviados pelos campos
+        $formulario = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        if (isset($formulario)) {
+
+            $listaVeiculosCadastradosForm = VeiculosUtil::recuperarVeiculosFormulario($formulario);
+
+            $dados = [
+                'txtNomeProprietario' => trim($formulario['txtNomeProprietario']),
+                'txtDocumentoProprietario' => trim($formulario['txtDocumentoProprietario']),
+                'dateNascimentoProprietario' => $formulario['dateNascimentoProprietario'],
+                'txtEmailProprietario' => trim($formulario['txtEmailProprietario']),
+                'txtTelefoneUmProprietario' => trim($formulario['txtTelefoneUmProprietario']),
+                'txtTelefoneDoisProprietario' => trim($formulario['txtTelefoneDoisProprietario']),
+                'txtTelefoneEmergenciaProprietario' => trim($formulario['txtTelefoneEmergenciaProprietario']),
+                'cboCasa' => $morador->fk_casa,
+
+                'chkLocatario' => isset($formulario['chkLocatario']) ? trim($formulario['chkLocatario']) : "N",
+                'txtNomeLocatario' => trim($formulario['txtNomeLocatario']),
+                'txtDocumentoLocatario' => $formulario['txtDocumentoLocatario'],
+                'dateNascimentoLocatario' => trim($formulario['dateNascimentoLocatario']),
+                'txtEmailLocatario' => trim($formulario['txtEmailLocatario']),
+                'txtTelefoneUmLocatario' => trim($formulario['txtTelefoneUmLocatario']),
+                'txtTelefoneDoisLocatario' => trim($formulario['txtTelefoneDoisLocatario']),
+
+                'qtdPets' => trim($formulario['qtdPets']) != "" ? intval($formulario['qtdPets']) : 0,
+                'chkPossuiPets' => isset($formulario['chkPossuiPets']) ? trim($formulario['chkPossuiPets']) : "N",
+
+                'qtdAdesivos' => trim($formulario['qtdAdesivos']) != "" ? intval($formulario['qtdAdesivos']) : 0,
+                'chkRecebeuAdesivo' => isset($formulario['chkRecebeuAdesivo']) ? trim($formulario['chkRecebeuAdesivo']) : "N",
+
+
+                'nomeProprietario_erro' => '',
+                'documentoProprietario_erro' => '',
+                'dataNascimentoProprieratio_erro' => '',
+                'emailProprietario_erro' => '',
+                'telefone_um_proprietario_erro' => '',
+                // 'cboCasa_erro' => '',
+                'nomeLocatario_erro' => '',
+                'documentoLocatario_erro' => '',
+                'dataNascimentoLocatario_erro' => '',
+                'emailLocatario_erro' => '',
+                'telefone_um_locatario_erro' => '',
+                'casas' => $casas,
+                'listaTiposVeiculos' => $listaTiposVeiculos,
+                'listaCoresVeiculos' => $listaCoresVeiculos,
+
+                'veiculosMorador' => $veiculosMorador,
+                'morador' => $morador,
+
+                'idMorador' => $id
+            ];
+
+            if (empty($formulario['txtNomeProprietario'])) {
+                $dados['nomeProprietario_erro'] = "Preencha o Nome";
+            } elseif (empty($formulario["txtDocumentoProprietario"])) {
+                $dados["documentoProprietario_erro"] = "Preencha o documento";
+            } elseif (empty($formulario['dateNascimentoProprietario'])) {
+                $dados["dataNascimentoProprieratio_erro"] = "Escolha uma data";
+            } elseif (empty($formulario['txtEmailProprietario'])) {
+                $dados["emailProprietario_erro"] = "Preencha um email";
+            } elseif (empty($formulario['txtTelefoneUmProprietario'])) {
+                $dados["telefone_um_proprietario_erro"] = "Preencha um telefone";
+            } else {
+
+                $dadosAtualizado = $this->verificarSeNaoTemLocatario($dados);
+
+                if ($this->model->atualizarMorador($dadosAtualizado)) {
+
+                    $this->modelVeiculo->editarCarrosMorador($listaVeiculosCadastradosForm, $id);
+                }
+
+                Alertas::mensagem('morador', 'Morador atualizado com sucesso');
+                Redirecionamento::redirecionar('Moradores/visualizarMoradorPorIdUsuario/' . $morador->fk_usuario);
+            }
+        } else {
+
+            $dados = [
+                'txtNomeProprietario' => '',
+                'txtDocumentoProprietario' => '',
+                'dateNascimentoProprietario' => '',
+                'txtEmailProprietario' => '',
+                'txtTelefoneUmProprietario' => '',
+                'txtTelefoneDoisProprietario' => '',
+                'txtTelefoneEmergenciaProprietario' => '',
+
+                'chkLocatario' => '',
+                'txtNomeLocatario' => '',
+                'txtDocumentoLocatario' => '',
+                'dateNascimentoLocatario' => '',
+                'txtEmailLocatario' => '',
+                'txtTelefoneUmLocatario' => '',
+                'txtTelefoneDoisLocatario' => '',
+                // 'cboCasa' => '',
+                'qtdPets' => '',
+                'chkPossuiPets' => '',
+                'qtdAdesivos' => '',
+                'chkRecebeuAdesivo' => '',
+
+
+
+                'nomeProprietario_erro' => '',
+                'documentoProprietario_erro' => '',
+                'dataNascimentoProprieratio_erro' => '',
+                'emailProprietario_erro' => '',
+                'telefone_um_proprietario_erro' => '',
+                'cboCasa_erro' => '',
+
+                'nomeLocatario_erro' => '',
+                'documentoLocatario_erro' => '',
+                'dataNascimentoLocatario_erro' => '',
+                'emailLocatario_erro' => '',
+                'telefone_um_locatario_erro' => '',
+
+
+                'casas' => $casas,
+                'listaTiposVeiculos' => $listaTiposVeiculos,
+                'listaCoresVeiculos' => $listaCoresVeiculos,
+
+                'veiculosMorador' => $veiculosMorador,
+                'morador' => $morador,
+                'idMorador' => $id
+
+            ];
+        }
+
+        $this->view('morador/editarPorId', $dados);
     }
 }

@@ -15,8 +15,11 @@
 
             <h5 class="tituloIndex">Moradores
                 <div style="float: right;">
-                    <a href="<?= URL . 'Moradores/cadastrarMoradorPorIdUsuario/' . $_SESSION['id_usuario'] ?>"
-                        class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i> Novo</a>
+                    <button class="btn btn-primary"
+                        onclick="window.location.href='<?= URL . 'Moradores/cadastrarMoradorPorIdUsuario/' . $_SESSION['id_usuario'] ?>'"
+                        <?= $dados['novoDisabled'] ?>>
+                        <i class="bi bi-plus-circle-fill"></i> Novo
+                    </button>
                 </div>
             </h5>
 
@@ -50,7 +53,7 @@
                                 <td><?= ucfirst($morador->tel_emergencia) ?></td>
 
                                 <td>
-                                    <a href="<?= URL . 'Moradores/editarMorador/' . $morador->id_morador ?>"
+                                    <a href="<?= URL . 'Moradores/editarMoradorPorIdMorador/' . $morador->id_morador ?>"
                                         class="btn btn-warning"><i class="bi bi-pencil-square"></i> Editar</a>
 
                                     <a href="<?= URL . 'Moradores/deletarMorador/' . $morador->id_morador ?>"
