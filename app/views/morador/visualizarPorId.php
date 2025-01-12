@@ -33,6 +33,8 @@
                             <th scope="col">N° Casa</th>
                             <th scope="col">Telefone</th>
                             <th scope="col">Telefone Emergência</th>
+                            <th scope="col">Nome Locatário</th>
+                            <th scope="col">Telefone Locatário</th>
                             <th scope="col">Ações</th>
                         </tr>
                     </thead>
@@ -51,6 +53,8 @@
                                 <td><?= ucfirst($morador->ds_numero_casa) ?></td>
                                 <td><?= ucfirst($morador->tel_um_morador) ?></td>
                                 <td><?= ucfirst($morador->tel_emergencia) ?></td>
+                                <td><?= ucfirst($morador->nm_locatario) ?></td>
+                                <td><?= ucfirst($morador->tel_um_locatario) ?></td>
 
                                 <td>
                                     <a href="<?= URL . 'Moradores/editarMoradorPorIdMorador/' . $morador->id_morador ?>"
