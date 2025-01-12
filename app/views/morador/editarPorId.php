@@ -11,10 +11,10 @@
                         <label class="form-label" >Tipo de Veículo:</label>
                         <select class="form-select" name="tipo_veiculo_${contador}">
                             <?php foreach ($dados['listaTiposVeiculos'] as $tipoVeiculo): ?>
-                                                                                            <option value="<?= $tipoVeiculo->id_tipo_veiculo ?>" 
-                                                                                                ${tipo == <?= $tipoVeiculo->id_tipo_veiculo ?> ? "selected" : ""}>
-                                                                                                <?= $tipoVeiculo->ds_tipo_veiculo ?>
-                                                                                            </option>
+                                                                                                                                                                                            <option value="<?= $tipoVeiculo->id_tipo_veiculo ?>" 
+                                                                                                                                                                                                ${tipo == <?= $tipoVeiculo->id_tipo_veiculo ?> ? "selected" : ""}>
+                                                                                                                                                                                                <?= $tipoVeiculo->ds_tipo_veiculo ?>
+                                                                                                                                                                                            </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -26,10 +26,10 @@
                         <label class="form-label" >Cor do Veículo:</label>
                         <select class="form-select" name="cor_veiculo_${contador}">
                             <?php foreach ($dados['listaCoresVeiculos'] as $corVeiculo): ?>
-                                                                                            <option value="<?= $corVeiculo->id_cor_veiculo ?>" 
-                                                                                                ${cor == <?= $corVeiculo->id_cor_veiculo ?> ? "selected" : ""}>
-                                                                                                <?= $corVeiculo->ds_cor_veiculo ?>
-                                                                                            </option>
+                                                                                                                                                                                            <option value="<?= $corVeiculo->id_cor_veiculo ?>" 
+                                                                                                                                                                                                ${cor == <?= $corVeiculo->id_cor_veiculo ?> ? "selected" : ""}>
+                                                                                                                                                                                                <?= $corVeiculo->ds_cor_veiculo ?>
+                                                                                                                                                                                            </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -257,6 +257,13 @@
                             <div class="form-check">
                                 <?php
                                 $checkedLocatario = '';
+
+                                if (!empty($dados['chkLocatario'])) {
+                                    if ($dados['chkLocatario'] == 'S') {
+                                        $checkedLocatario = 'checked';
+                                    }
+                                }
+
                                 if ($dados['morador']->flag_locatario == 'S') {
                                     $checkedLocatario = 'checked';
                                 }
@@ -341,6 +348,12 @@
                             <div class="form-check">
                                 <?php
                                 $checkedPet = '';
+                                if (!empty($dados['chkPossuiPets'])) {
+                                    if ($dados['chkPossuiPets'] == 'S') {
+                                        $checkedPet = 'checked';
+                                    }
+                                }
+
                                 if ($dados['morador']->flag_tem_pet == 'S') {
                                     $checkedPet = 'checked';
                                 }
@@ -359,7 +372,9 @@
                             <div class="mb-3 col-sm-4">
                                 <label for="qtdPets" class="form-label">Quantidade de pets: </label>
                                 <input type="text" class="form-control" name="qtdPets" id="qtdPets" maxlength="1"
-                                    placeholder="Somente números" value="<?= trim($dados['morador']->qtd_pets) ?>">
+                                    placeholder="Somente números"
+                                    value="<?= trim(string: $dados['morador']->qtd_pets) ?>">
+                                <div class="text-danger"><?= $dados['quantidade_pets_erro'] ?></div>
                             </div>
                         </div>
                     </div>
@@ -373,6 +388,13 @@
                             <div class="form-check">
                                 <?php
                                 $checkedAdesivo = '';
+
+                                if (!empty($dados['chkRecebeuAdesivo'])) {
+                                    if ($dados['chkRecebeuAdesivo'] == 'S') {
+                                        $checkedAdesivo = 'checked';
+                                    }
+                                }
+
                                 if ($dados['morador']->flag_adesivo == 'S') {
                                     $checkedAdesivo = 'checked';
                                 }
@@ -392,7 +414,8 @@
                                 <label for="qtdAdesivos" class="form-label">Quantidade de adesivos: </label>
                                 <input type="text" class="form-control" name="qtdAdesivos" id="qtdAdesivos"
                                     maxlength="1" placeholder="Somente números"
-                                    value="<?= trim($dados['morador']->qtd_adesivos) ?>">
+                                    value="<?= trim($dados['moradcheckedAdesivoor']->qtd_adesivos) ?>">
+                                <div class="text-danger"><?= $dados['quantidade_adesivos_erro'] ?></div>
                             </div>
                         </div>
                     </div>

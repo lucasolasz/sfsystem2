@@ -18,7 +18,7 @@
                     <label>Tipo de Veículo:</label>
                     <select class="form-select" name="tipo_veiculo_${contador}">
                         <?php foreach ($dados['listaTiposVeiculos'] as $tipo): ?>
-                                                                                                                                            <option value="<?= $tipo->id_tipo_veiculo ?>"><?= $tipo->ds_tipo_veiculo ?></option>
+                                                                                                                                                                                <option value="<?= $tipo->id_tipo_veiculo ?>"><?= $tipo->ds_tipo_veiculo ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -30,7 +30,7 @@
                     <label>Cor do Veículo:</label>
                     <select class="form-select" name="cor_veiculo_${contador}">
                         <?php foreach ($dados['listaCoresVeiculos'] as $cor): ?>
-                                                                                                                                            <option value="<?= $cor->id_cor_veiculo ?>"><?= $cor->ds_cor_veiculo ?></option>
+                                                                                                                                                                                <option value="<?= $cor->id_cor_veiculo ?>"><?= $cor->ds_cor_veiculo ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -244,8 +244,19 @@
                     <div class="row mt-4">
                         <div class="mb-3 col-sm-6">
                             <div class="form-check">
+
+                                <?php
+                                $checkedLocatario = '';
+
+                                if (!empty($dados['chkLocatario'])) {
+                                    if ($dados['chkLocatario'] == 'S') {
+                                        $checkedLocatario = 'checked';
+                                    }
+                                }
+                                ?>
+
                                 <input class="form-check-input" type="checkbox" value="S" id="chkLocatario"
-                                    name="chkLocatario" onclick="esconderCampo()">
+                                    <?= $checkedLocatario ?> name="chkLocatario" onclick="esconderCampo()">
                                 <label class="form-check-label" for="chkLocatario">
                                     Imóvel Locado?
                                 </label>
@@ -322,8 +333,19 @@
                     <div class="row">
                         <div class="mb-3 col-sm-6">
                             <div class="form-check">
+                                <?php
+                                $checkedPet = '';
+
+                                if (!empty($dados['chkPossuiPets'])) {
+                                    if ($dados['chkPossuiPets'] == 'S') {
+                                        $checkedPet = 'checked';
+                                    }
+                                }
+
+                                ?>
+
                                 <input class="form-check-input" type="checkbox" value="S" id="chkPossuiPets"
-                                    name="chkPossuiPets" onclick="esconderCampoPets()">
+                                    <?= $checkedPet ?> name="chkPossuiPets" onclick="esconderCampoPets()">
                                 <label class="form-check-label" for="chkPossuiPets">
                                     Possui pet?
                                 </label>
@@ -336,7 +358,8 @@
                             <div class="mb-3 col-sm-4">
                                 <label for="qtdPets" class="form-label">Quantidade de pets: </label>
                                 <input type="text" class="form-control" name="qtdPets" id="qtdPets" maxlength="1"
-                                    placeholder="Somente números">
+                                    placeholder="Somente números" value="<?= $dados['qtdPets'] ?>">
+                                <div class="text-danger"><?= $dados['quantidade_pets_erro'] ?></div>
                             </div>
                         </div>
                     </div>
@@ -348,8 +371,18 @@
                     <div class="row">
                         <div class="mb-3 col-sm-6">
                             <div class="form-check">
+                                <?php
+                                $checkedAdesivo = '';
+
+                                if (!empty($dados['chkRecebeuAdesivo'])) {
+                                    if ($dados['chkRecebeuAdesivo'] == 'S') {
+                                        $checkedAdesivo = 'checked';
+                                    }
+                                }
+                                ?>
+
                                 <input class="form-check-input" type="checkbox" value="S" id="chkRecebeuAdesivo"
-                                    name="chkRecebeuAdesivo" onclick="esconderCampoAdesivo()">
+                                    <?= $checkedAdesivo ?> name="chkRecebeuAdesivo" onclick="esconderCampoAdesivo()">
                                 <label class="form-check-label" for="chkRecebeuAdesivo">
                                     Recebeu Adesivo?
                                 </label>
@@ -362,7 +395,8 @@
                             <div class="mb-3 col-sm-4">
                                 <label for="qtdAdesivos" class="form-label">Quantidade de adesivos: </label>
                                 <input type="text" class="form-control" name="qtdAdesivos" id="qtdAdesivos"
-                                    maxlength="1" placeholder="Somente números">
+                                    maxlength="1" placeholder="Somente números" value="<?= $dados['qtdAdesivos'] ?>">
+                                <div class="text-danger"><?= $dados['quantidade_adesivos_erro'] ?></div>
                             </div>
                         </div>
                     </div>

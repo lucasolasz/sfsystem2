@@ -359,7 +359,7 @@ class Moradores extends Controller
 
         //Para exibir mensagem success , não precisa informar o tipo de classe
         Alertas::mensagem('morador', 'Morador deletado com sucesso');
-        Redirecionamento::redirecionar('Moradores/visualizarMoradores');
+        Redirecionamento::redirecionar('Moradores/visualizarMoradorPorIdUsuario/' . $_SESSION['id_usuario']);
     }
 
     public function visualizarMoradorPorIdUsuario($idUsuario)
@@ -369,7 +369,7 @@ class Moradores extends Controller
 
         $novoDisabled = !empty($morador) ? "disabled" : "";
 
-        if (empty($morador) || $idUsuario != $_SESSION['id_usuario']) {
+        if ($idUsuario != $_SESSION['id_usuario']) {
             Redirecionamento::redirecionar('Moradores/visualizarMoradorPorIdUsuario/' . $_SESSION['id_usuario']);
         }
 
@@ -419,9 +419,8 @@ class Moradores extends Controller
                 'qtdPets' => trim($formulario['qtdPets']) != "" ? intval($formulario['qtdPets']) : 0,
                 'chkPossuiPets' => isset($formulario['chkPossuiPets']) ? trim($formulario['chkPossuiPets']) : "N",
 
-                'qtdAdesivos' => trim($formulario['qtdAdesivos']) != "" ? intval($formulario['qtdAdesivos']) : 0,
+                'qtdAdesivos' => isset($formulario['qtdAdesivos']) != "" ? intval($formulario['qtdAdesivos']) : 0,
                 'chkRecebeuAdesivo' => isset($formulario['chkRecebeuAdesivo']) ? trim($formulario['chkRecebeuAdesivo']) : "N",
-
 
                 'nomeProprietario_erro' => '',
                 'documentoProprietario_erro' => '',
@@ -434,11 +433,21 @@ class Moradores extends Controller
                 'dataNascimentoLocatario_erro' => '',
                 'emailLocatario_erro' => '',
                 'telefone_um_locatario_erro' => '',
+                'quantidade_pets_erro' => '',
+                'quantidade_adesivos_erro' => '',
                 // 'casas' => $casas,
                 'usuario' => $usuario,
                 'listaTiposVeiculos' => $listaTiposVeiculos,
                 'listaCoresVeiculos' => $listaCoresVeiculos
             ];
+
+            if ($dados['chkRecebeuAdesivo'] == 'N') {
+                $dados['qtdAdesivos'] = 0;
+            }
+
+            if ($dados['chkPossuiPets'] == 'N') {
+                $dados['qtdPets'] = 0;
+            }
 
             if (empty($formulario['txtNomeProprietario'])) {
                 $dados['nomeProprietario_erro'] = "Preencha o Nome";
@@ -450,6 +459,18 @@ class Moradores extends Controller
                 $dados["emailProprietario_erro"] = "Preencha um email";
             } elseif (empty($formulario['txtTelefoneUmProprietario'])) {
                 $dados["telefone_um_proprietario_erro"] = "Preencha um telefone";
+            } elseif (($dados['chkPossuiPets'] == 'S' && $dados['qtdPets'] == 0)) {
+                $dados["quantidade_pets_erro"] = "Digite a quantidade de pets valida *";
+            } elseif ($dados['chkLocatario'] === 'S' && empty($dados['txtNomeLocatario'])) {
+                $dados["nomeLocatario_erro"] = "Digite o nome do locatário *";
+            } elseif ($dados['chkLocatario'] === 'S' && empty($dados['txtDocumentoLocatario'])) {
+                $dados["documentoLocatario_erro"] = "Digite o documento do locatário *";
+            } elseif ($dados['chkLocatario'] === 'S' && empty($dados['dateNascimentoLocatario'])) {
+                $dados["dataNascimentoLocatario_erro"] = "Digite o data nascimento do locatário *";
+            } elseif ($dados['chkLocatario'] === 'S' && empty($dados['txtTelefoneUmLocatario'])) {
+                $dados["telefone_um_locatario_erro"] = "Digite o telefone do locatário *";
+            } elseif (($dados['chkRecebeuAdesivo'] == 'S' && $dados['qtdAdesivos'] == 0)) {
+                $dados["quantidade_adesivos_erro"] = "Digite a quantidade de adesivos valida *";
             } else {
 
                 $idRetorno = $this->executarQuerysCadastroMoradorPorIdUsuario($listaVeiculosCadastradosForm, $dados);
@@ -500,6 +521,8 @@ class Moradores extends Controller
                 'dataNascimentoLocatario_erro' => '',
                 'emailLocatario_erro' => '',
                 'telefone_um_locatario_erro' => '',
+                'quantidade_pets_erro' => '',
+                'quantidade_adesivos_erro' => '',
 
 
                 // 'casas' => $casas,
@@ -546,7 +569,7 @@ class Moradores extends Controller
                 'chkLocatario' => isset($formulario['chkLocatario']) ? trim($formulario['chkLocatario']) : "N",
                 'txtNomeLocatario' => trim($formulario['txtNomeLocatario']),
                 'txtDocumentoLocatario' => $formulario['txtDocumentoLocatario'],
-                'dateNascimentoLocatario' => trim($formulario['dateNascimentoLocatario']),
+                'dateNascimentoLocatario' => trim($formulario['dateNascimentoLocatario']) == "" ? null : trim($formulario['dateNascimentoLocatario']),
                 'txtEmailLocatario' => trim($formulario['txtEmailLocatario']),
                 'txtTelefoneUmLocatario' => trim($formulario['txtTelefoneUmLocatario']),
                 'txtTelefoneDoisLocatario' => trim($formulario['txtTelefoneDoisLocatario']),
@@ -569,6 +592,10 @@ class Moradores extends Controller
                 'dataNascimentoLocatario_erro' => '',
                 'emailLocatario_erro' => '',
                 'telefone_um_locatario_erro' => '',
+                'quantidade_pets_erro' => '',
+                'quantidade_adesivos_erro' => '',
+
+
                 'casas' => $casas,
                 'listaTiposVeiculos' => $listaTiposVeiculos,
                 'listaCoresVeiculos' => $listaCoresVeiculos,
@@ -578,6 +605,18 @@ class Moradores extends Controller
 
                 'idMorador' => $id
             ];
+
+
+            if ($dados['chkRecebeuAdesivo'] == 'N') {
+                $dados['qtdAdesivos'] = 0;
+            }
+
+            if ($dados['chkPossuiPets'] == 'N') {
+                $dados['qtdPets'] = 0;
+            }
+
+            // var_dump($dados);
+            // exit();
 
             if (empty($formulario['txtNomeProprietario'])) {
                 $dados['nomeProprietario_erro'] = "Preencha o Nome";
@@ -589,6 +628,18 @@ class Moradores extends Controller
                 $dados["emailProprietario_erro"] = "Preencha um email";
             } elseif (empty($formulario['txtTelefoneUmProprietario'])) {
                 $dados["telefone_um_proprietario_erro"] = "Preencha um telefone";
+            } elseif (($dados['chkPossuiPets'] == 'S' && $dados['qtdPets'] == 0)) {
+                $dados["quantidade_pets_erro"] = "Digite a quantidade de pets valida *";
+            } elseif ($dados['chkLocatario'] === 'S' && empty($dados['txtNomeLocatario'])) {
+                $dados["nomeLocatario_erro"] = "Digite o nome do locatário *";
+            } elseif ($dados['chkLocatario'] === 'S' && empty($dados['txtDocumentoLocatario'])) {
+                $dados["documentoLocatario_erro"] = "Digite o documento do locatário *";
+            } elseif ($dados['chkLocatario'] === 'S' && empty($dados['dateNascimentoLocatario'])) {
+                $dados["dataNascimentoLocatario_erro"] = "Digite o data nascimento do locatário *";
+            } elseif ($dados['chkLocatario'] === 'S' && empty($dados['txtTelefoneUmLocatario'])) {
+                $dados["telefone_um_locatario_erro"] = "Digite o telefone do locatário *";
+            } elseif (($dados['chkRecebeuAdesivo'] == 'S' && $dados['qtdAdesivos'] == 0)) {
+                $dados["quantidade_adesivos_erro"] = "Digite a quantidade de adesivos valida *";
             } else {
 
                 $dadosAtualizado = $this->verificarSeNaoTemLocatario($dados);
@@ -639,6 +690,8 @@ class Moradores extends Controller
                 'dataNascimentoLocatario_erro' => '',
                 'emailLocatario_erro' => '',
                 'telefone_um_locatario_erro' => '',
+                'quantidade_pets_erro' => '',
+                'quantidade_adesivos_erro' => '',
 
 
                 'casas' => $casas,
@@ -651,6 +704,10 @@ class Moradores extends Controller
 
             ];
         }
+
+        // var_dump($dados);
+        // exit();
+
 
         $this->view('morador/editarPorId', $dados);
     }
